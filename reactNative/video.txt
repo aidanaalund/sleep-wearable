@@ -1,1 +1,4 @@
 https://www.youtube.com/watch?v=1ETOJloLK3Y
+
+cd MyApp
+npx expo start
