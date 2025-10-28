@@ -42,3 +42,6 @@
 
 # Datasets
 tests/ds005555
+
+# Test files
+wearable/sw/build
