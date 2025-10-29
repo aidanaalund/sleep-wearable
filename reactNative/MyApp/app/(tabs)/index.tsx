@@ -1,26 +1,53 @@
+/*
+https://www.youtube.com/watch?v=1ETOJloLK3Y
+cd MyApp
+npx expo start --tunnel
+w
+*/
 import React, { useState } from 'react';
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
-  Button,
   TouchableOpacity,
   Pressable,
   Modal,
-  Platform,
 } from 'react-native';
+
+/* === Constants === */
+const VERTICAL_CELL_HEIGHT   = 50;
+const HORIZONTAL_CELL_WIDTH  = 100;
+const HORIZONTAL_CELL_HEIGHT = 100;
+
+/* === Theme Colors === */
+const BGColor1           = '#101820';
+const BGColor2           = '#101820';
+const bordersColor       = '#000000';
+const buttonColor        = '#5B7C85';
+const buttonChoiceColor  = '#6A4D9C';
+const textDarkColor      = '#000000';
+const textLightColor     = '#FFFFFF';
+
+/* === Custom Reusable Button === */
+const CustomButton = ({ title, onPress, backgroundColor }) => (
+  <TouchableOpacity
+    style={[styles.customButton, { backgroundColor }]}
+    onPress={onPress}
+  >
+    <Text style={[styles.customButtonText, { color: textDarkColor }]}>{title}</Text>
+  </TouchableOpacity>
+);
 
 const TimeTable = () => {
   const [isHorizontal, setIsHorizontal] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedDay, setSelectedDay] = useState(null);
 
   /* === Generate timestamps for 48 hours === */
   const times = [];
-  const dayLabels = ['Yesterday', 'Today'];
-  for (let d = 0; d < 2; d++) {
+  const dayLabels = ['Yesterday', 'Today', 'Tomorrow'];
+  for (let d = 0; d < 3; d++) {
     for (let h = 0; h < 24; h++) {
       const period = h < 12 ? 'AM' : 'PM';
       const formattedHour = h % 12 === 0 ? 12 : h % 12;
@@ -33,9 +60,9 @@ const TimeTable = () => {
   }
 
   const boxes = [
-    { label: 'Task A', start: 21, end: 24, color: '#FFB6C1', day: 'Yesterday' },
-    { label: 'Task B', start: 0, end: 5, color: '#ADD8E6', day: 'Today' },
-    { label: 'Task C', start: 5, end: 7, color: '#90EE90', day: 'Today' },
+    { label: 'Task A', start: 21, end: 24, color: '#FF7777', day: 'Yesterday' },
+    { label: 'Task B', start: 0, end: 5, color: '#77FF77', day: 'Today' },
+    { label: 'Task C', start: 5, end: 7, color: '#7777FF', day: 'Today' },
   ];
 
   const toggleScrollDirection = () => setIsHorizontal(!isHorizontal);
@@ -59,21 +86,19 @@ const TimeTable = () => {
 
   const incrementYear = (dir) => {
     const newYear = selectedDate.getFullYear() + dir;
-    setSelectedDate(
-      new Date(newYear, selectedDate.getMonth(), selectedDate.getDate())
-    );
+    setSelectedDate(new Date(newYear, selectedDate.getMonth(), selectedDate.getDate()));
   };
 
   const handleMonthChange = (monthIndex) => {
-    setSelectedDate(new Date(selectedDate.getFullYear(), monthIndex, 1));
+    setSelectedDate(new Date(selectedDate.getFullYear(), monthIndex, selectedDate.getDate()));
   };
 
   const handleDaySelect = (day) => {
-    setSelectedDay(day);
+    setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day));
   };
 
   /* === Calendar generation === */
-  const getDaysInMonth = (year, month) => {
+  const getDaysInMonth = (year, month) => { 
     const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0=Sun
     const numDays = new Date(year, month + 1, 0).getDate();
     const days = Array(firstDayOfMonth).fill(null);
@@ -84,15 +109,17 @@ const TimeTable = () => {
   const year = selectedDate.getFullYear();
   const month = selectedDate.getMonth();
   const monthName = selectedDate.toLocaleString('default', { month: 'long' });
+  const dayNum = selectedDate.getDate();
   const daysArray = getDaysInMonth(year, month);
 
   return (
     <View style={styles.container}>
-      {/* Toggle Button */}
+      {/* Toggle Scroll Button */}
       <View style={styles.buttonContainer}>
-        <Button
+        <CustomButton
           title={`Switch to ${isHorizontal ? 'Vertical' : 'Horizontal'} Scroll`}
           onPress={toggleScrollDirection}
+          backgroundColor={buttonColor}
         />
       </View>
 
@@ -124,9 +151,9 @@ const TimeTable = () => {
                         styles.box,
                         {
                           backgroundColor: box.color,
-                          width: spanCount * CELL_WIDTH,
-                          height: CELL_HEIGHT_HORIZONTAL,
-                          left: startIndex * CELL_WIDTH,
+                          width: spanCount * HORIZONTAL_CELL_WIDTH,
+                          height: '100%',
+                          left: startIndex * HORIZONTAL_CELL_WIDTH,
                           position: 'absolute',
                           top: 0,
                         },
@@ -178,9 +205,9 @@ const TimeTable = () => {
                         styles.box,
                         {
                           backgroundColor: box.color,
-                          height: spanCount * CELL_HEIGHT_VERTICAL,
+                          height: spanCount * VERTICAL_CELL_HEIGHT,
                           width: '100%',
-                          top: startIndex * CELL_HEIGHT_VERTICAL,
+                          top: startIndex * VERTICAL_CELL_HEIGHT,
                           position: 'absolute',
                           left: 0,
                         },
@@ -200,7 +227,11 @@ const TimeTable = () => {
 
       {/* History Button */}
       <View style={styles.buttonContainer}>
-        <Button title="History" onPress={() => setShowCalendar(true)} />
+        <CustomButton
+          title="History"
+          onPress={() => setShowCalendar(true)}
+          backgroundColor={buttonColor}
+        />
       </View>
 
       {/* Calendar Modal */}
@@ -217,15 +248,15 @@ const TimeTable = () => {
               <TouchableOpacity onPress={() => incrementYear(-1)}>
                 <Text style={styles.yearButton}>{'<'}</Text>
               </TouchableOpacity>
-              <Text style={styles.headerText}>
-                {monthName} {year}
+              <Text style={[styles.headerText, { color: textLightColor }]}>
+                {monthName} {dayNum}, {year}
               </Text>
               <TouchableOpacity onPress={() => incrementYear(1)}>
                 <Text style={styles.yearButton}>{'>'}</Text>
               </TouchableOpacity>
             </View>
 
-            {/* Month Selector */}
+            {/* Month Selector (2x6 Grid) */}
             <View style={styles.monthRow}>
               {Array.from({ length: 12 }).map((_, i) => {
                 const name = new Date(0, i).toLocaleString('default', {
@@ -270,14 +301,14 @@ const TimeTable = () => {
                   key={i}
                   style={[
                     styles.dayCell,
-                    d === selectedDay && styles.dayCellSelected,
+                    d === dayNum && styles.dayCellSelected,
                   ]}
                   onPress={() => d && handleDaySelect(d)}
                 >
                   <Text
                     style={[
                       styles.dayText,
-                      d === selectedDay && styles.dayTextSelected,
+                      d === dayNum && styles.dayTextSelected,
                     ]}
                   >
                     {d ?? ''}
@@ -300,67 +331,72 @@ const TimeTable = () => {
   );
 };
 
-/* === Constants === */
-const CELL_HEIGHT_VERTICAL = 50;
-const CELL_WIDTH = 100;
-const CELL_HEIGHT_HORIZONTAL = 100;
-
 /* === Styles === */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: BGColor1,
     paddingVertical: 40,
     alignItems: 'center',
   },
   buttonContainer: { width: '90%', marginVertical: 10 },
+  customButton: {
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  customButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
   tableContainer: {
     width: '90%',
     maxHeight: 500,
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 6,
-    backgroundColor: '#fff',
-    overflow: 'visible', // important for web
+    borderColor: bordersColor,
+    borderRadius: 8,
+    backgroundColor: buttonColor,
+    overflow: 'visible',
   },
 
   /* Timeline Layout */
   horizontalWrapper: { flexDirection: 'column', position: 'relative' },
-  verticalWrapper: { flexDirection: 'row', position: 'relative' },
-  horizontalBoxRow: { height: CELL_HEIGHT_HORIZONTAL, position: 'relative' },
-  horizontalTimeRow: { flexDirection: 'row', height: 50 },
+  horizontalTimeRow: { flexDirection: 'row', width: 100, height: 50 },
+  horizontalBoxRow: { flex: 1, position: 'relative' },
   timeCellHorizontal: {
-    width: CELL_WIDTH,
+    width: HORIZONTAL_CELL_WIDTH,
     borderRightWidth: 1,
-    borderColor: '#eee',
+    borderColor: bordersColor,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  verticalTimeColumn: { width: 80 },
+  verticalWrapper: { flexDirection: 'row', position: 'relative' },
+  verticalTimeColumn: { flexDirection: 'column', width: 100, height: 50 },
   verticalBoxColumn: { flex: 1, position: 'relative' },
   timeCellVertical: {
-    height: CELL_HEIGHT_VERTICAL,
+    height: VERTICAL_CELL_HEIGHT,
     borderBottomWidth: 1,
-    borderColor: '#eee',
+    borderColor: bordersColor,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 4,
+    paddingLeft: 15,
   },
   box: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 6,
+    borderRadius: 8,
     opacity: 0.9,
   },
-  boxText: { fontWeight: '600', fontSize: 14 },
-  dayLabel: { fontSize: 10, color: '#333' },
-  dayDivider: { fontSize: 12, fontWeight: 'bold', color: '#555' },
-  timeText: { fontSize: 13 },
+  boxText: { fontWeight: '600', fontSize: 20 },
+  dayLabel: { fontSize: 20, color: textDarkColor },
+  dayDivider: { fontSize: 15, fontWeight: 'bold', color: textDarkColor },
+  timeText: { fontSize: 15 },
 
-  /* Modal Overlay (Fix for Web) */
+  /* Modal Overlay */
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(0,0,0,0.75)',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,
@@ -372,8 +408,8 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: 360,
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    backgroundColor: BGColor1,
+    borderRadius: 8,
     padding: 20,
     elevation: 10,
   },
@@ -383,24 +419,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerText: { fontSize: 18, fontWeight: 'bold' },
-  yearButton: { fontSize: 20, fontWeight: 'bold', paddingHorizontal: 10 },
+  yearButton: { fontSize: 20, fontWeight: 'bold', paddingHorizontal: 10, color: textLightColor },
 
+  /* 2x6 Month Grid */
   monthRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
     marginVertical: 10,
   },
   monthButton: {
-    paddingHorizontal: 6,
-    paddingVertical: 4,
-    borderRadius: 4,
-    backgroundColor: '#eee',
-    margin: 2,
+    width: '14.16%', // 6 columns per row
+    aspectRatio: 2.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    backgroundColor: buttonColor,
+    marginHorizontal: 4,
+    marginVertical: 4,
   },
-  monthButtonSelected: { backgroundColor: '#4A90E2' },
-  monthText: { fontSize: 12 },
-  monthTextSelected: { color: '#fff', fontWeight: '600' },
+  monthButtonSelected: { backgroundColor: buttonChoiceColor },
+  monthText: { fontSize: 13, color: textLightColor },
+  monthTextSelected: { color: textDarkColor, fontWeight: '700' },
 
   weekRow: {
     flexDirection: 'row',
@@ -411,7 +451,7 @@ const styles = StyleSheet.create({
     width: '14.28%',
     textAlign: 'center',
     fontWeight: '600',
-    color: '#555',
+    color: textLightColor,
   },
   daysGrid: {
     flexDirection: 'row',
@@ -425,20 +465,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dayCellSelected: {
-    backgroundColor: '#4A90E2',
-    borderRadius: 6,
+    backgroundColor: buttonChoiceColor,
+    borderRadius: 8,
   },
-  dayText: { fontSize: 14 },
-  dayTextSelected: { color: '#fff', fontWeight: '700' },
+  dayText: { fontSize: 14, color: textLightColor },
+  dayTextSelected: { color: textDarkColor, fontWeight: '700' },
   closeButton: {
     marginTop: 15,
-    backgroundColor: '#4A90E2',
+    backgroundColor: buttonColor,
     alignSelf: 'center',
     paddingHorizontal: 20,
     paddingVertical: 8,
-    borderRadius: 6,
+    borderRadius: 8,
   },
-  closeText: { color: '#fff', fontWeight: '600' },
+  closeText: { color: textDarkColor, fontWeight: '600' },
 });
 
 export default TimeTable;
