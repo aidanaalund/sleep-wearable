@@ -16,9 +16,8 @@ import {
 } from 'react-native';
 
 /* === Constants === */
-const VERTICAL_CELL_HEIGHT   = 50;
-const HORIZONTAL_CELL_WIDTH  = 100;
-const HORIZONTAL_CELL_HEIGHT = 100;
+const cellHeight = 50;
+const cellWidth  = 75;
 
 /* === Theme Colors === */
 const BGColor1           = '#101820';
@@ -44,7 +43,7 @@ const TimeTable = () => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  /* === Generate timestamps for 48 hours === */
+  /* === Generate timestamps for 72 hours === */
   const times = [];
   const dayLabels = ['Yesterday', 'Today', 'Tomorrow'];
   for (let d = 0; d < 3; d++) {
@@ -60,23 +59,29 @@ const TimeTable = () => {
   }
 
   const boxes = [
-    { label: 'Task A', start: 21, end: 24, color: '#FF7777', day: 'Yesterday' },
-    { label: 'Task B', start: 0, end: 5, color: '#77FF77', day: 'Today' },
-    { label: 'Task C', start: 5, end: 7, color: '#7777FF', day: 'Today' },
+    { label: 'Sleep A', start: 6,  end: 18, color: '#FF7777', day: 'Yesterday' },
+    { label: 'Sleep B', start: 21, end: 27, color: '#FFFF77', day: 'Yesterday' },
+    { label: 'Sleep C', start: 6,  end: 18, color: '#77FF77', day: 'Today' },
+    { label: 'Sleep D', start: 21, end: 27, color: '#77FFFF', day: 'Today' },
+    { label: 'Sleep E', start: 6,  end: 18, color: '#7777FF', day: 'Tomorrow' },
+    { label: 'Sleep F', start: 21, end: 27, color: '#FF77FF', day: 'Tomorrow' },
   ];
 
   const toggleScrollDirection = () => setIsHorizontal(!isHorizontal);
 
   const getBoxIndices = (start, end, day) => {
-    const baseOffset = day === 'Yesterday' ? 0 : 24;
+    let baseOffset = 0;
+    switch(day) {
+      case 'Today':
+        baseOffset = 24;
+        break;
+      case 'Tomorrow':
+        baseOffset = 48;
+        break;
+    }
     return times
       .map((t, i) => {
-        const localHour = t.hour - baseOffset;
-        if (
-          t.day === day &&
-          ((start < end && localHour >= start && localHour < end) ||
-            (start > end && (localHour >= start || localHour < end)))
-        ) {
+        if((start+baseOffset)<=t.hour && t.hour<(end+baseOffset)) {
           return i;
         }
         return null;
@@ -151,11 +156,11 @@ const TimeTable = () => {
                         styles.box,
                         {
                           backgroundColor: box.color,
-                          width: spanCount * HORIZONTAL_CELL_WIDTH,
+                          width: spanCount * cellWidth,
                           height: '100%',
-                          left: startIndex * HORIZONTAL_CELL_WIDTH,
+                          left: startIndex * cellWidth,
                           position: 'absolute',
-                          top: 0,
+                          top: 0, 
                         },
                       ]}
                       onPress={() => alert(`Clicked ${box.label}`)}
@@ -205,9 +210,9 @@ const TimeTable = () => {
                         styles.box,
                         {
                           backgroundColor: box.color,
-                          height: spanCount * VERTICAL_CELL_HEIGHT,
+                          height: spanCount * cellHeight,
                           width: '100%',
-                          top: startIndex * VERTICAL_CELL_HEIGHT,
+                          top: startIndex * cellHeight,
                           position: 'absolute',
                           left: 0,
                         },
@@ -342,7 +347,7 @@ const styles = StyleSheet.create({
   buttonContainer: { width: '90%', marginVertical: 10 },
   customButton: {
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -352,40 +357,39 @@ const styles = StyleSheet.create({
   },
   tableContainer: {
     width: '90%',
-    maxHeight: 500,
+    maxHeight: 1080,
     borderWidth: 1,
     borderColor: bordersColor,
-    borderRadius: 8,
+    borderRadius: 4,
     backgroundColor: buttonColor,
     overflow: 'visible',
   },
 
   /* Timeline Layout */
   horizontalWrapper: { flexDirection: 'column', position: 'relative' },
-  horizontalTimeRow: { flexDirection: 'row', width: 100, height: 50 },
+  horizontalTimeRow: { flexDirection: 'row', width: cellWidth, height: cellHeight },
   horizontalBoxRow: { flex: 1, position: 'relative' },
   timeCellHorizontal: {
-    width: HORIZONTAL_CELL_WIDTH,
+    width: cellWidth,
     borderRightWidth: 1,
     borderColor: bordersColor,
     justifyContent: 'center',
     alignItems: 'center',
   },
   verticalWrapper: { flexDirection: 'row', position: 'relative' },
-  verticalTimeColumn: { flexDirection: 'column', width: 100, height: 50 },
+  verticalTimeColumn: { flexDirection: 'column', width: cellWidth, height: cellHeight },
   verticalBoxColumn: { flex: 1, position: 'relative' },
   timeCellVertical: {
-    height: VERTICAL_CELL_HEIGHT,
+    height: cellHeight,
     borderBottomWidth: 1,
     borderColor: bordersColor,
     justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingLeft: 15,
+    alignItems: 'center',
   },
   box: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: 4,
     opacity: 0.9,
   },
   boxText: { fontWeight: '600', fontSize: 20 },
@@ -409,7 +413,7 @@ const styles = StyleSheet.create({
   modalContent: {
     width: 360,
     backgroundColor: BGColor1,
-    borderRadius: 8,
+    borderRadius: 4,
     padding: 20,
     elevation: 10,
   },
@@ -433,7 +437,7 @@ const styles = StyleSheet.create({
     aspectRatio: 2.5,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: 4,
     backgroundColor: buttonColor,
     marginHorizontal: 4,
     marginVertical: 4,
@@ -466,7 +470,7 @@ const styles = StyleSheet.create({
   },
   dayCellSelected: {
     backgroundColor: buttonChoiceColor,
-    borderRadius: 8,
+    borderRadius: 4,
   },
   dayText: { fontSize: 14, color: textLightColor },
   dayTextSelected: { color: textDarkColor, fontWeight: '700' },
@@ -476,7 +480,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: 20,
     paddingVertical: 8,
-    borderRadius: 8,
+    borderRadius: 4,
   },
   closeText: { color: textDarkColor, fontWeight: '600' },
 });
