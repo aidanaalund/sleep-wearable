@@ -40,8 +40,13 @@
 # debug information files
 *.dwo
 
-# Datasets
+# datasets
 tests/ds005555
 
-# Test files
-wearable/sw/build
+# build files
+wearable/sw/build*/
+
+# editors
+*.swp
+*~
+
