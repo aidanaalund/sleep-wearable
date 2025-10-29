@@ -62,13 +62,41 @@ const TimeTable = () => {
   }
 
   const boxes = [
-    { label: 'Sleep A', start: 6,  end: 18, color: '#FF7777', day: 'Yesterday' },
-    { label: 'Sleep B', start: 21, end: 27, color: '#FFFF77', day: 'Yesterday' },
-    { label: 'Sleep C', start: 6,  end: 18, color: '#77FF77', day: 'Today' },
-    { label: 'Sleep D', start: 21, end: 27, color: '#77FFFF', day: 'Today' },
-    { label: 'Sleep E', start: 6,  end: 18, color: '#7777FF', day: 'Tomorrow' },
-    { label: 'Sleep F', start: 21, end: 27, color: '#FF77FF', day: 'Tomorrow' },
+    { label: 'Sleep1', start: 6,  end: 18, color: '#FF7777', day: 'Yesterday' },
+    { label: 'Sleep2', start: 21, end: 27, color: '#FFFF77', day: 'Yesterday' },
+    { label: 'Sleep3', start: 6,  end: 18, color: '#77FF77', day: 'Today' },
+    { label: 'Sleep4', start: 21, end: 27, color: '#77FFFF', day: 'Today' },
+    { label: 'Sleep5', start: 6,  end: 18, color: '#7777FF', day: 'Tomorrow' },
+    { label: 'Sleep6', start: 21, end: 27, color: '#FF77FF', day: 'Tomorrow' },
   ];
+
+  const manyBoxes = createManyBoxes(boxes);
+
+  function createManyBoxes(boxes) {
+    return boxes.map((box) => {
+      const baseLabel = box.label;
+      const baseColor = box.color;
+      return [
+        { ...box, label: `${baseLabel}Alpha`, color: subtractHexColors(baseColor,'#000000') },  
+        { ...box, label: `${baseLabel}beta `, color: subtractHexColors(baseColor,'#111111') },
+        { ...box, label: `${baseLabel}Delta`, color: subtractHexColors(baseColor,'#222222') },
+        { ...box, label: `${baseLabel}Theta`, color: subtractHexColors(baseColor,'#333333') },  
+        { ...box, label: `${baseLabel}Gamma`, color: subtractHexColors(baseColor,'#444444') },
+      ];
+    });
+  }
+
+  function subtractHexColors(color1, color2) {
+    // Convert hex strings to numbers
+    const num1 = parseInt(color1.replace(/^#/, ''), 16);
+    const num2 = parseInt(color2.replace(/^#/, ''), 16);
+
+    // Subtract and clamp at 0
+    const result = Math.max(0, num1 - num2);
+
+    // Convert back to hex string with leading '#'
+    return `#${result.toString(16).padStart(6, '0')}`;
+  }
 
   const toggleScrollDirection = () => setIsHorizontal(!isHorizontal);
 
@@ -155,31 +183,33 @@ const TimeTable = () => {
           {isHorizontal && (
             <>
               <View style={[styles.horizontalBoxRow, { width: times.length * cellWidth }]}>
-                {boxes.map((box, i) => {
-                  const indices = getBoxIndices(box.start, box.end, box.day);
-                  if (indices.length === 0) return null;
-                  const startIndex = indices[0];
-                  const spanCount = indices.length;
-                  return (
-                    <TouchableOpacity
-                      key={i}
-                      style={[
-                        styles.box,
-                        {
-                          backgroundColor: box.color,
-                          width: spanCount * cellWidth,
-                          height: '100%',
-                          left: startIndex * cellWidth,
-                          position: 'absolute',
-                          top: 0, 
-                        },
-                      ]}
-                      onPress={() => alert(`Clicked ${box.label}`)}
-                    >
-                      <Text style={styles.boxText}>{box.label}</Text>
-                      <Text style={styles.dayLabel}>{box.day}</Text>
-                    </TouchableOpacity>
-                  );
+                {manyBoxes.map((row, rowIndex) => {
+                  return row.map((subBox, colIndex) => {
+                    const indices = getBoxIndices(subBox.start, subBox.end, subBox.day);
+                    if (indices.length === 0) return null;
+                    const startIndex = indices[0];
+                    const spanCount = indices.length;
+                    return (
+                      <TouchableOpacity
+                        key={`${rowIndex}-${colIndex}`}
+                        style={[
+                          styles.box,
+                          {
+                            backgroundColor: subBox.color,
+                            width: spanCount * cellWidth,
+                            height: `${100 / row.length}%`,
+                            left: startIndex * cellWidth,
+                            position: 'absolute',
+                            top: `${(100 / row.length) * colIndex}%`,
+                          },
+                        ]}
+                        onPress={() => alert(`Clicked ${subBox.label}`)}
+                      >
+                        <Text style={styles.boxText}>{subBox.label}</Text>
+                        <Text style={styles.dayLabel}>{subBox.day}</Text>
+                      </TouchableOpacity>
+                    );
+                  });
                 })}
               </View>
               <View style={styles.horizontalTimeRow}>
@@ -209,31 +239,33 @@ const TimeTable = () => {
                 ))}
               </View>
               <View style={[styles.verticalBoxColumn, { height: times.length * cellHeight }]}>
-                {boxes.map((box, i) => {
-                  const indices = getBoxIndices(box.start, box.end, box.day);
-                  if (indices.length === 0) return null;
-                  const startIndex = indices[0];
-                  const spanCount = indices.length;
-                  return (
-                    <TouchableOpacity
-                      key={i}
-                      style={[
-                        styles.box,
-                        {
-                          backgroundColor: box.color,
-                          height: spanCount * cellHeight,
-                          width: '100%',
-                          top: startIndex * cellHeight,
-                          position: 'absolute',
-                          left: 0,
-                        },
-                      ]}
-                      onPress={() => alert(`Clicked ${box.label}`)}
-                    >
-                      <Text style={styles.boxText}>{box.label}</Text>
-                      <Text style={styles.dayLabel}>{box.day}</Text>
-                    </TouchableOpacity>
-                  );
+                {manyBoxes.map((row, rowIndex) => {
+                  return row.map((subBox, colIndex) => {
+                    const indices = getBoxIndices(subBox.start, subBox.end, subBox.day);
+                    if (indices.length === 0) return null;
+                    const startIndex = indices[0];
+                    const spanCount = indices.length;
+                    return (
+                      <TouchableOpacity
+                        key={`${rowIndex}-${colIndex}`}
+                        style={[
+                          styles.box,
+                          {
+                            backgroundColor: subBox.color,
+                            height: spanCount * cellHeight,
+                            width: `${100 / row.length}%`,
+                            top: startIndex * cellHeight,
+                            position: 'absolute',
+                            left: `${(100 / row.length) * colIndex}%`,
+                          },
+                        ]}
+                        onPress={() => alert(`Clicked ${subBox.label}`)}
+                      >
+                        <Text style={styles.boxText}>{subBox.label}</Text>
+                        <Text style={styles.dayLabel}>{subBox.day}</Text>
+                      </TouchableOpacity>
+                    );
+                  });
                 })}
               </View>
             </>
