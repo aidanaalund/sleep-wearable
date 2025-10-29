@@ -43,8 +43,9 @@
 # datasets
 tests/ds005555
 
-# build files
+# build/board files
 wearable/sw/build*/
+wearable/sw/boards*/
 
 # editors
 *.swp
