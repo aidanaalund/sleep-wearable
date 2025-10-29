@@ -13,9 +13,12 @@ import {
   TouchableOpacity,
   Pressable,
   Modal,
+  Dimensions,
+  Platform,
 } from 'react-native';
 
 /* === Constants === */
+const { height: screenHeight } = Dimensions.get('window');
 const cellHeight = 50;
 const cellWidth  = 75;
 
@@ -132,8 +135,16 @@ const TimeTable = () => {
       <ScrollView
         style={styles.tableContainer}
         horizontal={isHorizontal}
-        showsHorizontalScrollIndicator
-        showsVerticalScrollIndicator
+        showsHorizontalScrollIndicator={true}
+        showsVerticalScrollIndicator={true}
+        contentContainerStyle={{
+          flexGrow: 1,
+          ...(isHorizontal
+            ? { flexDirection: 'row' }
+            : { flexDirection: 'column' }),
+        }}
+        //nestedScrollEnabled={true}
+        //scrollEventThrottle={16}
       >
         <View
           style={[
@@ -143,7 +154,7 @@ const TimeTable = () => {
           {/* Horizontal View */}
           {isHorizontal && (
             <>
-              <View style={styles.horizontalBoxRow}>
+              <View style={[styles.horizontalBoxRow, { width: times.length * cellWidth }]}>
                 {boxes.map((box, i) => {
                   const indices = getBoxIndices(box.start, box.end, box.day);
                   if (indices.length === 0) return null;
@@ -197,7 +208,7 @@ const TimeTable = () => {
                   </View>
                 ))}
               </View>
-              <View style={styles.verticalBoxColumn}>
+              <View style={[styles.verticalBoxColumn, { height: times.length * cellHeight }]}>
                 {boxes.map((box, i) => {
                   const indices = getBoxIndices(box.start, box.end, box.day);
                   if (indices.length === 0) return null;
@@ -263,10 +274,10 @@ const TimeTable = () => {
 
             {/* Month Selector (2x6 Grid) */}
             <View style={styles.monthRow}>
-              {Array.from({ length: 12 }).map((_, i) => {
-                const name = new Date(0, i).toLocaleString('default', {
-                  month: 'short',
-                });
+              {[
+                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+              ].map((name, i) => {
                 const selected = i === month;
                 return (
                   <TouchableOpacity
@@ -357,16 +368,14 @@ const styles = StyleSheet.create({
   },
   tableContainer: {
     width: '90%',
-    maxHeight: 1080,
     borderWidth: 1,
     borderColor: bordersColor,
     borderRadius: 4,
     backgroundColor: buttonColor,
-    overflow: 'visible',
   },
 
   /* Timeline Layout */
-  horizontalWrapper: { flexDirection: 'column', position: 'relative' },
+  horizontalWrapper: { flexDirection: 'column', position: 'relative', flexGrow: 1 },
   horizontalTimeRow: { flexDirection: 'row', width: cellWidth, height: cellHeight },
   horizontalBoxRow: { flex: 1, position: 'relative' },
   timeCellHorizontal: {
@@ -376,7 +385,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  verticalWrapper: { flexDirection: 'row', position: 'relative' },
+  verticalWrapper: { flexDirection: 'row', position: 'relative', flexGrow: 1 },
   verticalTimeColumn: { flexDirection: 'column', width: cellWidth, height: cellHeight },
   verticalBoxColumn: { flex: 1, position: 'relative' },
   timeCellVertical: {
@@ -416,6 +425,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 20,
     elevation: 10,
+    height: 'auto',
   },
   headerRow: {
     flexDirection: 'row',
@@ -464,6 +474,7 @@ const styles = StyleSheet.create({
   },
   dayCell: {
     width: '14.28%',
+    ...(Platform.OS !== 'web' ? { height: '100%' } : { aspectRatio: 1 }),
     aspectRatio: 1,
     justifyContent: 'center',
     alignItems: 'center',
