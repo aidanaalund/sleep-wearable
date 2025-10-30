@@ -17,7 +17,7 @@ import {
   Platform,
 } from 'react-native';
 
-  function HexColorsMath(color1, color2, op) {
+  function HexColorsMath(color1, op, color2) {
     // Convert hex strings to numbers
     const num1 = parseInt(color1.replace(/^#/, ''), 16);
     const num2 = parseInt(color2.replace(/^#/, ''), 16);
@@ -44,12 +44,12 @@ const cellHeight = 50;
 const cellWidth  = 75;
 const diffColor          = '#111111';
 const BGColor1           = '#24292b';
-const BGColor2           = HexColorsMath(BGColor1,diffColor,'+');
+const BGColor2           = HexColorsMath(BGColor1,'+',diffColor);
 const bordersColor       = '#000000';
 const buttonColor        = '#222f55ff';
-const buttonChoiceColor  = HexColorsMath(buttonColor,HexColorsMath(diffColor,'#000002','*'),'-');
+const buttonChoiceColor  = HexColorsMath(buttonColor,'-',HexColorsMath(diffColor,'*','#000002'));
 const textLightColor     = '#99cde6ff';
-const textDarkColor      = HexColorsMath(textLightColor,HexColorsMath(diffColor,'#000002','*'),'-');
+const textDarkColor      = HexColorsMath(textLightColor,'-',HexColorsMath(diffColor,'*','#000002'));
 
 /* === Custom Reusable Button === */
 const CustomButton = ({ title, onPress, backgroundColor }) => (
@@ -98,11 +98,11 @@ const TimeTable = () => {
       const baseLabel = box.label;
       const baseColor = box.color;
       return [
-        { ...box, label: `${baseLabel}Alpha`, color: HexColorsMath(baseColor,HexColorsMath(diffColor,'#000000','*'),'-') },
-        { ...box, label: `${baseLabel}beta `, color: HexColorsMath(baseColor,HexColorsMath(diffColor,'#000001','*'),'-') },
-        { ...box, label: `${baseLabel}Delta`, color: HexColorsMath(baseColor,HexColorsMath(diffColor,'#000002','*'),'-') },
-        { ...box, label: `${baseLabel}Theta`, color: HexColorsMath(baseColor,HexColorsMath(diffColor,'#000003','*'),'-') }, 
-        { ...box, label: `${baseLabel}Gamma`, color: HexColorsMath(baseColor,HexColorsMath(diffColor,'#000004','*'),'-') },
+        { ...box, label: `${baseLabel}Alpha`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000000')) },
+        { ...box, label: `${baseLabel}beta `, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000001')) },
+        { ...box, label: `${baseLabel}Delta`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000002')) },
+        { ...box, label: `${baseLabel}Theta`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000003')) }, 
+        { ...box, label: `${baseLabel}Gamma`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000004')) },
       ];
     });
   }
@@ -217,7 +217,8 @@ const TimeTable = () => {
                         <Text style={[styles.boxText,
                           {
                             textAlign: 'center',
-                            fontSize:  cellWidth/(subBox.label.length/1.9),
+                            fontSize:  cellWidth/(subBox.label.length/1.6),
+                            color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
                           }, ]}
                           numberOfLines={1}
                           adjustsFontSizeToFit={Platform.OS !== 'web'}
@@ -226,7 +227,8 @@ const TimeTable = () => {
                         <Text style={[styles.dayLabel,
                           {
                             textAlign: 'center',
-                            fontSize:  cellWidth/(subBox.label.length/1.9),
+                            fontSize:  cellWidth/(subBox.label.length/1.6),
+                            color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
                           }, ]}
                           numberOfLines={1}
                           adjustsFontSizeToFit={Platform.OS !== 'web'}
@@ -290,6 +292,7 @@ const TimeTable = () => {
                           {
                             textAlign: 'center',
                             fontSize:  cellHeight/3,
+                            color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
                           }, ]}
                           numberOfLines={1}
                           adjustsFontSizeToFit={Platform.OS !== 'web'}
@@ -299,6 +302,7 @@ const TimeTable = () => {
                           {
                             textAlign: 'center',
                             fontSize:  cellHeight/3,
+                            color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
                           }, ]}
                           numberOfLines={1}
                           adjustsFontSizeToFit={Platform.OS !== 'web'}
@@ -474,9 +478,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     opacity: 0.9,
   },
-  boxText:    { color: textLightColor },
+  boxText:    { color: textLightColor, fontWeight: 'bold' },
   dayLabel:   { color: textLightColor, fontWeight: 'bold' },
-  dayDivider: { fontSize: cellHeight/3.25, color: textLightColor, fontWeight: 'bold' },
+  dayDivider: { fontSize: cellHeight/3.25, color: textLightColor },
   timeText:   { fontSize: cellHeight/3.25, color: textLightColor },
 
   /* Modal Overlay */
