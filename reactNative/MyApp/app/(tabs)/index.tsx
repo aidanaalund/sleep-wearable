@@ -62,6 +62,7 @@ const TimeTable = () => {
   }
 
   const boxes = [
+    { label: 'Sleep0', start: 1,  end: 2,  color: '#FF77FF', day: 'Yesterday' },
     { label: 'Sleep1', start: 6,  end: 18, color: '#FF7777', day: 'Yesterday' },
     { label: 'Sleep2', start: 21, end: 27, color: '#FFFF77', day: 'Yesterday' },
     { label: 'Sleep3', start: 6,  end: 18, color: '#77FF77', day: 'Today' },
@@ -205,8 +206,24 @@ const TimeTable = () => {
                         ]}
                         onPress={() => alert(`Clicked ${subBox.label}`)}
                       >
-                        <Text style={styles.boxText}>{subBox.label}</Text>
-                        <Text style={styles.dayLabel}>{subBox.day}</Text>
+                        <Text style={[styles.boxText,
+                          {
+                            textAlign: 'center',
+                            fontSize:  cellWidth/(subBox.label.length-5),
+                          }, ]}
+                          numberOfLines={1}
+                          adjustsFontSizeToFit={Platform.OS !== 'web'}
+                          >{ subBox.label }
+                        </Text>
+                        <Text style={[styles.dayLabel,
+                          {
+                            textAlign: 'center',
+                            fontSize:  cellWidth/(subBox.label.length-5),
+                          }, ]}
+                          numberOfLines={1}
+                          adjustsFontSizeToFit={Platform.OS !== 'web'}
+                          >{ subBox.day }
+                        </Text>
                       </TouchableOpacity>
                     );
                   });
@@ -261,8 +278,24 @@ const TimeTable = () => {
                         ]}
                         onPress={() => alert(`Clicked ${subBox.label}`)}
                       >
-                        <Text style={styles.boxText}>{subBox.label}</Text>
-                        <Text style={styles.dayLabel}>{subBox.day}</Text>
+                        <Text style={[styles.boxText,
+                          {
+                            textAlign: 'center',
+                            fontSize:  cellHeight/3,
+                          }, ]}
+                          numberOfLines={1}
+                          adjustsFontSizeToFit={Platform.OS !== 'web'}
+                          >{ subBox.label }
+                        </Text>
+                        <Text style={[styles.dayLabel,
+                          {
+                            textAlign: 'center',
+                            fontSize:  cellHeight/3,
+                          }, ]}
+                          numberOfLines={1}
+                          adjustsFontSizeToFit={Platform.OS !== 'web'}
+                          >{ subBox.day }
+                        </Text>
                       </TouchableOpacity>
                     );
                   });
@@ -433,10 +466,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     opacity: 0.9,
   },
-  boxText: { fontWeight: '600', fontSize: 20 },
-  dayLabel: { fontSize: 20, color: textDarkColor },
+  boxText:    { color: textDarkColor },
+  dayLabel:   { color: textDarkColor, fontWeight: 500 },
   dayDivider: { fontSize: 15, fontWeight: 'bold', color: textDarkColor },
-  timeText: { fontSize: 15 },
+  timeText:   { fontSize: 15 },
 
   /* Modal Overlay */
   modalOverlay: {
