@@ -17,19 +17,39 @@ import {
   Platform,
 } from 'react-native';
 
+  function HexColorsMath(color1, color2, op) {
+    // Convert hex strings to numbers
+    const num1 = parseInt(color1.replace(/^#/, ''), 16);
+    const num2 = parseInt(color2.replace(/^#/, ''), 16);
+
+    let result = -1;
+    switch(op) {
+      case '*':
+        result = Math.min(16777215, num1 * num2);
+        break;
+      case '+':
+        result = Math.min(16777215, num1 + num2);
+        break;
+      case '-':
+        result = Math.max(0,        num1 - num2);
+        break;
+    }
+
+    return `#${result.toString(16).padStart(6, '0')}`;
+  }
+
 /* === Constants === */
 const { height: screenHeight } = Dimensions.get('window');
 const cellHeight = 50;
 const cellWidth  = 75;
-
-/* === Theme Colors === */
-const BGColor1           = '#101820';
-const BGColor2           = '#101820';
+const diffColor          = '#111111';
+const BGColor1           = '#24292b';
+const BGColor2           = HexColorsMath(BGColor1,diffColor,'+');
 const bordersColor       = '#000000';
-const buttonColor        = '#5B7C85';
-const buttonChoiceColor  = '#6A4D9C';
-const textDarkColor      = '#000000';
-const textLightColor     = '#FFFFFF';
+const buttonColor        = '#222f55ff';
+const buttonChoiceColor  = HexColorsMath(buttonColor,HexColorsMath(diffColor,'#000002','*'),'-');
+const textLightColor     = '#99cde6ff';
+const textDarkColor      = HexColorsMath(textLightColor,HexColorsMath(diffColor,'#000002','*'),'-');
 
 /* === Custom Reusable Button === */
 const CustomButton = ({ title, onPress, backgroundColor }) => (
@@ -37,7 +57,7 @@ const CustomButton = ({ title, onPress, backgroundColor }) => (
     style={[styles.customButton, { backgroundColor }]}
     onPress={onPress}
   >
-    <Text style={[styles.customButtonText, { color: textDarkColor }]}>{title}</Text>
+    <Text style={[styles.customButtonText, { color: textLightColor }]}>{title}</Text>
   </TouchableOpacity>
 );
 
@@ -62,13 +82,13 @@ const TimeTable = () => {
   }
 
   const boxes = [
-    { label: 'Sleep0', start: 1,  end: 2,  color: '#FF77FF', day: 'Yesterday' },
-    { label: 'Sleep1', start: 6,  end: 18, color: '#FF7777', day: 'Yesterday' },
-    { label: 'Sleep2', start: 21, end: 27, color: '#FFFF77', day: 'Yesterday' },
-    { label: 'Sleep3', start: 6,  end: 18, color: '#77FF77', day: 'Today' },
-    { label: 'Sleep4', start: 21, end: 27, color: '#77FFFF', day: 'Today' },
-    { label: 'Sleep5', start: 6,  end: 18, color: '#7777FF', day: 'Tomorrow' },
-    { label: 'Sleep6', start: 21, end: 27, color: '#FF77FF', day: 'Tomorrow' },
+    { label: 'Sleep0', start: 1,  end: 2,  color: '#DD44DD', day: 'Yesterday' },
+    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: 'Yesterday' },
+    { label: 'Sleep2', start: 21, end: 27, color: '#DDDD44', day: 'Yesterday' },
+    { label: 'Sleep3', start: 6,  end: 18, color: '#44DD44', day: 'Today' },
+    { label: 'Sleep4', start: 21, end: 27, color: '#44DDDD', day: 'Today' },
+    { label: 'Sleep5', start: 6,  end: 18, color: '#4444DD', day: 'Tomorrow' },
+    { label: 'Sleep6', start: 21, end: 27, color: '#DD44DD', day: 'Tomorrow' },
   ];
 
   const manyBoxes = createManyBoxes(boxes);
@@ -78,25 +98,13 @@ const TimeTable = () => {
       const baseLabel = box.label;
       const baseColor = box.color;
       return [
-        { ...box, label: `${baseLabel}Alpha`, color: subtractHexColors(baseColor,'#000000') },  
-        { ...box, label: `${baseLabel}beta `, color: subtractHexColors(baseColor,'#111111') },
-        { ...box, label: `${baseLabel}Delta`, color: subtractHexColors(baseColor,'#222222') },
-        { ...box, label: `${baseLabel}Theta`, color: subtractHexColors(baseColor,'#333333') },  
-        { ...box, label: `${baseLabel}Gamma`, color: subtractHexColors(baseColor,'#444444') },
+        { ...box, label: `${baseLabel}Alpha`, color: HexColorsMath(baseColor,HexColorsMath(diffColor,'#000000','*'),'-') },
+        { ...box, label: `${baseLabel}beta `, color: HexColorsMath(baseColor,HexColorsMath(diffColor,'#000001','*'),'-') },
+        { ...box, label: `${baseLabel}Delta`, color: HexColorsMath(baseColor,HexColorsMath(diffColor,'#000002','*'),'-') },
+        { ...box, label: `${baseLabel}Theta`, color: HexColorsMath(baseColor,HexColorsMath(diffColor,'#000003','*'),'-') }, 
+        { ...box, label: `${baseLabel}Gamma`, color: HexColorsMath(baseColor,HexColorsMath(diffColor,'#000004','*'),'-') },
       ];
     });
-  }
-
-  function subtractHexColors(color1, color2) {
-    // Convert hex strings to numbers
-    const num1 = parseInt(color1.replace(/^#/, ''), 16);
-    const num2 = parseInt(color2.replace(/^#/, ''), 16);
-
-    // Subtract and clamp at 0
-    const result = Math.max(0, num1 - num2);
-
-    // Convert back to hex string with leading '#'
-    return `#${result.toString(16).padStart(6, '0')}`;
   }
 
   const toggleScrollDirection = () => setIsHorizontal(!isHorizontal);
@@ -209,7 +217,7 @@ const TimeTable = () => {
                         <Text style={[styles.boxText,
                           {
                             textAlign: 'center',
-                            fontSize:  cellWidth/(subBox.label.length-5),
+                            fontSize:  cellWidth/(subBox.label.length/1.9),
                           }, ]}
                           numberOfLines={1}
                           adjustsFontSizeToFit={Platform.OS !== 'web'}
@@ -218,7 +226,7 @@ const TimeTable = () => {
                         <Text style={[styles.dayLabel,
                           {
                             textAlign: 'center',
-                            fontSize:  cellWidth/(subBox.label.length-5),
+                            fontSize:  cellWidth/(subBox.label.length/1.9),
                           }, ]}
                           numberOfLines={1}
                           adjustsFontSizeToFit={Platform.OS !== 'web'}
@@ -429,14 +437,14 @@ const styles = StyleSheet.create({
   },
   customButtonText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   tableContainer: {
     width: '90%',
     borderWidth: 1,
     borderColor: bordersColor,
     borderRadius: 4,
-    backgroundColor: buttonColor,
+    backgroundColor: BGColor2,
   },
 
   /* Timeline Layout */
@@ -466,10 +474,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     opacity: 0.9,
   },
-  boxText:    { color: textDarkColor },
-  dayLabel:   { color: textDarkColor, fontWeight: 500 },
-  dayDivider: { fontSize: 15, fontWeight: 'bold', color: textDarkColor },
-  timeText:   { fontSize: 15 },
+  boxText:    { color: textLightColor },
+  dayLabel:   { color: textLightColor, fontWeight: 'bold' },
+  dayDivider: { fontSize: cellHeight/3.25, color: textLightColor, fontWeight: 'bold' },
+  timeText:   { fontSize: cellHeight/3.25, color: textLightColor },
 
   /* Modal Overlay */
   modalOverlay: {
@@ -519,7 +527,7 @@ const styles = StyleSheet.create({
   },
   monthButtonSelected: { backgroundColor: buttonChoiceColor },
   monthText: { fontSize: 13, color: textLightColor },
-  monthTextSelected: { color: textDarkColor, fontWeight: '700' },
+  monthTextSelected: { color: textDarkColor, fontWeight: 'bold' },
 
   weekRow: {
     flexDirection: 'row',
@@ -529,7 +537,7 @@ const styles = StyleSheet.create({
   weekText: {
     width: '14.28%',
     textAlign: 'center',
-    fontWeight: '600',
+    fontWeight: 'bold',
     color: textLightColor,
   },
   daysGrid: {
@@ -545,11 +553,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dayCellSelected: {
-    backgroundColor: buttonChoiceColor,
+    backgroundColor: buttonColor,
     borderRadius: 4,
   },
   dayText: { fontSize: 14, color: textLightColor },
-  dayTextSelected: { color: textDarkColor, fontWeight: '700' },
+  dayTextSelected: { color: textLightColor, fontWeight: 'bold' },
   closeButton: {
     marginTop: 15,
     backgroundColor: buttonColor,
@@ -558,7 +566,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 4,
   },
-  closeText: { color: textDarkColor, fontWeight: '600' },
+  closeText: { color: textDarkColor, fontWeight: 'bold' },
 });
 
 export default TimeTable;
