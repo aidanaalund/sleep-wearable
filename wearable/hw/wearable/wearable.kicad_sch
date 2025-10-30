@@ -771,6 +771,356 @@
 				)
 			)
 		)
+		(symbol "Device:Battery_Cell"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "BT"
+				(at 2.54 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "Battery_Cell"
+				(at 2.54 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 1.524 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 1.524 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Single-cell battery"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "battery cell"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Battery_Cell_0_1"
+				(rectangle
+					(start -2.286 1.778)
+					(end 2.286 1.524)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(rectangle
+					(start -1.524 1.016)
+					(end 1.524 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0.762) (xy 0 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 1.778) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 3.048) (xy 1.778 3.048)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 3.556) (xy 1.27 2.54)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Battery_Cell_1_1"
+				(pin passive line
+					(at 0 5.08 270)
+					(length 2.54)
+					(name "+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -2.54 90)
+					(length 2.54)
+					(name "-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Regulator_Switching:LM2575-5.0BU"
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -10.16 6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "LM2575-5.0BU"
+				(at 0 6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:TO-263-5_TabPin3"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(italic yes)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "http://ww1.microchip.com/downloads/en/DeviceDoc/lm2575.pdf"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Fixed 5.0V 52kHz Simple 1A Buck Regulator, TO-263"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "Buck regulator Switcher"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "TO?263*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LM2575-5.0BU_0_1"
+				(rectangle
+					(start -10.16 5.08)
+					(end 10.16 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "LM2575-5.0BU_1_1"
+				(pin power_in line
+					(at -12.7 2.54 0)
+					(length 2.54)
+					(name "VIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 12.7 -2.54 180)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 12.7 2.54 180)
+					(length 2.54)
+					(name "FB"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 -2.54 0)
+					(length 2.54)
+					(name "~{ON}/OFF"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "wearable-altium-import:GND_POWER_GROUND"
 			(power)
 			(exclude_from_sim no)
@@ -5997,6 +6347,16 @@
 	)
 	(wire
 		(pts
+			(xy 38.1 90.805) (xy 49.53 90.805)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "01084437-bd7f-4471-a6b9-d72d16fd6503")
+	)
+	(wire
+		(pts
 			(xy 285.75 135.7122) (xy 275.59 135.7122)
 		)
 		(stroke
@@ -7080,6 +7440,16 @@
 	)
 	(wire
 		(pts
+			(xy 38.1 85.09) (xy 49.53 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "89f373d0-2cbd-4e54-9ee7-27e061fbbe6a")
+	)
+	(wire
+		(pts
 			(xy 306.07 189.0522) (xy 275.59 189.0522)
 		)
 		(stroke
@@ -7582,6 +7952,16 @@
 	)
 	(wire
 		(pts
+			(xy 38.1 78.74) (xy 49.53 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d222c8f1-f6ed-4e21-9237-2357e0ff38a2")
+	)
+	(wire
+		(pts
 			(xy 58.42 210.6422) (xy 35.56 210.6422)
 		)
 		(stroke
@@ -7842,6 +8222,16 @@
 			(type default)
 		)
 		(uuid "f36754cc-d9a8-4058-b7c4-b40e9bd4b8fa")
+	)
+	(wire
+		(pts
+			(xy 38.1 73.025) (xy 49.53 73.025)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f3eb0c48-a92b-44d2-9781-ac9ed22b721e")
 	)
 	(wire
 		(pts
@@ -8415,6 +8805,17 @@
 		)
 		(uuid "5fffd844-a321-4ca1-9f94-4dab26e26079")
 	)
+	(label "IN4P"
+		(at 38.1 73.025 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "607212ef-ee5c-4e23-84a5-febc545ada76")
+	)
 	(label "IMCU_TCKS"
 		(at 275.59 181.4322 0)
 		(fields_autoplaced yes)
@@ -8469,6 +8870,17 @@
 			(justify left bottom)
 		)
 		(uuid "70fd1563-9bf4-456f-9493-ddf05b67bf68")
+	)
+	(label "IN2P"
+		(at 38.1 85.09 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "74d06f86-a244-4dce-bcd8-64c67de56035")
 	)
 	(label "SH_VTG"
 		(at 88.9 65.8622 0)
@@ -8591,6 +9003,17 @@
 		)
 		(uuid "9e78ab30-b144-4136-9e44-f90c2109f885")
 	)
+	(label "IN1P"
+		(at 38.1 90.805 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a1c084a7-2447-4748-a6bc-5d11c57c8b0a")
+	)
 	(label "EXT_VTG"
 		(at 38.1 187.7822 0)
 		(fields_autoplaced yes)
@@ -8678,6 +9101,17 @@
 			(justify left bottom)
 		)
 		(uuid "b4a80062-2700-48fe-99bb-da2dbd62ab09")
+	)
+	(label "IN3P"
+		(at 38.1 78.74 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b7a5e14f-e724-49b9-aade-15fb72c4da76")
 	)
 	(label "OB_LED1"
 		(at 227.33 79.8322 90)
@@ -12008,6 +12442,85 @@
 			(project ""
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "C28")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Regulator_Switching:LM2575-5.0BU")
+		(at 113.665 260.985 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2ad0286e-ea4e-4b6a-94f0-6a799fea2a16")
+		(property "Reference" "U3"
+			(at 113.665 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LM2575-5.0BU"
+			(at 113.665 254 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:TO-263-5_TabPin3"
+			(at 113.665 267.335 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://ww1.microchip.com/downloads/en/DeviceDoc/lm2575.pdf"
+			(at 113.665 260.985 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Fixed 5.0V 52kHz Simple 1A Buck Regulator, TO-263"
+			(at 113.665 260.985 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "4"
+			(uuid "2727f00f-a04d-47f3-86dc-33a2a05ba365")
+		)
+		(pin "5"
+			(uuid "675f340b-a6b3-44f7-a8ac-956edbcc0356")
+		)
+		(pin "3"
+			(uuid "30b96395-5fde-4166-a195-5687747110a5")
+		)
+		(pin "1"
+			(uuid "f54d2c55-d2c5-4aaf-978c-2558b312a5a6")
+		)
+		(pin "2"
+			(uuid "5f8c98ed-53a5-4265-aae1-caa695672b34")
+		)
+		(instances
+			(project ""
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "U3")
 					(unit 1)
 				)
 			)
@@ -16201,6 +16714,76 @@
 			(project ""
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "#PWR?")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:Battery_Cell")
+		(at 83.185 265.43 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "57d68072-7b5d-4a0d-a837-b91c6aa5e812")
+		(property "Reference" "BT1"
+			(at 86.36 262.3184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Battery_Cell"
+			(at 86.36 264.8584 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 83.185 263.906 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 83.185 263.906 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Single-cell battery"
+			(at 83.185 265.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "45c20e10-2dfb-4f65-9329-252906fe943c")
+		)
+		(pin "2"
+			(uuid "13b022cd-e758-4b76-8f28-e2b253ac1ecd")
+		)
+		(instances
+			(project ""
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "BT1")
 					(unit 1)
 				)
 			)
@@ -23174,7 +23757,7 @@
 	)
 	(symbol
 		(lib_id "BNO085:BNO080")
-		(at 43.815 132.08 0)
+		(at 45.72 137.795 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -23183,7 +23766,7 @@
 		(fields_autoplaced yes)
 		(uuid "de173d01-ec1b-4b05-bf61-996608faacb9")
 		(property "Reference" "U1"
-			(at 43.815 100.33 0)
+			(at 45.72 106.045 0)
 			(effects
 				(font
 					(size 1.27 1.0795)
@@ -23191,7 +23774,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 43.815 102.87 0)
+			(at 45.72 108.585 0)
 			(effects
 				(font
 					(size 1.27 1.0795)
@@ -23199,7 +23782,7 @@
 			)
 		)
 		(property "Footprint" "Adafruit_BNO08x:BNO080"
-			(at 43.815 132.08 0)
+			(at 45.72 137.795 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23208,7 +23791,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.815 132.08 0)
+			(at 45.72 137.795 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23217,7 +23800,7 @@
 			)
 		)
 		(property "Description" "BNO080 - Motion Co-Processor"
-			(at 43.815 132.08 0)
+			(at 45.72 137.795 0)
 			(effects
 				(font
 					(size 1.27 1.27)
