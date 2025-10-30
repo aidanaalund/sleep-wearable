@@ -39,7 +39,9 @@ import {
   }
 
 /* === Constants === */
-const { height: screenHeight } = Dimensions.get('window');
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const screenBound = Math.min(screenWidth, screenHeight);
+const CalendarWH = screenBound * 0.9;
 const cellHeight = 50;
 const cellWidth  = 75;
 const diffColor          = '#111111';
