@@ -45,13 +45,13 @@ const CalendarWH = screenBound * 0.9;
 const cellHeight = 50;
 const cellWidth  = 75;
 const diffColor          = '#111111';
-const BGColor1           = '#24292b';
-const BGColor2           = HexColorsMath(BGColor1,'+',diffColor);
-const bordersColor       = '#000000';
-const buttonColor        = '#222f55ff';
-const buttonChoiceColor  = HexColorsMath(buttonColor,'-',HexColorsMath(diffColor,'*','#000002'));
-const textLightColor     = '#99cde6ff';
-const textDarkColor      = HexColorsMath(textLightColor,'-',HexColorsMath(diffColor,'*','#000002'));
+export const BGColor1           = '#24292b';
+export const BGColor2           = HexColorsMath(BGColor1,'+',diffColor);
+export const bordersColor       = '#000000';
+export const buttonColor        = '#222f55';
+export const buttonChoiceColor  = HexColorsMath(buttonColor,'-',HexColorsMath(diffColor,'*','#000002'));
+export const textLightColor     = '#99cde6';
+export const textDarkColor      = HexColorsMath(textLightColor,'-',HexColorsMath(diffColor,'*','#000002'));
 
 /* === Custom Reusable Button === */
 const CustomButton = ({ title, onPress, backgroundColor }) => (
