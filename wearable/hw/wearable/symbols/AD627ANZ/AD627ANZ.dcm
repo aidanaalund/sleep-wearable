@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP AD627ANZ
+D Instrumentation amplifier,AD627AN DIP8 AD627ANZ, Instrumentation Amplifier, 0.25mV Offset, 77dB CMRR, Rail-Rail Output, 7.5 V, 8-Pin PDIP
+K
+F http://www.analog.com/media/en/technical-documentation/data-sheets/AD627.pdf
+$ENDCMP
+#
+#End Doc Library
