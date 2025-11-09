@@ -108,6 +108,24 @@ const App = () => {
     }
   };
 
+  const downloadWebData = () => {
+    try {
+      const data = localStorage.getItem('sleepData') || 'No data available';
+      const blob = new Blob([data], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'sleepData.txt';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading data:', error);
+      alert('Failed to download data');
+    }
+  };
+
   const connectWebBluetooth = async () => {
     try {
       if (!navigator.bluetooth) {
@@ -390,6 +408,11 @@ const App = () => {
           <TouchableOpacity style={styles.button} onPress={readFileContent}>
             <Text style={styles.buttonText}>Refresh Data</Text>
           </TouchableOpacity>
+          {isWeb && (
+            <TouchableOpacity style={styles.button} onPress={downloadWebData}>
+              <Text style={styles.buttonText}>Download .txt</Text>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity style={styles.button} onPress={clearFile}>
             <Text style={styles.buttonText}>Clear Data</Text>
           </TouchableOpacity>
