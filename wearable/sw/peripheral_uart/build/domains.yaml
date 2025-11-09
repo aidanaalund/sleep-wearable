@@ -1,0 +1,7 @@
+default: peripheral_uart
+build_dir: C:/Users/aidan/sleep-wearable/wearable/sw/peripheral_uart/build
+domains:
+  - name: peripheral_uart
+    build_dir: C:/Users/aidan/sleep-wearable/wearable/sw/peripheral_uart/build/peripheral_uart
+flash_order:
+  - peripheral_uart

@@ -1,5 +1,0 @@
-{
-    "nrf-connect.applications": [
-        "${workspaceFolder}\\sw\\peripheral_uart"
-    ]
-}
