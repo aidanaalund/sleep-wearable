@@ -44,6 +44,8 @@
 tests/ds005555
 
 # build/board files
+wearable/sw/**/build/
+wearable/sw/**/board/
 
 # editors
 *.swp
