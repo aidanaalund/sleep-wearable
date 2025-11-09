@@ -44,9 +44,14 @@
 tests/ds005555
 
 # build/board files
+build/
+board/
 **/build/
 **/board/
 *.ninja*
+*.hex
+*.elf
+*.bin
 
 # editors
 *.swp
