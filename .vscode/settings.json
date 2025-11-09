@@ -1,4 +1,11 @@
-// {
+{
+    "nrf-connect.applications": [
+        "${workspaceFolder}\\wearable\\sw\\peripheral_uart"
+    ],
+    "files.associations": {
+        "uart.h": "c"
+    }
+} // {
 //     "nrf-connect.applications": [
 //         "${workspaceFolder}\\wearable\\sw\\peripheral_uart"
 //     ]
