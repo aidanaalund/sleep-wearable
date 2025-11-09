@@ -44,10 +44,8 @@
 tests/ds005555
 
 # build/board files
-build/
-board/
 **/build/
-**/board/
+**/boards/
 *.ninja*
 *.hex
 *.elf
