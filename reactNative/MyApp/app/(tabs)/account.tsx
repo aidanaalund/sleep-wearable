@@ -115,34 +115,41 @@ const App = () => {
         return;
       }
 
+      // Nordic UART Service UUID
+      const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+      const NUS_TX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
+
       const device = await navigator.bluetooth.requestDevice({
-        acceptAllDevices: true,
-        optionalServices: ['generic_access', 'device_information']
+        filters: [{ services: [NUS_SERVICE_UUID] }],
+        optionalServices: [NUS_SERVICE_UUID]
       });
 
+      console.log('Device selected:', device.name);
       setWebBluetoothDevice(device);
       
       const server = await device.gatt.connect();
-      const services = await server.getPrimaryServices();
+      console.log('Connected to GATT server');
+      
+      const service = await server.getPrimaryService(NUS_SERVICE_UUID);
+      console.log('Got NUS service');
+      
+      const characteristic = await service.getCharacteristic(NUS_TX_CHARACTERISTIC_UUID);
+      console.log('Got TX characteristic');
+      
+      await characteristic.startNotifications();
+      console.log('Notifications started');
+      
+      characteristic.addEventListener('characteristicvaluechanged', (event) => {
+        const value = new TextDecoder().decode(event.target.value);
+        console.log('Received data:', value);
+        handleReceivedData(value);
+      });
 
-      for (const service of services) {
-        const characteristics = await service.getCharacteristics();
-        
-        for (const characteristic of characteristics) {
-          if (characteristic.properties.notify) {
-            await characteristic.startNotifications();
-            characteristic.addEventListener('characteristicvaluechanged', (event) => {
-              const value = new TextDecoder().decode(event.target.value);
-              handleReceivedData(value);
-            });
-          }
-        }
-      }
-
-      alert(`Connected to ${device.name || 'Unknown Device'}`);
+      alert(`Connected to ${device.name || 'Unknown Device'}\nListening for data...`);
     } catch (error) {
       console.error('Web Bluetooth error:', error);
       alert('Failed to connect to device: ' + error.message);
+      setWebBluetoothDevice(null);
     }
   };
 
@@ -188,37 +195,43 @@ const App = () => {
       manager.stopDeviceScan();
       setIsScanning(false);
 
+      console.log('Connecting to device:', device.name);
       const connected = await manager.connectToDevice(device.id);
       setConnectedDevice(connected);
       
+      console.log('Discovering services...');
       await connected.discoverAllServicesAndCharacteristics();
       
-      const services = await connected.services();
+      // Nordic UART Service (NUS) UUIDs
+      const NUS_SERVICE_UUID = '6E400001-B5A3-F393-E0A9-E50E24DCCA9E';
+      const NUS_TX_CHARACTERISTIC_UUID = '6E400003-B5A3-F393-E0A9-E50E24DCCA9E';
       
-      for (const service of services) {
-        const characteristics = await service.characteristics();
-        
-        for (const char of characteristics) {
-          if (char.isNotifiable) {
-            char.monitor((error, characteristic) => {
-              if (error) {
-                console.error('Monitor error:', error);
-                return;
-              }
-              
-              if (characteristic?.value) {
-                const data = Buffer.from(characteristic.value, 'base64').toString('utf-8');
-                handleReceivedData(data);
-              }
-            });
+      console.log('Setting up NUS monitoring...');
+      
+      // Monitor the NUS TX characteristic (device sends data to app)
+      connected.monitorCharacteristicForService(
+        NUS_SERVICE_UUID,
+        NUS_TX_CHARACTERISTIC_UUID,
+        (error, characteristic) => {
+          if (error) {
+            console.error('Monitor error:', error);
+            return;
+          }
+          
+          if (characteristic?.value) {
+            const data = Buffer.from(characteristic.value, 'base64').toString('utf-8');
+            console.log('Received data:', data);
+            handleReceivedData(data);
           }
         }
-      }
+      );
       
-      Alert.alert('Success', `Connected to ${device.name}`);
+      Alert.alert('Success', `Connected to ${device.name}\nListening for data...`);
+      console.log('Successfully connected and monitoring');
     } catch (error) {
       console.error('Connection error:', error);
-      Alert.alert('Error', 'Failed to connect to device');
+      Alert.alert('Error', `Failed to connect: ${error.message}`);
+      setConnectedDevice(null);
     }
   };
 
