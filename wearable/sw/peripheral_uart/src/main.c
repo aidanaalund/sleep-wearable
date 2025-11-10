@@ -35,13 +35,8 @@
 #include <zephyr/logging/log.h>
 
 // ADC Includes
-#include <uart_async_adapter.h>
-
-#include <zephyr/types.h>
-#include <zephyr/kernel.h>
-#include <zephyr/drivers/uart.h>
-#include <zephyr/usb/usb_device.h>
 #include <zephyr/drivers/adc.h>
+#include <hal/nrf_saadc.h>
 
 #define LOG_MODULE_NAME peripheral_uart
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
@@ -71,7 +66,7 @@ LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 #define ADC_REFERENCE ADC_REF_INTERNAL
 #define ADC_ACQUISITION_TIME ADC_ACQ_TIME_DEFAULT
 #define ADC_CHANNEL_ID 0
-#define ADC_CHANNEL_INPUT NRF_SAADC_INPUT_AIN0
+#define ADC_CHANNEL_INPUT SAADC_CH_PSELP_PSELP_AnalogInput0
 
 static const struct device *adc_dev = DEVICE_DT_GET(ADC_NODE);
 static int16_t adc_sample_buffer;
@@ -677,7 +672,7 @@ void send_sensor_data(void)
 
     char buffer[32];
     /* Format as X.XXX V (e.g., "2.345V") */
-    snprintf(buffer, sizeof(buffer), "%ld.%03ldV\r\n", 
+    snprintf(buffer, sizeof(buffer), "%d.%03dV\r\n", 
              voltage_mv / 1000, 
              voltage_mv % 1000);
     

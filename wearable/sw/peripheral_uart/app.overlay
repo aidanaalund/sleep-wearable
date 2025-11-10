@@ -9,8 +9,5 @@
 		nordic,nus-uart = &uart0;
 	};
 
-    
-	zephyr,user {
-		io-channels = <&adc 0>;
-	};
+
 };
