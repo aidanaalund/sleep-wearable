@@ -34,6 +34,15 @@
 
 #include <zephyr/logging/log.h>
 
+// ADC Includes
+#include <uart_async_adapter.h>
+
+#include <zephyr/types.h>
+#include <zephyr/kernel.h>
+#include <zephyr/drivers/uart.h>
+#include <zephyr/usb/usb_device.h>
+#include <zephyr/drivers/adc.h>
+
 #define LOG_MODULE_NAME peripheral_uart
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 
@@ -54,6 +63,33 @@ LOG_MODULE_REGISTER(LOG_MODULE_NAME);
 #define UART_BUF_SIZE CONFIG_BT_NUS_UART_BUFFER_SIZE
 #define UART_WAIT_FOR_BUF_DELAY K_MSEC(50)
 #define UART_WAIT_FOR_RX CONFIG_BT_NUS_UART_RX_WAIT_TIME
+
+/* ADC Configuration */
+#define ADC_NODE DT_NODELABEL(adc)
+#define ADC_RESOLUTION 12
+#define ADC_GAIN ADC_GAIN_1_6
+#define ADC_REFERENCE ADC_REF_INTERNAL
+#define ADC_ACQUISITION_TIME ADC_ACQ_TIME_DEFAULT
+#define ADC_CHANNEL_ID 0
+#define ADC_CHANNEL_INPUT NRF_SAADC_INPUT_AIN0
+
+static const struct device *adc_dev = DEVICE_DT_GET(ADC_NODE);
+static int16_t adc_sample_buffer;
+
+static const struct adc_channel_cfg channel_cfg = {
+    .gain = ADC_GAIN,
+    .reference = ADC_REFERENCE,
+    .acquisition_time = ADC_ACQUISITION_TIME,
+    .channel_id = ADC_CHANNEL_ID,
+    .input_positive = ADC_CHANNEL_INPUT,
+};
+
+static const struct adc_sequence sequence = {
+    .channels = BIT(ADC_CHANNEL_ID),
+    .buffer = &adc_sample_buffer,
+    .buffer_size = sizeof(adc_sample_buffer),
+    .resolution = ADC_RESOLUTION,
+};
 
 static K_SEM_DEFINE(ble_init_ok, 0, 1);
 
@@ -601,6 +637,84 @@ static void configure_gpio(void)
 	}
 }
 
+static int32_t read_adc_voltage_mv(void)
+{
+    int err;
+
+    err = adc_read(adc_dev, &sequence);
+    if (err) {
+        LOG_ERR("ADC read failed (err: %d)", err);
+        return -1;
+    }
+
+    /* Convert ADC value to millivolts (mV)
+     * With gain 1/6 and internal reference (0.6V), the range is 0-3.6V (0-3600mV)
+     * Formula: voltage_mv = (sample_value * 3600) / 4096
+     * This can be simplified to: (sample_value * 225) / 256 to avoid large intermediate values
+     * Or more accurately: (sample_value * 3600) >> 12
+     */
+    int32_t voltage_mv = ((int32_t)adc_sample_buffer * 3600) >> 12;
+    
+    return voltage_mv;
+}
+
+void send_sensor_data(void)
+{
+    if (!current_conn) {
+        // Blink LED3 if no connection
+        dk_set_led(DK_LED3, 1);
+        k_sleep(K_MSEC(100));
+        dk_set_led(DK_LED3, 0);
+        return;
+    }
+
+    int32_t voltage_mv = read_adc_voltage_mv();
+    
+    if (voltage_mv < 0) {
+        LOG_ERR("Failed to read ADC");
+        return;
+    }
+
+    char buffer[32];
+    /* Format as X.XXX V (e.g., "2.345V") */
+    snprintf(buffer, sizeof(buffer), "%ld.%03ldV\r\n", 
+             voltage_mv / 1000, 
+             voltage_mv % 1000);
+    
+    int err = bt_nus_send(NULL, buffer, strlen(buffer));
+    
+    if (err) {
+        // Blink LED4 on error
+        dk_set_led(DK_LED4, 1);
+        k_sleep(K_MSEC(100));
+        dk_set_led(DK_LED4, 0);
+    } else {
+        // Blink LED3 on success
+        dk_set_led(DK_LED3, 1);
+        k_sleep(K_MSEC(100));
+        dk_set_led(DK_LED3, 0);
+    }
+}
+
+static int adc_init(void)
+{
+    int err;
+
+    if (!device_is_ready(adc_dev)) {
+        LOG_ERR("ADC device not ready");
+        return -ENODEV;
+    }
+
+    err = adc_channel_setup(adc_dev, &channel_cfg);
+    if (err) {
+        LOG_ERR("ADC channel setup failed (err: %d)", err);
+        return err;
+    }
+
+    LOG_INF("ADC initialized");
+    return 0;
+}
+
 int main(void)
 {
 	int blink_status = 0;
@@ -612,6 +726,11 @@ int main(void)
 	if (err) {
 		error();
 	}
+
+	err = adc_init();
+    if (err) {
+        error();
+    }
 
 	if (IS_ENABLED(CONFIG_BT_NUS_SECURITY_ENABLED)) {
 		err = bt_conn_auth_cb_register(&conn_auth_callbacks);
@@ -691,6 +810,20 @@ void ble_write_thread(void)
 		k_free(buf);
 	}
 }
+
+void sensor_thread(void)
+{
+    /* Don't go any further until BLE is initialized */
+    k_sem_take(&ble_init_ok, K_FOREVER);
+
+    while (1) {
+        send_sensor_data();
+        k_sleep(K_SECONDS(1));
+    }
+}
+
+K_THREAD_DEFINE(sensor_thread_id, STACKSIZE, sensor_thread, NULL, NULL,
+        NULL, PRIORITY-1, 0, 0);
 
 K_THREAD_DEFINE(ble_write_thread_id, STACKSIZE, ble_write_thread, NULL, NULL,
 		NULL, PRIORITY, 0, 0);
