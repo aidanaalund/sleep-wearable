@@ -7,15 +7,15 @@ w
 
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
+  Dimensions,
+  Modal,
+  Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
-  Pressable,
-  Modal,
-  Dimensions,
-  Platform,
+  View,
 } from 'react-native';
 
   function HexColorsMath(color1, op, color2) {

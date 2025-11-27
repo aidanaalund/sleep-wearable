@@ -6,7 +6,9 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export const unstable_settings = {
+  //initialRoute: "index",
   anchor: '(tabs)',
+  router: 'hash',
 };
 
 export default function RootLayout() {

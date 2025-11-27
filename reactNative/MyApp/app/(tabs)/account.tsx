@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from 'react';
+/*
+https://www.youtube.com/watch?v=1ETOJloLK3Y
+cd MyApp
+npx expo start --tunnel
+w
+*/
+
+import * as FileSystem from 'expo-file-system';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
+  Alert,
   FlatList,
   PermissionsAndroid,
   Platform,
   ScrollView,
-  Alert,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
-import * as FileSystem from 'expo-file-system';
-import { BGColor1, BGColor2, bordersColor, buttonColor, buttonChoiceColor, textLightColor, textDarkColor } from './home';
+import { BGColor1, BGColor2, buttonColor, textLightColor } from './home';
 
 const App = () => {
   const [manager] = useState(Platform.OS !== 'web' ? new BleManager() : null);
@@ -256,8 +263,8 @@ const App = () => {
   const handleReceivedData = async (data) => {
     setReceivedData(prev => prev + data);
     
-    const timestamp = new Date().toISOString();
-    const dataWithTimestamp = `[${timestamp}] ${data}\n`;
+    const timestamp = new Date().toISOString();             // change this for CSV
+    const dataWithTimestamp = `[${timestamp}] ${data}\n`;   // change this for CSV
     
     if (isWeb) {
       saveWebData(dataWithTimestamp);
