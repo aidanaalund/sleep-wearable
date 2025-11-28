@@ -1,9 +1,11 @@
 /*
 https://www.youtube.com/watch?v=1ETOJloLK3Y
+// for web app //
 cd MyApp
 npx expo start --tunnel
 w
 
+// for actual app //
 npx expo export --platform web
 npm run start:electron
 */
@@ -20,11 +22,3 @@ export default function Index() {
   
   return <Redirect href="/(tabs)/home" />;
 }
-
-/*
-I am having trouble with booting up my React Native app with Electron. 
-The web app works fine, but Electron shows "Unmatched Route \n Page could not be found. \n file:///C:/home". 
-I have to click the "Go back" button which then shows my entire app working properly. 
-I want to make it so that the "Unmatched Route" window never shows up and my app just boots up properly. 
-I do not want to use the server approach. 
-*/
