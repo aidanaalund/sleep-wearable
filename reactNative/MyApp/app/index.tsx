@@ -8,7 +8,7 @@ export default function Index() {
 
 /*
 I want to boot up my React Native app using Electron. 
-I already have a dist/ folder that contains the html files, but all I see is index.
+I already have a dist/ folder that contains the html files, but all I see is index when booting up the app.
 
 My file structure looks like this...
 app/_layout.tsx

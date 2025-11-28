@@ -9,9 +9,15 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint",
+    "electron": "electron .",
+    "electron:dev": "NODE_ENV=development electron .",
+    "build:electron": "npm run build:web && electron-builder",
+    "pack": "npm run build:web && electron-builder --dir",
+    "dist": "npm run build:web && electron-builder",
     "start:electron": "electron electron/main.js"
   },
   "dependencies": {
+    "@expo/metro-runtime": "~6.1.2",
     "@expo/vector-icons": "^15.0.3",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
@@ -40,7 +46,7 @@
     "react-native-responsive-fontsize": "^0.5.1",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-screens": "~4.16.0",
-    "react-native-web": "~0.21.0",
+    "react-native-web": "^0.21.0",
     "react-native-worklets": "0.5.1"
   },
   "devDependencies": {
