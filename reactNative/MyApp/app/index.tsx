@@ -1,9 +1,14 @@
-import { Redirect } from 'expo-router';
-//import { Stack } from 'expo-router';
+import { Redirect, usePathname } from 'expo-router';
+import { useEffect } from 'react';
 
 export default function Index() {
+  const pathname = usePathname();
+  
+  useEffect(() => {
+    console.log('Index pathname:', pathname);
+  }, [pathname]);
+  
   return <Redirect href="/(tabs)/home" />;
-  //return <Stack.Screen name="(tabs)/home" options={{ headerShown: false }} />;
 }
 
 /*

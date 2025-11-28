@@ -1,7 +1,5 @@
-const { contextBridge, ipcRenderer } = require("electron");
-
-contextBridge.exposeInMainWorld("electronAPI", {
-  readFile: (filePath) => ipcRenderer.invoke("read-file", filePath),
-  writeFile: (filePath, contents) =>
-    ipcRenderer.invoke("write-file", { filePath, contents })
+window.addEventListener('DOMContentLoaded', () => {
+  console.log('Preload: DOMContentLoaded');
+  console.log('Preload: Current hash:', window.location.hash);
+  console.log('Preload: Current href:', window.location.href);
 });

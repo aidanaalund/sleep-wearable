@@ -27,11 +27,6 @@ app.whenReady().then(() => {
       filePath = path.normalize(requestedUrl);
     }
     
-    // Log for debugging (you can remove this later)
-    console.log('Request:', request.url);
-    console.log('Resolved to:', filePath);
-    console.log('File exists:', fs.existsSync(filePath));
-    
     callback({ path: filePath });
   });
 
@@ -45,22 +40,43 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      // Allow file access for local files
       webSecurity: false,
     }
   });
 
-  // Load the index.html file
   const indexPath = path.join(__dirname, '..', 'dist', 'index.html');
-  console.log('Loading:', indexPath);
   
+  // Load the file and accept that we'll see the Unmatched Route briefly
   win.loadFile(indexPath);
   
-  // Open DevTools to see console logs
+  // After a short delay, simulate clicking "Go back" by going to the home route
+  win.webContents.on('did-finish-load', () => {
+    setTimeout(() => {
+      // Navigate using JavaScript to the home route
+      win.webContents.executeJavaScript(`
+        // Check if we're on an unmatched route
+        const currentPath = window.location.pathname;
+        console.log('Current path:', currentPath);
+        
+        // If we see the file path, navigate to home
+        if (currentPath.includes('index.html') || currentPath.includes('dist')) {
+          console.log('Navigating to home...');
+          window.history.pushState({}, '', '/home');
+          window.dispatchEvent(new PopStateEvent('popstate', { state: {} }));
+          
+          // Force a re-render by dispatching a custom event
+          window.dispatchEvent(new Event('pushstate'));
+          window.dispatchEvent(new Event('replacestate'));
+        }
+      `);
+    }, 500);
+  });
+  
+  // Open DevTools
   win.webContents.openDevTools();
   
-  // Log any console messages from the renderer
-  win.webContents.on('console-message', (event, level, message, line, sourceId) => {
+  // Log console messages
+  win.webContents.on('console-message', (event, level, message) => {
     console.log(`[Renderer] ${message}`);
   });
 }
