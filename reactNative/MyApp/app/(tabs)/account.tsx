@@ -3,6 +3,9 @@ https://www.youtube.com/watch?v=1ETOJloLK3Y
 cd MyApp
 npx expo start --tunnel
 w
+
+npx expo export --platform web
+npm run start:electron
 */
 
 import * as FileSystem from 'expo-file-system';

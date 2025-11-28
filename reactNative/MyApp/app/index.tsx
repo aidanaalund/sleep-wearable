@@ -1,3 +1,13 @@
+/*
+https://www.youtube.com/watch?v=1ETOJloLK3Y
+cd MyApp
+npx expo start --tunnel
+w
+
+npx expo export --platform web
+npm run start:electron
+*/
+
 import { Redirect, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 
@@ -12,16 +22,9 @@ export default function Index() {
 }
 
 /*
-I want to boot up my React Native app using Electron. 
-I already have a dist/ folder that contains the html files, but all I see is index when booting up the app.
-
-My file structure looks like this...
-app/_layout.tsx
-app/index.tsx
-app/modal.tsx
-app/(tabs)/_layout.tsx
-app/(tabs)/account.tsx
-app/(tabs)/home.tsx
-
-How should I fix this? 
+I am having trouble with booting up my React Native app with Electron. 
+The web app works fine, but Electron shows "Unmatched Route \n Page could not be found. \n file:///C:/home". 
+I have to click the "Go back" button which then shows my entire app working properly. 
+I want to make it so that the "Unmatched Route" window never shows up and my app just boots up properly. 
+I do not want to use the server approach. 
 */

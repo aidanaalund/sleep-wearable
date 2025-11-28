@@ -4,27 +4,34 @@ const fs = require('fs');
 
 // Must be called before app is ready
 app.whenReady().then(() => {
-  // Register protocol handler to fix absolute paths
-  protocol.interceptFileProtocol('file', (request, callback) => {
-    let requestedUrl = request.url.substr(7); // Remove 'file://'
+  // Register a custom protocol to serve files as if from a web server
+  protocol.registerFileProtocol('app', (request, callback) => {
+    let requestedUrl = request.url.substr(6); // Remove 'app://'
     
-    // Decode URL encoding (e.g., %20 -> space)
+    // Decode URL encoding
     requestedUrl = decodeURIComponent(requestedUrl);
     
-    // Remove any query strings or fragments
+    // Remove query strings or fragments
     requestedUrl = requestedUrl.split('?')[0].split('#')[0];
     
     let filePath;
     
-    // Check if this is a request for _expo resources
-    if (requestedUrl.includes('/_expo/')) {
-      // Extract the part after /_expo/
+    // Handle root path
+    if (requestedUrl === '/' || requestedUrl === '') {
+      filePath = path.join(__dirname, '..', 'dist', 'index.html');
+    }
+    // Handle _expo resources
+    else if (requestedUrl.includes('/_expo/')) {
       const expoPath = requestedUrl.split('/_expo/')[1];
-      // Build the correct path from our dist folder
       filePath = path.join(__dirname, '..', 'dist', '_expo', expoPath);
-    } else {
-      // For other files, normalize the path
-      filePath = path.normalize(requestedUrl);
+    }
+    // Handle any other route - serve index.html for client-side routing
+    else if (!path.extname(requestedUrl)) {
+      filePath = path.join(__dirname, '..', 'dist', 'index.html');
+    }
+    // Handle asset files
+    else {
+      filePath = path.join(__dirname, '..', 'dist', requestedUrl);
     }
     
     callback({ path: filePath });
@@ -37,6 +44,8 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
+    show: false, // Don't show window until ready
+    backgroundColor: '#ffffff', // Prevent flash of unstyled content
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -44,40 +53,39 @@ function createWindow() {
     }
   });
 
-  const indexPath = path.join(__dirname, '..', 'dist', 'index.html');
+  // Load using custom protocol with /home route
+  win.loadURL('app://./home');
   
-  // Load the file and accept that we'll see the Unmatched Route briefly
-  win.loadFile(indexPath);
-  
-  // After a short delay, simulate clicking "Go back" by going to the home route
-  win.webContents.on('did-finish-load', () => {
-    setTimeout(() => {
-      // Navigate using JavaScript to the home route
-      win.webContents.executeJavaScript(`
-        // Check if we're on an unmatched route
-        const currentPath = window.location.pathname;
-        console.log('Current path:', currentPath);
-        
-        // If we see the file path, navigate to home
-        if (currentPath.includes('index.html') || currentPath.includes('dist')) {
-          console.log('Navigating to home...');
-          window.history.pushState({}, '', '/home');
-          window.dispatchEvent(new PopStateEvent('popstate', { state: {} }));
-          
-          // Force a re-render by dispatching a custom event
-          window.dispatchEvent(new Event('pushstate'));
-          window.dispatchEvent(new Event('replacestate'));
-        }
-      `);
-    }, 500);
+  // Show window when ready
+  win.webContents.once('did-finish-load', () => {
+    win.show();
+    win.focus();
   });
   
+  // Fallback: show window after timeout
+  setTimeout(() => {
+    if (!win.isVisible()) {
+      console.log('Fallback: showing window after timeout');
+      win.show();
+    }
+  }, 3000);
+  
   // Open DevTools
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
   
   // Log console messages
   win.webContents.on('console-message', (event, level, message) => {
     console.log(`[Renderer] ${message}`);
+  });
+  
+  // Handle navigation errors
+  win.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
+    console.error('Failed to load:', errorDescription, validatedURL);
+    // If loading /home fails, try loading root
+    if (validatedURL.includes('/home')) {
+      console.log('Retrying with root URL...');
+      win.loadURL('app://./');
+    }
   });
 }
 
