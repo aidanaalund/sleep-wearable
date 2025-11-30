@@ -53,6 +53,12 @@ const App = () => {
         // For Electron, just use the in-memory state
         setFileContent(inMemoryData);
       }
+      
+      // Check Bluetooth availability
+      console.log('Checking Bluetooth support...');
+      console.log('navigator.bluetooth available:', !!navigator.bluetooth);
+      console.log('window.bluetooth available:', !!(typeof window !== 'undefined' && window.bluetooth));
+      console.log('Is Electron:', isElectron);
     }
     
     return () => {
@@ -190,16 +196,21 @@ const App = () => {
 
   const connectWebBluetooth = async () => {
     try {
-      if (!navigator.bluetooth) {
-        alert('Web Bluetooth is not supported in this browser. Please use Chrome, Edge, or Opera.');
+      // Check for Bluetooth API - either native or polyfill
+      const bluetoothAPI = navigator.bluetooth || (typeof window !== 'undefined' && window.bluetooth);
+      
+      if (!bluetoothAPI) {
+        alert('Bluetooth is not available.\n\nFor the best experience, try:\n1. Running this app in Chrome browser\n2. Or ensure Bluetooth is enabled on your system');
         return;
       }
+
+      console.log('Using Bluetooth API...');
 
       // Nordic UART Service UUID
       const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
       const NUS_TX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
 
-      const device = await navigator.bluetooth.requestDevice({
+      const device = await bluetoothAPI.requestDevice({
         filters: [{ services: [NUS_SERVICE_UUID] }],
         optionalServices: [NUS_SERVICE_UUID]
       });
@@ -271,6 +282,7 @@ const App = () => {
   };
 
   const connectToDevice = async (device) => {
+    // Native mobile Bluetooth only
     try {
       manager.stopDeviceScan();
       setIsScanning(false);
@@ -409,7 +421,9 @@ const App = () => {
     }
   };
 
-  const isConnected = isWeb ? (webBluetoothDevice && webBluetoothDevice.gatt?.connected) : !!connectedDevice;
+  const isConnected = isWeb 
+    ? (webBluetoothDevice && webBluetoothDevice.gatt?.connected) 
+    : !!connectedDevice;
   const deviceName = isWeb 
     ? (webBluetoothDevice ? webBluetoothDevice.name || 'Unknown Device' : '')
     : (connectedDevice ? connectedDevice.name : '');
@@ -422,9 +436,9 @@ const App = () => {
         <View style={styles.webNotice}>
           <Text style={styles.webNoticeText}>
             {isElectron 
-              ? 'Electron version - Data stored in memory during session.'
+              ? 'Electron version - Data stored in memory. Use "Save As..." to save to disk.'
               : 'Web version uses localStorage for data storage and Web Bluetooth API.'}
-            {'\n'}Make sure you're using Chrome, Edge, or Opera browser.
+            {'\n'}For best Bluetooth support, use Chrome, Edge, or Opera browser.
           </Text>
         </View>
       )}
@@ -442,7 +456,7 @@ const App = () => {
               disabled={isScanning}
             >
               <Text style={styles.buttonText}>
-                {isWeb ? 'Connect to Device' : (isScanning ? 'Scanning...' : 'Scan Devices')}
+                {isScanning ? 'Scanning...' : (isWeb ? 'Connect to Device' : 'Scan Devices')}
               </Text>
             </TouchableOpacity>
           ) : (

@@ -46,8 +46,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    show: false, // Don't show window until ready
-    backgroundColor: '#ffffff', // Prevent flash of unstyled content
+    show: false,
+    backgroundColor: '#ffffff',
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -56,16 +56,13 @@ function createWindow() {
     }
   });
 
-  // Load using custom protocol with /home route
   mainWindow.loadURL('app://./home');
   
-  // Show window when ready
   mainWindow.webContents.once('did-finish-load', () => {
     mainWindow.show();
     mainWindow.focus();
   });
   
-  // Fallback: show window after timeout
   setTimeout(() => {
     if (!mainWindow.isVisible()) {
       console.log('Fallback: showing window after timeout');
@@ -73,21 +70,42 @@ function createWindow() {
     }
   }, 3000);
   
-  // Open DevTools
-  //mainWindow.webContents.openDevTools();
+  // Open DevTools for debugging
+  // mainWindow.webContents.openDevTools();
   
-  // Log console messages
   mainWindow.webContents.on('console-message', (event, level, message) => {
     console.log(`[Renderer] ${message}`);
   });
   
-  // Handle navigation errors
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
     console.error('Failed to load:', errorDescription, validatedURL);
-    // If loading /home fails, try loading root
     if (validatedURL.includes('/home')) {
       console.log('Retrying with root URL...');
       mainWindow.loadURL('app://./');
+    }
+  });
+
+  // Handle Bluetooth device selection
+  mainWindow.webContents.on('select-bluetooth-device', (event, deviceList, callback) => {
+    event.preventDefault();
+    
+    console.log('Bluetooth device selection requested');
+    console.log('Available devices:', deviceList.length);
+    
+    if (deviceList && deviceList.length > 0) {
+      // Log device info
+      deviceList.forEach((device, i) => {
+        console.log(`Device ${i}: ${device.deviceName} (${device.deviceId})`);
+      });
+      
+      // Automatically select the first device
+      // In production, you might want to show a dialog to let user choose
+      const selectedDevice = deviceList[0];
+      console.log('Auto-selecting device:', selectedDevice.deviceName);
+      callback(selectedDevice.deviceId);
+    } else {
+      console.log('No Bluetooth devices found');
+      callback('');
     }
   });
 }
