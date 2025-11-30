@@ -37,6 +37,8 @@
 // ADC Includes
 #include <zephyr/drivers/adc.h>
 #include <hal/nrf_saadc.h>
+// SPI Includes
+#include <zephyr/drivers/spi.h>
 
 #define LOG_MODULE_NAME peripheral_uart
 LOG_MODULE_REGISTER(LOG_MODULE_NAME);
