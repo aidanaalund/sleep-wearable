@@ -32,8 +32,11 @@ const App = () => {
   const [fileContent, setFileContent] = useState('');
   const [isScanning, setIsScanning] = useState(false);
   const [webBluetoothDevice, setWebBluetoothDevice] = useState(null);
+  // Store data in memory for Electron instead of localStorage
+  const [inMemoryData, setInMemoryData] = useState('');
 
-  // Use localStorage for web, FileSystem for native
+  // Check if running in Electron
+  const isElectron = typeof window !== 'undefined' && window.electronAPI;
   const isWeb = Platform.OS === 'web';
   const sleepDataDir = isWeb ? null : `${FileSystem.documentDirectory}sleepData`;
   const filePath = isWeb ? null : `${sleepDataDir}/data.txt`;
@@ -43,8 +46,13 @@ const App = () => {
       requestPermissions();
       createDirectory();
     } else {
-      // Load data from localStorage on web
-      loadWebData();
+      // Load data from localStorage on web (but not Electron)
+      if (!isElectron) {
+        loadWebData();
+      } else {
+        // For Electron, just use the in-memory state
+        setFileContent(inMemoryData);
+      }
     }
     
     return () => {
@@ -91,48 +99,92 @@ const App = () => {
     try {
       const data = localStorage.getItem('sleepData');
       setFileContent(data || '');
+      setInMemoryData(data || '');
     } catch (error) {
       console.error('Error loading web data:', error);
     }
   };
 
   const saveWebData = (data) => {
-    try {
-      const existing = localStorage.getItem('sleepData') || '';
-      const newData = existing + data;
-      localStorage.setItem('sleepData', newData);
+    if (isElectron) {
+      // For Electron, just update in-memory state
+      const newData = inMemoryData + data;
+      setInMemoryData(newData);
       setFileContent(newData);
-    } catch (error) {
-      console.error('Error saving web data:', error);
+    } else {
+      // For regular web, use localStorage
+      try {
+        const existing = localStorage.getItem('sleepData') || '';
+        const newData = existing + data;
+        localStorage.setItem('sleepData', newData);
+        setFileContent(newData);
+        setInMemoryData(newData);
+      } catch (error) {
+        console.error('Error saving web data:', error);
+      }
     }
   };
 
   const clearWebData = () => {
-    try {
-      localStorage.removeItem('sleepData');
+    if (isElectron) {
+      // For Electron, clear in-memory state
+      setInMemoryData('');
       setFileContent('');
       setReceivedData('');
       alert('Data cleared successfully');
-    } catch (error) {
-      console.error('Error clearing web data:', error);
+    } else {
+      // For regular web, clear localStorage
+      try {
+        localStorage.removeItem('sleepData');
+        setFileContent('');
+        setReceivedData('');
+        setInMemoryData('');
+        alert('Data cleared successfully');
+      } catch (error) {
+        console.error('Error clearing web data:', error);
+      }
     }
   };
 
-  const downloadWebData = () => {
+  const downloadWebData = async () => {
     try {
-      const data = localStorage.getItem('sleepData') || 'No data available';
-      const blob = new Blob([data], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'sleepData.txt';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      // Get data from appropriate source
+      let data;
+      if (isElectron) {
+        data = inMemoryData || 'No data available';
+      } else {
+        data = localStorage.getItem('sleepData') || 'No data available';
+      }
+      
+      // Use Electron's save dialog if available
+      if (isElectron && window.electronAPI?.saveFile) {
+        const result = await window.electronAPI.saveFile({
+          data: data,
+          defaultPath: 'sleepData.txt'
+        });
+        
+        if (result.success) {
+          alert(`File saved successfully to:\n${result.path}`);
+        } else if (result.canceled) {
+          // User canceled, do nothing
+        } else {
+          alert('Failed to save file');
+        }
+      } else {
+        // Fallback to browser download
+        const blob = new Blob([data], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'sleepData.txt';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
     } catch (error) {
       console.error('Error downloading data:', error);
-      alert('Failed to download data');
+      alert('Failed to download data: ' + error.message);
     }
   };
 
@@ -295,7 +347,13 @@ const App = () => {
 
   const readFileContent = async () => {
     if (isWeb) {
-      loadWebData();
+      if (isElectron) {
+        // For Electron, use in-memory data
+        setFileContent(inMemoryData);
+      } else {
+        // For regular web, use localStorage
+        loadWebData();
+      }
       return;
     }
 
@@ -363,7 +421,9 @@ const App = () => {
       {isWeb && (
         <View style={styles.webNotice}>
           <Text style={styles.webNoticeText}>
-            Web version uses localStorage for data storage and Web Bluetooth API.
+            {isElectron 
+              ? 'Electron version - Data stored in memory during session.'
+              : 'Web version uses localStorage for data storage and Web Bluetooth API.'}
             {'\n'}Make sure you're using Chrome, Edge, or Opera browser.
           </Text>
         </View>
@@ -420,7 +480,9 @@ const App = () => {
           </TouchableOpacity>
           {isWeb && (
             <TouchableOpacity style={styles.button} onPress={downloadWebData}>
-              <Text style={styles.buttonText}>Download .txt</Text>
+              <Text style={styles.buttonText}>
+                {isElectron ? 'Save As...' : 'Download .txt'}
+              </Text>
             </TouchableOpacity>
           )}
           <TouchableOpacity style={styles.button} onPress={clearFile}>
@@ -431,7 +493,9 @@ const App = () => {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>
-          {isWeb ? 'Stored Data (localStorage)' : 'File Contents (data.txt)'}
+          {isWeb 
+            ? (isElectron ? 'Stored Data (In Memory)' : 'Stored Data (localStorage)')
+            : 'File Contents (data.txt)'}
         </Text>
         <ScrollView style={styles.dataContainer}>
           <Text style={styles.dataText}>
