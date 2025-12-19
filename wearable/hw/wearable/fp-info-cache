@@ -1,4 +1,25 @@
-26762028855637798
+26924119225613502
+ADS1299
+PAG64_TEX
+
+ADS1299IPAG 
+0
+64
+64
+ADS1299
+PAG64_TEX-L
+
+ADS1299IPAG 
+0
+64
+64
+ADS1299
+PAG64_TEX-M
+
+ADS1299IPAG 
+0
+64
+64
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -61375,6 +61396,300 @@ One digit LED 7 segment SA39-11 SC39-11 SA39-12 SC39-12
 0
 10
 10
+ECE445L
+ABM3
+ABM3
+Crystal or Oscillator
+0
+2
+2
+ECE445L
+CP_Radial_Tantal200mil
+CP, Radial_Tantal series, Radial, pin pitch=200mil, , diameter=6.0mm, Tantal Electrolytic Capacitor
+CP Radial_Tantal series Radial pin pitch 200mil  diameter 6.0mm Tantal Electrolytic Capacitor
+0
+2
+2
+ECE445L
+C_Axial_200mil
+C, Axial series, Axial, Horizontal, pin pitch=15mm, , length*diameter=5.1*3.1mm^2, http://www.vishay.com/docs/45231/arseries.pdf
+C Axial series Axial Horizontal pin pitch 15mm  length 5.1mm diameter 3.1mm
+0
+2
+2
+ECE445L
+DIP-8_W7.62mm_LongPads
+8-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils), LongPads
+THT DIP DIL PDIP 2.54mm 7.62mm 300mil LongPads
+0
+8
+8
+ECE445L
+DIP-16_W7.62mm
+16-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)
+THT DIP DIL PDIP 2.54mm 7.62mm 300mil
+0
+16
+16
+ECE445L
+DIP920W60P254L490H457Q4N
+HVM DIP
+MOSFET (N-Channel)
+0
+4
+4
+ECE445L
+Jack_3.5mm_CUI_SJ1-3523N_Horizontal
+TRS 3.5mm, horizontal, through-hole, https://www.cuidevices.com/product/resource/pdf/sj1-352xn.pdf
+TRS audio jack stereo horizontal
+0
+3
+3
+ECE445L
+LED_D5.0mm
+LED, diameter 5.0mm, 2 pins, http://cdn-reichelt.de/documents/datenblatt/A500/LL-504BC2E-009.pdf
+LED diameter 5.0mm 2 pins
+0
+2
+2
+ECE445L
+MountingHole_4_40
+Mounting Hole 0.125in
+mounting hole 0.125in 4_40
+0
+1
+1
+ECE445L
+PTA2043pot
+Bourns single-gang slide potentiometer, 20.0mm travel, https://www.bourns.com/docs/Product-Datasheets/pta.pdf
+Bourns single-gang slide potentiometer 20.0mm
+0
+3
+3
+ECE445L
+PinHeader_1x02_P2.54mm_Vertical
+Through hole straight pin header, 1x02, 2.54mm pitch, single row
+Through hole pin header THT 1x02 2.54mm single row
+0
+2
+2
+ECE445L
+PinHeader_1x03_P2.54mm_Vertical
+Through hole straight pin header, 1x03, 2.54mm pitch, single row
+Through hole pin header THT 1x03 2.54mm single row
+0
+3
+3
+ECE445L
+PinHeader_1x04_P2.54mm_Vertical
+Through hole straight pin header, 1x04, 2.54mm pitch, single row
+Through hole pin header THT 1x04 2.54mm single row
+0
+4
+4
+ECE445L
+PinHeader_1x05_P2.54mm_Vertical
+Through hole straight pin header, 1x04, 2.54mm pitch, single row
+Through hole pin header THT 1x04 2.54mm single row
+0
+5
+5
+ECE445L
+PinHeader_2x04_P2.54mm_Vertical
+Through hole straight pin header, 1x03, 2.54mm pitch, single row
+Through hole pin header THT 1x03 2.54mm single row
+0
+8
+8
+ECE445L
+Potentiometer
+
+
+0
+3
+3
+ECE445L
+QFP50P1200X1200X160-64N
+TM4C123GH6PMIR-1
+Integrated Circuit
+0
+64
+64
+ECE445L
+R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal
+Resistor, Axial_DIN0204 series, Axial, Horizontal, pin pitch=7.62mm, 0.167W, length*diameter=3.6*1.6mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf
+Resistor Axial_DIN0204 series Axial Horizontal pin pitch 7.62mm 0.167W length 3.6mm diameter 1.6mm
+0
+2
+2
+ECE445L
+R_Axial_DIN0411_L9.9mm_D3.6mm_P15.24mm_Horizontal
+Resistor, Axial_DIN0411 series, Axial, Horizontal, pin pitch=15.24mm, 1W, length*diameter=9.9*3.6mm^2
+Resistor Axial_DIN0411 series Axial Horizontal pin pitch 15.24mm 1W length 9.9mm diameter 3.6mm
+0
+2
+2
+ECE445L
+SW_PUSH_6mm
+https://www.omron.com/ecb/products/pdf/en-b3f.pdf
+tact sw push 6mm
+0
+4
+2
+ECE445L
+SparkfunJoystick
+https://www.sparkfun.com/products/9032
+
+0
+14
+12
+ECE445L
+TL431CLPM
+LP0003A_2
+Integrated Circuit
+0
+3
+3
+ECE445L
+TO254P470X1028X1955-3P
+TO-220-3-
+Integrated Circuit
+0
+3
+3
+ECE445L
+TSOP31438
+Through hole straight pin header, 1x03, 2.54mm pitch, single row
+Through hole pin header THT 1x03 2.54mm single row
+0
+3
+3
+ECE445L
+Testpoint_1x02_P2.54mm
+Through hole straight pin header, 1x02, 2.54mm pitch, single row
+Through hole pin header THT 1x02 2.54mm single row
+0
+2
+2
+ECE445L
+VSSOP-8_3.0x3.0mm_P0.65mm
+VSSOP-8 3.0 x 3.0, http://www.ti.com/lit/ds/symlink/lm75b.pdf
+VSSOP-8 3.0 x 3.0
+0
+8
+8
+ECE445L
+ZX62DB5PA830
+ZX62D-B-5PA8(30)-7
+Connector
+0
+11
+11
+ECE445L
+adafruit_st7735r
+
+
+0
+10
+10
+ECE445L
+adafruit_st7735r2
+
+
+0
+10
+10
+ECE445L
+ai_thinker_ESP8266_01
+
+
+0
+8
+8
+ECE445L
+generic_LQFP64_0.4mm
+LQFP, 64 Pin (https://www.nxp.com/docs/en/package-information/SOT414-1.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+LQFP QFP
+0
+64
+64
+ECE445L
+generic_VSSOP_0.5mm
+VSSOP, 10 Pin (http://www.ti.com/lit/ds/symlink/ads1115.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+VSSOP SO
+0
+32
+32
+ECE445L
+hiletgo_st7735r
+
+
+0
+16
+16
+ECE445L
+ti_EKTM4C123GXL
+
+
+0
+40
+40
+ECE445L
+ti_LM4041CILPR
+<b>LP (O-PBCY-W3)</b> TO-92/TO-226<p>0.8mm holes, Source: http://focus.ti.com/lit/ds/slcs146e/slcs146e.pdf
+
+0
+3
+3
+ECE445L
+ti_LP_MSPM0G3507
+
+
+0
+40
+40
+ECE445L
+ti_MSPM0G3507_LP
+
+
+0
+40
+40
+ECE445L
+ti_MSPM0G3507_LQFP64
+LQFP, 64 Pin (https://www.nxp.com/docs/en/package-information/SOT414-1.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+LQFP QFP
+0
+64
+64
+ECE445L
+ti_MSPM0G3507_VSSOP
+VSSOP, 10 Pin (http://www.ti.com/lit/ds/symlink/ads1115.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+VSSOP SO
+0
+28
+28
+ECE445L
+ti_TLV5616
+P (R-PDIP-T8)
+Integrated Circuit
+0
+8
+8
+ECE445L
+ti_TLV5618AIP
+P (R-PDIP-T8)
+Integrated Circuit
+0
+8
+8
+ECE445L
+vishay_IRLD024PBF
+HVM DIP
+MOSFET (N-Channel)
+0
+4
+3
 Ferrite_THT
 LairdTech_28C0236-0JW-10
 Ferrite, vertical, LairdTech 28C0236-0JW-10, https://assets.lairdtech.com/home/brandworld/files/28C0236-0JW-10.pdf, JW Miller core https://www.bourns.com/products/magnetic-products/j.w.-miller-through-hole-ferrite-beads-emi-filters
@@ -70573,6 +70888,13 @@ Yellow 5381 Series LED
 0
 2
 2
+MAX77659AENV+
+21-100509_N302D2&plus_1_MXM
+
+MAX77659AENV+ 
+0
+30
+30
 Module
 A20_OLINUXINO_LIME2
 A20 Olinuxino LIME2, 1.2GHz, 512-1024MB RAM, Micro-SD, NAND or eMMC, 1000Mbit Ethernet
@@ -94954,6 +95276,314 @@ WiFi IEEE802.11 b/g/n
 0
 44
 44
+RSLK2
+500SSP1S1M7QEA
+500SSP1S1M7QEA-2
+Switch
+0
+5
+5
+RSLK2
+500SSP1S2M2QEA
+500SSP1S2M2QEA-2
+Connector
+0
+3
+3
+RSLK2
+APT1608CGCK
+1.6mmX0.8mm
+LED
+0
+2
+2
+RSLK2
+Adafruit_SSD1306_No_Mounting_Holes
+Adafruit SSD1306 OLED 1.3 inch 128x64 I2C & SPI https://learn.adafruit.com/monochrome-oled-breakouts/downloads
+Adafruit SSD1306 OLED 1.3 inch 128x64 I2C & SPI 
+0
+8
+8
+RSLK2
+CAPPM3528X210N
+CASE B
+Capacitor Polarised
+0
+2
+2
+RSLK2
+CP_Radial_Tantal200mil
+CP, Radial_Tantal series, Radial, pin pitch=200mil, , diameter=6.0mm, Tantal Electrolytic Capacitor
+CP Radial_Tantal series Radial pin pitch 200mil  diameter 6.0mm Tantal Electrolytic Capacitor
+0
+2
+2
+RSLK2
+C_0603_1608Metric
+Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator
+capacitor
+0
+2
+2
+RSLK2
+C_Axial_200mil
+C, Axial series, Axial, Horizontal, pin pitch=15mm, , length*diameter=5.1*3.1mm^2, http://www.vishay.com/docs/45231/arseries.pdf
+C Axial series Axial Horizontal pin pitch 15mm  length 5.1mm diameter 3.1mm
+0
+2
+2
+RSLK2
+D2F-01L30-D3
+Through hole straight pin header, 1x03, 2.54mm pitch, single row
+Through hole pin header THT 1x03 2.54mm single row
+0
+2
+2
+RSLK2
+D2F-01L30-D3_3pin
+Through hole straight pin header, 1x03, 2.54mm pitch, single row
+Through hole pin header THT 1x03 2.54mm single row
+0
+3
+3
+RSLK2
+D2F-01L30-D3_5pin
+Through hole straight pin header, 1x03, 2.54mm pitch, single row
+Through hole pin header THT 1x03 2.54mm single row
+0
+5
+5
+RSLK2
+DIP-8_W7.62mm_LongPads
+8-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils), LongPads
+THT DIP DIL PDIP 2.54mm 7.62mm 300mil LongPads
+0
+8
+8
+RSLK2
+DIP-16_W7.62mm
+16-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)
+THT DIP DIL PDIP 2.54mm 7.62mm 300mil
+0
+16
+16
+RSLK2
+DIP880W50P254L2000H510Q16N
+pdip-16
+Integrated Circuit
+0
+16
+16
+RSLK2
+GW22LCV
+500SSP1S1M7QEA-2
+Switch
+0
+6
+6
+RSLK2
+JST-GH_1x06_1.25mm
+Through hole straight pin header, 1x06, 2.54mm pitch, single row, CES-106-01-G-S
+Through hole pin header THT 1x06 2.54mm single row
+0
+6
+6
+RSLK2
+LED_D5.0mm
+LED, diameter 5.0mm, 2 pins, http://cdn-reichelt.de/documents/datenblatt/A500/LL-504BC2E-009.pdf
+LED diameter 5.0mm 2 pins
+0
+2
+2
+RSLK2
+LaunchPad
+M20-8761042P-2
+Connector
+0
+20
+20
+RSLK2
+MountingHole_2_56
+Mounting Hole 0.125in
+mounting hole 0.125in 4_40
+0
+1
+1
+RSLK2
+MountingHole_4_40
+Mounting Hole 0.125in
+mounting hole 0.125in 4_40
+0
+0
+0
+RSLK2
+PinHeader_1x02_P2.54mm_Vertical
+Through hole straight pin header, 1x02, 2.54mm pitch, single row
+Through hole pin header THT 1x02 2.54mm single row
+0
+2
+2
+RSLK2
+PinHeader_1x03_P2.54mm_Vertical
+Through hole straight pin header, 1x03, 2.54mm pitch, single row
+Through hole pin header THT 1x03 2.54mm single row
+0
+3
+3
+RSLK2
+PinHeader_1x06_P2.54mm_Vertical
+Through hole straight pin header, 1x06, 2.54mm pitch, single row, CES-106-01-G-S
+Through hole pin header THT 1x06 2.54mm single row
+0
+6
+6
+RSLK2
+PinHeader_1x06_P2.54mm_Vertical_1
+Through hole straight pin header, 1x06, 2.54mm pitch, single row, CES-106-01-G-S
+Through hole pin header THT 1x06 2.54mm single row
+0
+6
+6
+RSLK2
+PinHeader_2x04_P2.54mm_Vertical
+Through hole straight pin header, 1x03, 2.54mm pitch, single row
+Through hole pin header THT 1x03 2.54mm single row
+0
+8
+8
+RSLK2
+RSLK_Chassis
+
+
+0
+20
+20
+RSLK2
+R_0603_1608Metric
+Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator
+resistor
+0
+2
+2
+RSLK2
+R_1206_3216Metric
+Resistor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator
+resistor
+0
+2
+2
+RSLK2
+R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal
+Resistor, Axial_DIN0204 series, Axial, Horizontal, pin pitch=7.62mm, 0.167W, length*diameter=3.6*1.6mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf
+Resistor Axial_DIN0204 series Axial Horizontal pin pitch 7.62mm 0.167W length 3.6mm diameter 1.6mm
+0
+2
+2
+RSLK2
+R_Axial_DIN0411_L9.9mm_D3.6mm_P15.24mm_Horizontal
+Resistor, Axial_DIN0411 series, Axial, Horizontal, pin pitch=15.24mm, 1W, length*diameter=9.9*3.6mm^2
+Resistor Axial_DIN0411 series Axial Horizontal pin pitch 15.24mm 1W length 9.9mm diameter 3.6mm
+0
+2
+2
+RSLK2
+SHDR3W50P0X200_1X3_650X240X440P
+M22-7130342
+Connector
+0
+3
+3
+RSLK2
+SM06B-GHS-TB
+502386-0670-1
+Connector
+0
+8
+8
+RSLK2
+SOP65P640X120-16N
+tssop_PW
+Integrated Circuit
+0
+16
+16
+RSLK2
+SOP65P640X120-17N
+DRV8847PWPR_A
+Integrated Circuit
+0
+17
+17
+RSLK2
+SOT230P700X180-4N
+DCY (R-PDSO-G4)
+Integrated Circuit
+0
+4
+4
+RSLK2
+SSD1306
+Adafruit SSD1306 OLED 1.3 inch 128x64 I2C & SPI https://learn.adafruit.com/monochrome-oled-breakouts/downloads
+Adafruit SSD1306 OLED 1.3 inch 128x64 I2C & SPI 
+0
+8
+8
+RSLK2
+SW_PUSH_6mm
+https://www.omron.com/ecb/products/pdf/en-b3f.pdf
+tact sw push 6mm
+0
+4
+2
+RSLK2
+Switch1404
+Mounting Hole 0.125in
+mounting hole 0.125in 4_40
+0
+3
+3
+RSLK2
+TO254P470X1028X1955-3P
+NDE0003B
+Integrated Circuit
+0
+3
+3
+RSLK2
+Testpoint_1x1
+Through hole straight pin header, 1x02, 2.54mm pitch, single row
+Through hole pin header THT 1x02 2.54mm single row
+0
+1
+1
+RSLK2
+Testpoint_1x02_P2.54mm
+Through hole straight pin header, 1x02, 2.54mm pitch, single row
+Through hole pin header THT 1x02 2.54mm single row
+0
+2
+2
+RSLK2
+adafruit_st7735r
+
+
+0
+10
+10
+RSLK2
+hiletgo_st7735r
+
+
+0
+16
+16
+RSLK2
+ti_LP_MSPM0G3507
+
+
+0
+40
+40
 Relay_SMD
 Relay_2P2T_10x6mm_TE_IMxxG
 Signal Relay, 10x6mm, 2 Form C, Gull Wings, https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Data+Sheet%7F108-98001%7FZ.1%7Fpdf%7FEnglish%7FENG_DS_108-98001_Z.1.pdf
@@ -106364,3 +106994,24 @@ Varistor VF
 0
 2
 2
+footprints
+D8
+
+OPA2350UA 
+0
+8
+8
+footprints
+D8-L
+
+OPA2350UA 
+0
+8
+8
+footprints
+D8-M
+
+OPA2350UA 
+0
+8
+8

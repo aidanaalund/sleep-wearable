@@ -1294,7 +1294,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Connector_Generic_MountingPin:Conn_01x10_MountingPin"
+		(symbol "Connector_Generic:Conn_02x05_Odd_Even"
 			(pin_names
 				(offset 1.016)
 				(hide yes)
@@ -1303,20 +1303,19 @@
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "J"
-				(at 0 12.7 0)
+				(at 1.27 7.62 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
 				)
 			)
-			(property "Value" "Conn_01x10_MountingPin"
-				(at 1.27 -15.24 0)
+			(property "Value" "Conn_02x05_Odd_Even"
+				(at 1.27 -7.62 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left)
 				)
 			)
 			(property "Footprint" ""
@@ -1337,7 +1336,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Generic connectable mounting pin connector, single row, 01x10, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(property "Description" "Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1355,7 +1354,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "Connector*:*_1x??-1MP*"
+			(property "ki_fp_filters" "Connector*:*_2x??_*"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1364,38 +1363,16 @@
 					(hide yes)
 				)
 			)
-			(symbol "Conn_01x10_MountingPin_1_1"
+			(symbol "Conn_02x05_Odd_Even_1_1"
 				(rectangle
-					(start -1.27 11.43)
-					(end 1.27 -13.97)
+					(start -1.27 6.35)
+					(end 3.81 -6.35)
 					(stroke
 						(width 0.254)
 						(type default)
 					)
 					(fill
 						(type background)
-					)
-				)
-				(rectangle
-					(start -1.27 10.287)
-					(end 0 10.033)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start -1.27 7.747)
-					(end 0 7.493)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
 					)
 				)
 				(rectangle
@@ -1454,8 +1431,8 @@
 					)
 				)
 				(rectangle
-					(start -1.27 -7.493)
-					(end 0 -7.747)
+					(start 3.81 5.207)
+					(end 2.54 4.953)
 					(stroke
 						(width 0.1524)
 						(type default)
@@ -1465,8 +1442,8 @@
 					)
 				)
 				(rectangle
-					(start -1.27 -10.033)
-					(end 0 -10.287)
+					(start 3.81 2.667)
+					(end 2.54 2.413)
 					(stroke
 						(width 0.1524)
 						(type default)
@@ -1476,8 +1453,8 @@
 					)
 				)
 				(rectangle
-					(start -1.27 -12.573)
-					(end 0 -12.827)
+					(start 3.81 0.127)
+					(end 2.54 -0.127)
 					(stroke
 						(width 0.1524)
 						(type default)
@@ -1486,10 +1463,9 @@
 						(type none)
 					)
 				)
-				(polyline
-					(pts
-						(xy -1.016 -14.732) (xy 1.016 -14.732)
-					)
+				(rectangle
+					(start 3.81 -2.413)
+					(end 2.54 -2.667)
 					(stroke
 						(width 0.1524)
 						(type default)
@@ -1498,16 +1474,19 @@
 						(type none)
 					)
 				)
-				(text "Mounting"
-					(at 0 -14.351 0)
-					(effects
-						(font
-							(size 0.381 0.381)
-						)
+				(rectangle
+					(start 3.81 -4.953)
+					(end 2.54 -5.207)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
 					)
 				)
 				(pin passive line
-					(at -5.08 10.16 0)
+					(at -5.08 5.08 0)
 					(length 3.81)
 					(name "Pin_1"
 						(effects
@@ -1525,25 +1504,7 @@
 					)
 				)
 				(pin passive line
-					(at -5.08 7.62 0)
-					(length 3.81)
-					(name "Pin_2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 5.08 0)
+					(at -5.08 2.54 0)
 					(length 3.81)
 					(name "Pin_3"
 						(effects
@@ -1553,24 +1514,6 @@
 						)
 					)
 					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 2.54 0)
-					(length 3.81)
-					(name "Pin_4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1599,24 +1542,6 @@
 				(pin passive line
 					(at -5.08 -2.54 0)
 					(length 3.81)
-					(name "Pin_6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 -5.08 0)
-					(length 3.81)
 					(name "Pin_7"
 						(effects
 							(font
@@ -1633,25 +1558,7 @@
 					)
 				)
 				(pin passive line
-					(at -5.08 -7.62 0)
-					(length 3.81)
-					(name "Pin_8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 -10.16 0)
+					(at -5.08 -5.08 0)
 					(length 3.81)
 					(name "Pin_9"
 						(effects
@@ -1669,7 +1576,79 @@
 					)
 				)
 				(pin passive line
-					(at -5.08 -12.7 0)
+					(at 7.62 5.08 180)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 2.54 180)
+					(length 3.81)
+					(name "Pin_4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 0 180)
+					(length 3.81)
+					(name "Pin_6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 -2.54 180)
+					(length 3.81)
+					(name "Pin_8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 -5.08 180)
 					(length 3.81)
 					(name "Pin_10"
 						(effects
@@ -1679,24 +1658,6 @@
 						)
 					)
 					(number "10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -17.78 90)
-					(length 3.048)
-					(name "MountPin"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "MP"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3071,6 +3032,75 @@
 						)
 					)
 					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "ECE445L:MountingHole"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "H"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "ECE445L:MountingHole_4_40"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Drill hole for 4-40 screw"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "MountingHole_1_1"
+				(pin power_in non_logic
+					(at 0 0 180)
+					(length 3.81)
+					(name "Hole"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -5644,6 +5674,179 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "R_US_1"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "R15"
+				(at 5.715 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "10K"
+				(at 3.175 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+				(at 1.016 -0.254 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Resistor, US symbol"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "R res resistor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "R_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "R_US_1_0_1"
+				(polyline
+					(pts
+						(xy 0 2.286) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.286) (xy 1.016 1.905) (xy 0 1.524) (xy -1.016 1.143) (xy 0 0.762)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0.762) (xy 1.016 0.381) (xy 0 0) (xy -1.016 -0.381) (xy 0 -0.762)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -0.762) (xy 1.016 -1.143) (xy 0 -1.524) (xy -1.016 -1.905) (xy 0 -2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -2.286) (xy 0 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R_US_1_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Switch:SW_Push"
 			(pin_numbers
 				(hide yes)
@@ -5789,102 +5992,6 @@
 								(size 1.27 1.27)
 							)
 						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "imu-eagle-import:FIDUCIAL_1MM"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "FID"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Footprint" "imu:FIDUCIAL_1MM"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Fiducial Alignment Points\n\nVarious fiducial points for machine vision alignment."
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_locked" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "FIDUCIAL_1MM_1_0"
-				(polyline
-					(pts
-						(xy -0.762 0.762) (xy 0.762 -0.762)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center 0 0)
-					(radius 1.27)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.762 0.762) (xy -0.762 -0.762)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
 					)
 				)
 			)
@@ -6194,89 +6301,6 @@
 								(size 1.524 1.524)
 							)
 						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "imu-eagle-import:MOUNTINGHOLE2.5"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Footprint" "imu:MOUNTINGHOLE_2.5_PLATED"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Mounting Hole\n\nFor #2 screws (0.086\"/2.18mm width, 0.094\"/2.4mm hole) use 2.5mm"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_locked" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "MOUNTINGHOLE2.5_1_0"
-				(circle
-					(center 0 0)
-					(radius 1.905)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center 0 0)
-					(radius 2.54)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
 					)
 				)
 			)
@@ -7244,7 +7268,7 @@
 					(hide yes)
 				)
 			)
-			(property "Footprint" ""
+			(property "Footprint" "ECE445L:MountingHole_4_40"
 				(at 0 0 0)
 				(effects
 					(font
@@ -7330,6 +7354,17 @@
 		)
 		(uuid "00b4b2ad-d413-40c3-84d9-a7d261221863")
 	)
+	(text "nRF52833-QIAA-R"
+		(exclude_from_sim no)
+		(at 82.55 122.936 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "07d8b9d1-5e0e-4498-a61b-4bc691848a2d")
+	)
 	(text "Sheet	of"
 		(exclude_from_sim no)
 		(at 336.55 289.3822 0)
@@ -7396,7 +7431,7 @@
 		)
 		(uuid "461e650f-3c27-47f8-bcde-8a0f0cccb131")
 	)
-	(text "Note: Set SBB3_CHG as passive when it is power output."
+	(text "Note: Set SBB3_CHG as passive when it is power output. \nAlso some stuff going on with I2C interface we need to fix"
 		(exclude_from_sim no)
 		(at 89.662 286.766 0)
 		(effects
@@ -7448,6 +7483,17 @@
 			)
 		)
 		(uuid "6fd947e3-b13c-4847-8c01-e7c1e56b7513")
+	)
+	(text "Note: D+/- \nare for USB \ncomms"
+		(exclude_from_sim no)
+		(at 70.612 181.102 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "791b5c3c-17f2-46d4-af28-126c8c44f48b")
 	)
 	(text "Default Bus = I2C"
 		(exclude_from_sim no)
@@ -7581,16 +7627,16 @@
 		)
 		(uuid "cf96e7e4-b1ea-4766-a74e-9bd33d65958b")
 	)
-	(text "TODO: figure out how to source 5v"
+	(text "Bootup sequence starts at Vdd = 1.8V, \nthen we tell PMIC to ramp up."
 		(exclude_from_sim no)
-		(at 381.508 200.914 0)
+		(at 16.764 145.542 0)
 		(effects
 			(font
-				(size 2.1844 1.8567)
+				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify left)
 		)
-		(uuid "d2b961e1-1396-44b9-9473-b3a596c47b44")
+		(uuid "cfe9f51e-41c2-4129-8c65-7c0bd78de9c1")
 	)
 	(text "Debug Pins"
 		(exclude_from_sim no)
@@ -7636,7 +7682,7 @@
 		)
 		(uuid "183c7400-d231-45fa-a234-4c5cd5f9f8fe")
 	)
-	(text_box "SEGGER JLINK"
+	(text_box "Debugger"
 		(exclude_from_sim no)
 		(at 125.095 1.905 0)
 		(size 27.94 8.89)
@@ -7721,6 +7767,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1d55def5-6ccc-4263-a75a-15fe428c6c58")
+	)
+	(junction
+		(at 32.385 136.525)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "20930516-8ae7-49e1-8d08-1f963c935ca0")
 	)
 	(junction
 		(at 204.47 236.855)
@@ -7841,12 +7893,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "60e9733b-679f-4e5e-9676-34be0fc205a5")
-	)
-	(junction
-		(at 120.015 257.81)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "6637ce10-89ae-4aa3-920f-809fbd70fec4")
 	)
 	(junction
 		(at 156.845 144.145)
@@ -8047,6 +8093,12 @@
 		(uuid "b32798da-e35c-4ff9-aa10-9c641123f791")
 	)
 	(junction
+		(at 60.325 242.57)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b60243dc-1d95-460d-827b-49885466f527")
+	)
+	(junction
 		(at 250.19 175.895)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8143,12 +8195,6 @@
 		(uuid "db1557e8-50b9-487b-abcf-530cc2735566")
 	)
 	(junction
-		(at 47.625 141.605)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "dd71b71e-53bd-4df9-9ee7-0774f08eac4e")
-	)
-	(junction
 		(at 41.91 250.19)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8179,16 +8225,22 @@
 		(uuid "e56b8469-e138-41f2-b13f-5950cf2f805b")
 	)
 	(junction
+		(at 133.35 257.81)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e5d0743a-61cc-40e6-8067-d140a5330720")
+	)
+	(junction
 		(at 342.265 166.37)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e8526306-80b8-46f7-808d-95af8476125f")
 	)
 	(junction
-		(at 114.935 19.05)
+		(at 132.715 24.13)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "e9bc7449-1959-4b6e-8375-bd44ab3a2455")
+		(uuid "eb6b28bd-31b5-4872-8c0f-0356ebd4955a")
 	)
 	(junction
 		(at 42.545 257.81)
@@ -8221,6 +8273,12 @@
 		(uuid "f8f70c0c-3638-4bc1-83df-8fb175372634")
 	)
 	(junction
+		(at 120.65 257.81)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fbc15792-4268-4147-afb6-d089fce49f4f")
+	)
+	(junction
 		(at 250.19 173.355)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8235,28 +8293,40 @@
 		(uuid "0719a45a-047f-4c67-8e1f-2cc15db9cf04")
 	)
 	(no_connect
+		(at 145.415 27.94)
+		(uuid "0d255151-5f6b-4613-85a5-bc9bb28a6b00")
+	)
+	(no_connect
 		(at 51.435 113.665)
 		(uuid "0fbf149e-da0a-4605-9ab3-70205c00ae09")
-	)
-	(no_connect
-		(at 125.73 31.75)
-		(uuid "1296385a-ce64-455b-9b97-a9ce310eef65")
-	)
-	(no_connect
-		(at 144.145 118.745)
-		(uuid "1a399c1b-dbc0-473b-8fa4-36511e503b3a")
 	)
 	(no_connect
 		(at 90.805 78.105)
 		(uuid "1dd29b80-5a5c-48aa-b8e1-ca13073def79")
 	)
 	(no_connect
+		(at 212.725 34.925)
+		(uuid "1e0474c5-d75c-49bf-99c1-11187893fadd")
+	)
+	(no_connect
 		(at 121.285 175.895)
 		(uuid "2539730e-3310-4f28-8a53-ccf2891d9bb0")
 	)
 	(no_connect
+		(at 212.725 19.685)
+		(uuid "25b21c0a-f3e3-4451-b6e3-ea1b029b5afc")
+	)
+	(no_connect
+		(at 212.725 22.225)
+		(uuid "2621f4c6-23e3-4120-b632-0ea51edf5781")
+	)
+	(no_connect
 		(at 80.645 83.185)
 		(uuid "338475cc-0b09-4cfa-a573-494d6932d3c1")
+	)
+	(no_connect
+		(at 212.725 27.305)
+		(uuid "34ab094b-915d-4731-ab8c-e20004764e9b")
 	)
 	(no_connect
 		(at 95.885 78.105)
@@ -8311,20 +8381,12 @@
 		(uuid "5ba2cf4c-9951-4000-a85e-47c1e9ed6ee7")
 	)
 	(no_connect
-		(at 125.73 26.67)
-		(uuid "5efbf2bf-544f-4c24-a127-d35371a2fe59")
-	)
-	(no_connect
 		(at 144.145 133.985)
 		(uuid "6423c2a2-d030-4e94-afc3-c5559c785377")
 	)
 	(no_connect
 		(at 113.665 161.925)
 		(uuid "6449ed99-48ca-4477-be41-602fcaa986d9")
-	)
-	(no_connect
-		(at 130.81 41.91)
-		(uuid "678e2a45-1c52-4c9a-ac61-cdefedfa2bc1")
 	)
 	(no_connect
 		(at 64.135 247.65)
@@ -8335,8 +8397,20 @@
 		(uuid "6a317a8b-92fb-4452-b71b-355ae370fb6a")
 	)
 	(no_connect
+		(at 212.725 32.385)
+		(uuid "767f7e68-3399-415e-b1f2-a778a0753879")
+	)
+	(no_connect
 		(at 292.735 99.06)
 		(uuid "768fdea7-eea6-49ca-95b4-dd79779b4757")
+	)
+	(no_connect
+		(at 212.725 24.765)
+		(uuid "7ad6a879-9e86-4f55-96a4-ee5ae44f781e")
+	)
+	(no_connect
+		(at 247.015 22.225)
+		(uuid "7b50d77d-389f-48ac-9ecf-fbad138637c1")
 	)
 	(no_connect
 		(at 51.435 128.905)
@@ -8351,12 +8425,12 @@
 		(uuid "8500146d-6796-438a-b1ab-ac5c8d47602a")
 	)
 	(no_connect
-		(at 125.73 29.21)
-		(uuid "88c448a4-4c53-47cc-b9aa-60134a787724")
-	)
-	(no_connect
 		(at 342.265 163.195)
 		(uuid "892e1b53-085f-4e32-b600-7a7211c4dad1")
+	)
+	(no_connect
+		(at 145.415 25.4)
+		(uuid "8fa8a22a-6fdb-414f-983f-b8d1e8648b26")
 	)
 	(no_connect
 		(at 342.265 170.815)
@@ -8367,8 +8441,20 @@
 		(uuid "94b48980-2378-46e6-883f-3723a9732b4c")
 	)
 	(no_connect
+		(at 247.015 17.145)
+		(uuid "94c034e6-3772-4cba-bf82-1452425a9f6f")
+	)
+	(no_connect
+		(at 247.015 6.985)
+		(uuid "9e1e1770-db89-4eff-aade-94fde54a6340")
+	)
+	(no_connect
 		(at 100.965 78.105)
 		(uuid "9edb5731-275a-46fc-9a23-8214a4cee680")
+	)
+	(no_connect
+		(at 212.725 17.145)
+		(uuid "a11c0f46-b3fc-4207-81fe-2bc1cc8ecfc0")
 	)
 	(no_connect
 		(at 116.205 175.895)
@@ -8403,6 +8489,10 @@
 		(uuid "b2189d78-716f-4b03-9a7f-d8541969d751")
 	)
 	(no_connect
+		(at 212.725 29.845)
+		(uuid "be7358c6-c5b3-4257-aeea-64c1c0c338dc")
+	)
+	(no_connect
 		(at 51.435 133.985)
 		(uuid "d0051951-add9-4874-8073-2d54fa9b01fe")
 	)
@@ -8427,6 +8517,10 @@
 		(uuid "e2accec4-bf4a-420e-955b-f4e513e7f332")
 	)
 	(no_connect
+		(at 247.015 12.065)
+		(uuid "e4e88f90-5d0a-4805-9b08-9f6843f19f6f")
+	)
+	(no_connect
 		(at 111.125 175.895)
 		(uuid "e572f6e4-e735-495a-9bdd-f0dc2c573525")
 	)
@@ -8439,8 +8533,12 @@
 		(uuid "ef75571c-d431-4414-a6f7-47c4fff027a4")
 	)
 	(no_connect
-		(at 125.73 34.29)
-		(uuid "f8314c98-a42c-4c35-9df9-b290758ccc26")
+		(at 132.715 30.48)
+		(uuid "efbd15de-665f-451c-ae9a-cf728343cb69")
+	)
+	(no_connect
+		(at 132.715 27.94)
+		(uuid "fdbf87ec-9138-4220-b777-599a5aca45d9")
 	)
 	(wire
 		(pts
@@ -8511,6 +8609,16 @@
 			(type default)
 		)
 		(uuid "02c88430-741d-46af-9b6e-82e198e46be5")
+	)
+	(wire
+		(pts
+			(xy 120.65 257.81) (xy 125.73 257.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "03304c3b-9621-44c8-96a5-193797e56fa0")
 	)
 	(wire
 		(pts
@@ -8885,16 +8993,6 @@
 	)
 	(wire
 		(pts
-			(xy 70.485 164.465) (xy 78.105 164.465)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "17b369cd-dbdc-4e71-bb79-8f61775d073e")
-	)
-	(wire
-		(pts
 			(xy 161.925 102.235) (xy 161.925 106.045)
 		)
 		(stroke
@@ -8922,16 +9020,6 @@
 			(type default)
 		)
 		(uuid "1acef11f-c94a-4fac-b06e-19b06127602f")
-	)
-	(wire
-		(pts
-			(xy 47.625 141.605) (xy 47.625 135.255)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1be4ad29-a1e2-433e-a304-fbf5be20ddd9")
 	)
 	(wire
 		(pts
@@ -9015,7 +9103,7 @@
 	)
 	(wire
 		(pts
-			(xy 139.065 118.745) (xy 144.145 118.745)
+			(xy 139.065 118.745) (xy 156.21 118.745)
 		)
 		(stroke
 			(width 0)
@@ -9116,16 +9204,6 @@
 	)
 	(wire
 		(pts
-			(xy 60.325 139.065) (xy 53.975 139.065)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2ac01d55-475a-401a-a1b2-449e41e2495e")
-	)
-	(wire
-		(pts
 			(xy 271.145 208.915) (xy 264.795 208.915)
 		)
 		(stroke
@@ -9136,7 +9214,7 @@
 	)
 	(wire
 		(pts
-			(xy 13.335 136.525) (xy 60.325 136.525)
+			(xy 13.335 136.525) (xy 32.385 136.525)
 		)
 		(stroke
 			(width 0)
@@ -9216,7 +9294,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.705 13.335) (xy 182.245 13.335)
+			(xy 180.34 14.605) (xy 182.88 14.605)
 		)
 		(stroke
 			(width 0)
@@ -9316,13 +9394,13 @@
 	)
 	(wire
 		(pts
-			(xy 120.015 227.33) (xy 120.015 257.81)
+			(xy 70.485 163.83) (xy 78.105 163.83)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "37d4e55d-6814-4c7f-9926-8f6f2c7c12e9")
+		(uuid "37d9eeb4-e9bb-493b-8340-14b062287df4")
 	)
 	(wire
 		(pts
@@ -9343,26 +9421,6 @@
 			(type solid)
 		)
 		(uuid "3a2340c7-626e-47dd-81f9-63607317dc5d")
-	)
-	(wire
-		(pts
-			(xy 53.975 141.605) (xy 47.625 141.605)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3a758fdd-fef3-4848-91cf-91199d20199e")
-	)
-	(wire
-		(pts
-			(xy 114.3 19.05) (xy 114.935 19.05)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3bbfd572-f42c-4f06-91c9-3ff54fe442ab")
 	)
 	(wire
 		(pts
@@ -9767,16 +9825,6 @@
 	)
 	(wire
 		(pts
-			(xy 114.935 24.13) (xy 125.73 24.13)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4f239eaf-6554-4723-92aa-2fbd69802c86")
-	)
-	(wire
-		(pts
 			(xy 106.045 184.785) (xy 100.965 184.785)
 		)
 		(stroke
@@ -9957,16 +10005,6 @@
 	)
 	(wire
 		(pts
-			(xy 113.665 13.97) (xy 125.73 13.97)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5a04c7cb-ea74-4141-9aee-24060a02cec4")
-	)
-	(wire
-		(pts
 			(xy 271.145 224.155) (xy 266.7 224.155)
 		)
 		(stroke
@@ -9974,6 +10012,16 @@
 			(type default)
 		)
 		(uuid "5a147e71-23ab-492d-a67a-6de93da4ab23")
+	)
+	(wire
+		(pts
+			(xy 116.84 209.55) (xy 116.84 219.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b57ab38-2418-4ee4-896d-07d0732ff1d9")
 	)
 	(wire
 		(pts
@@ -10017,16 +10065,6 @@
 	)
 	(wire
 		(pts
-			(xy 114.935 227.33) (xy 120.015 227.33)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5d5ae835-5495-4743-9be0-7145154be48f")
-	)
-	(wire
-		(pts
 			(xy 127 260.35) (xy 116.84 260.35)
 		)
 		(stroke
@@ -10064,16 +10102,6 @@
 			(type default)
 		)
 		(uuid "5f660cf8-d074-4b71-b0c5-5677d1c5d7bd")
-	)
-	(wire
-		(pts
-			(xy 114.935 19.05) (xy 125.73 19.05)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6021255c-dd77-4b42-83ea-886adb9d858d")
 	)
 	(polyline
 		(pts
@@ -10134,6 +10162,16 @@
 			(type default)
 		)
 		(uuid "62dd703f-e120-40e6-9105-94455033b1e1")
+	)
+	(wire
+		(pts
+			(xy 32.385 136.525) (xy 32.385 139.065)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "63daadd7-c43f-456e-ad96-6c2bb82a0dbf")
 	)
 	(wire
 		(pts
@@ -10277,7 +10315,7 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 22.225) (xy 166.37 20.955)
+			(xy 167.005 23.495) (xy 167.005 22.225)
 		)
 		(stroke
 			(width 0)
@@ -10457,6 +10495,16 @@
 	)
 	(wire
 		(pts
+			(xy 132.715 24.13) (xy 132.715 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8080e3ac-e359-4a0c-affa-47ee009fc7e1")
+	)
+	(wire
+		(pts
 			(xy 248.92 104.775) (xy 228.6 104.775)
 		)
 		(stroke
@@ -10567,7 +10615,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 257.81) (xy 120.015 257.81)
+			(xy 114.935 257.81) (xy 120.65 257.81)
 		)
 		(stroke
 			(width 0)
@@ -10584,6 +10632,16 @@
 			(type default)
 		)
 		(uuid "8911769e-1356-47ef-8577-acbf4231930a")
+	)
+	(wire
+		(pts
+			(xy 116.84 276.225) (xy 120.65 276.225)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "89ce463b-3dd8-456b-ae1c-26c9a3afbdb6")
 	)
 	(wire
 		(pts
@@ -10634,6 +10692,16 @@
 			(type default)
 		)
 		(uuid "8b618cde-2912-4377-ada1-42b5b5e21445")
+	)
+	(wire
+		(pts
+			(xy 132.715 22.86) (xy 132.715 24.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8b784119-4654-42a4-99f6-7c20504a9a78")
 	)
 	(wire
 		(pts
@@ -11029,7 +11097,7 @@
 	)
 	(wire
 		(pts
-			(xy 78.105 164.465) (xy 78.105 161.925)
+			(xy 78.105 163.83) (xy 78.105 161.925)
 		)
 		(stroke
 			(width 0)
@@ -11079,6 +11147,16 @@
 	)
 	(wire
 		(pts
+			(xy 114.3 209.55) (xy 116.84 209.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b210ac80-b5d5-4680-9ee7-39024e60c7c3")
+	)
+	(wire
+		(pts
 			(xy 250.19 173.355) (xy 250.19 175.895)
 		)
 		(stroke
@@ -11109,7 +11187,7 @@
 	)
 	(wire
 		(pts
-			(xy 182.245 30.48) (xy 182.245 32.385)
+			(xy 182.88 31.75) (xy 182.88 33.655)
 		)
 		(stroke
 			(width 0)
@@ -11149,16 +11227,6 @@
 	)
 	(wire
 		(pts
-			(xy 53.975 139.065) (xy 53.975 141.605)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b6eaeb6d-3339-4ccf-9cc4-ccfadb171aac")
-	)
-	(wire
-		(pts
 			(xy 346.075 166.37) (xy 354.33 166.37)
 		)
 		(stroke
@@ -11166,16 +11234,6 @@
 			(type default)
 		)
 		(uuid "b9823e83-c544-4b99-9892-6b49d72be87d")
-	)
-	(wire
-		(pts
-			(xy 114.935 19.05) (xy 114.935 24.13)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ba117419-6059-486c-9289-633f0879b921")
 	)
 	(wire
 		(pts
@@ -11189,16 +11247,6 @@
 	)
 	(wire
 		(pts
-			(xy 116.84 279.4) (xy 116.84 276.225)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "baa09a79-322a-4081-acb2-5fd70b04fc26")
-	)
-	(wire
-		(pts
 			(xy 57.785 144.145) (xy 60.325 144.145)
 		)
 		(stroke
@@ -11209,7 +11257,7 @@
 	)
 	(wire
 		(pts
-			(xy 182.245 22.86) (xy 182.245 22.225)
+			(xy 182.88 24.13) (xy 182.88 23.495)
 		)
 		(stroke
 			(width 0)
@@ -11326,6 +11374,16 @@
 			(type default)
 		)
 		(uuid "c1b80774-cbcc-4116-b0a4-e8484cae56e2")
+	)
+	(wire
+		(pts
+			(xy 32.385 136.525) (xy 60.325 136.525)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1f57c38-f3d3-492a-ba38-0ca6c5358b5e")
 	)
 	(wire
 		(pts
@@ -11469,16 +11527,6 @@
 	)
 	(wire
 		(pts
-			(xy 47.625 141.605) (xy 47.625 144.145)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cb0b1e91-fa52-406e-8f6a-d4ad0f951a47")
-	)
-	(wire
-		(pts
 			(xy 175.895 52.705) (xy 175.895 86.995)
 		)
 		(stroke
@@ -11586,16 +11634,6 @@
 			(type default)
 		)
 		(uuid "d15499d4-5e62-47d8-b5d8-6021071e5d42")
-	)
-	(wire
-		(pts
-			(xy 116.84 279.4) (xy 124.46 279.4)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d18ea67f-493f-4e7a-b9dc-f4f31714a5cc")
 	)
 	(wire
 		(pts
@@ -11780,6 +11818,16 @@
 	)
 	(wire
 		(pts
+			(xy 114.3 227.33) (xy 114.935 227.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dbf82cf8-46f3-4bb6-81c4-f2beac7b8c0e")
+	)
+	(wire
+		(pts
 			(xy 19.685 90.805) (xy 24.765 90.805)
 		)
 		(stroke
@@ -11840,6 +11888,16 @@
 	)
 	(wire
 		(pts
+			(xy 120.65 276.225) (xy 120.65 257.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e3091f18-83ef-44e2-82a8-53663ed8c760")
+	)
+	(wire
+		(pts
 			(xy 349.885 211.455) (xy 342.265 211.455)
 		)
 		(stroke
@@ -11890,6 +11948,16 @@
 	)
 	(wire
 		(pts
+			(xy 156.21 118.745) (xy 156.21 121.285)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e7915f6e-eff0-4de4-924b-18e30c8b2976")
+	)
+	(wire
+		(pts
 			(xy 146.685 61.595) (xy 151.765 61.595)
 		)
 		(stroke
@@ -11900,17 +11968,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.015 257.81) (xy 114.935 257.81)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e8777ebe-13b1-49b5-886d-c81b7c628179")
-	)
-	(wire
-		(pts
-			(xy 182.245 17.145) (xy 182.245 13.335)
+			(xy 182.88 18.415) (xy 182.88 14.605)
 		)
 		(stroke
 			(width 0)
@@ -11940,7 +11998,7 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 29.845) (xy 166.37 33.02)
+			(xy 167.005 31.115) (xy 167.005 34.29)
 		)
 		(stroke
 			(width 0)
@@ -11998,6 +12056,16 @@
 			(type default)
 		)
 		(uuid "eef80adf-34a1-420b-be31-72ea5f02fa8e")
+	)
+	(wire
+		(pts
+			(xy 114.3 217.17) (xy 114.3 227.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ef740d28-a401-4cb7-ab20-cd204c77a20c")
 	)
 	(wire
 		(pts
@@ -12089,6 +12157,16 @@
 			(type default)
 		)
 		(uuid "f6173c1e-2ef4-40c6-b82e-3c44e028b3ab")
+	)
+	(wire
+		(pts
+			(xy 32.385 139.065) (xy 60.325 139.065)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f6595717-3d86-4096-95a4-5b590ed813a3")
 	)
 	(wire
 		(pts
@@ -12840,6 +12918,28 @@
 			)
 		)
 	)
+	(global_label "RESET"
+		(shape output)
+		(at 145.415 30.48 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1b45c236-51fb-4ef3-9255-8bae579a0878")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 154.1453 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "START_ADS1299"
 		(shape output)
 		(at 85.725 175.895 270)
@@ -12919,6 +13019,28 @@
 		(uuid "21bae4fe-8752-4bd0-b552-2adac58c7719")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 349.8464 178.435 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SWDIO"
+		(shape output)
+		(at 145.415 20.32 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "25609ee0-3bf1-44a1-bfbd-52f9152314b0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 154.2664 20.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13348,7 +13470,7 @@
 	)
 	(global_label "SCK"
 		(shape input)
-		(at 179.705 13.335 180)
+		(at 180.34 14.605 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -13358,7 +13480,7 @@
 		)
 		(uuid "720c55a6-0f9d-44d9-bb34-99f03f597b92")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 172.9703 13.335 0)
+			(at 173.6053 14.605 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13403,28 +13525,6 @@
 		(uuid "76e7515c-89ab-445c-8516-a13a23e5317c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 237.4076 178.435 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "SWDIO"
-		(shape output)
-		(at 125.73 16.51 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "775e580c-e0dd-4f21-be39-700fcda2c9b1")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 116.8786 16.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13522,24 +13622,24 @@
 			)
 		)
 	)
-	(global_label "RESET"
+	(global_label "SWDCLK"
 		(shape output)
-		(at 125.73 36.83 180)
+		(at 145.415 22.86 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
-		(uuid "92a09f64-e2e2-4656-8a9f-4659387ea404")
+		(uuid "935a47d5-8a44-4477-8915-2359ce84e426")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 116.9997 36.83 0)
+			(at 155.8992 22.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -13650,28 +13750,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "SWDCLK"
-		(shape output)
-		(at 125.73 21.59 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "ae263bb1-a822-4eb8-9b44-bb45a5cf52e7")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 115.2458 21.59 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 				(hide yes)
 			)
 		)
@@ -13988,7 +14066,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 164.465 93.0402 0)
 			(effects
 				(font
@@ -14097,69 +14175,6 @@
 		)
 	)
 	(symbol
-		(lib_id "imu-eagle-import:MOUNTINGHOLE2.5")
-		(at 197.485 55.88 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "03c0460a-1878-467a-ae5c-f4b1fb8b49a0")
-		(property "Reference" "U$5"
-			(at 197.485 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "MOUNTINGHOLE2.5"
-			(at 197.485 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "imu:MOUNTINGHOLE_2.5_PLATED"
-			(at 197.485 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 197.485 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 197.485 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "U$5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ECE445L:C")
 		(at 41.91 246.38 0)
 		(unit 1)
@@ -14187,7 +14202,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 42.8752 250.19 0)
 			(effects
 				(font
@@ -14256,7 +14271,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "BT-XTAL_2016"
+		(property "Footprint" ""
 			(at 151.765 70.485 0)
 			(effects
 				(font
@@ -14413,7 +14428,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Inductor_SMD:L_1008_2520Metric"
 			(at 119.38 255.27 0)
 			(effects
 				(font
@@ -14483,7 +14498,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 207.9752 234.315 0)
 			(effects
 				(font
@@ -14526,6 +14541,73 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 132.715 24.13 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0a4f45c5-1eb6-4bcc-b998-ee48ab046d56")
+		(property "Reference" "#PWR051"
+			(at 126.365 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 128.905 24.1299 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 132.715 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 132.715 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 132.715 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2b53b697-f0a8-4b81-b90e-c4a42181b5fa")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "#PWR051")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 252.095 252.095 0)
 		(unit 1)
@@ -14553,7 +14635,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 253.111 252.349 90)
 			(effects
 				(font
@@ -14623,7 +14705,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 90.5002 62.865 0)
 			(effects
 				(font
@@ -14893,7 +14975,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 19.685 105.0798 0)
 			(effects
 				(font
@@ -14963,7 +15045,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 235.9152 234.315 0)
 			(effects
 				(font
@@ -15097,7 +15179,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Inductor_SMD:L_1008_2520Metric"
 			(at 183.515 108.585 0)
 			(effects
 				(font
@@ -15134,6 +15216,91 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "L3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ECE445L:Conn_01x08_Pin")
+		(at 207.645 24.765 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1d0f2ae7-df39-4728-93bb-f4ca48fe4f9f")
+		(property "Reference" "J4"
+			(at 210.058 12.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Logic"
+			(at 210.566 37.846 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical"
+			(at 207.645 24.765 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 207.645 24.765 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x08, script generated"
+			(at 207.645 24.765 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "4"
+			(uuid "86458af2-8c71-4537-aa9b-44fe9d2b8f87")
+		)
+		(pin "2"
+			(uuid "24b04fa7-0842-40eb-a5c0-1113d5aa3442")
+		)
+		(pin "5"
+			(uuid "97d52f8e-18d2-495e-88a5-d5bc0263f956")
+		)
+		(pin "3"
+			(uuid "1b9085f0-6363-47c6-a5af-7d1b6f26830e")
+		)
+		(pin "6"
+			(uuid "7c576d1e-8ab9-445e-89b7-97de0b6f0d6a")
+		)
+		(pin "7"
+			(uuid "4d1136b8-4bdb-437c-8cee-ef517d4fd1fd")
+		)
+		(pin "8"
+			(uuid "dd6a24fa-773b-49a0-9962-fd4b43d57420")
+		)
+		(pin "1"
+			(uuid "77af512d-84a1-4d56-9c28-488d9fa4ec7e")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "J4")
 					(unit 1)
 				)
 			)
@@ -15274,7 +15441,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 182.245 32.385 0)
+		(at 182.88 33.655 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15283,7 +15450,7 @@
 		(fields_autoplaced yes)
 		(uuid "21ae40b4-db91-4e05-ad91-36df52b26633")
 		(property "Reference" "#PWR032"
-			(at 182.245 38.735 0)
+			(at 182.88 40.005 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15292,7 +15459,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 182.245 37.465 0)
+			(at 182.88 38.735 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15300,7 +15467,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 182.245 32.385 0)
+			(at 182.88 33.655 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15309,7 +15476,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 182.245 32.385 0)
+			(at 182.88 33.655 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15318,7 +15485,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 182.245 32.385 0)
+			(at 182.88 33.655 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15604,6 +15771,76 @@
 		)
 	)
 	(symbol
+		(lib_id "ECE445L:C")
+		(at 156.21 125.095 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2e0279a8-70b4-4e9e-ac48-29a1a74f1fb5")
+		(property "Reference" "C24"
+			(at 159.385 123.8249 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "820pF"
+			(at 159.385 126.3649 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 155.2448 121.285 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 156.21 125.095 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 156.21 125.095 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4ad3f259-cab3-4950-86fd-0d01ff4e397b")
+		)
+		(pin "2"
+			(uuid "fd7aad72-7311-441c-9e65-b3daa78c1835")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "C24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "wearable:EEG_Electrode")
 		(at 228.6 198.755 0)
 		(unit 1)
@@ -15630,7 +15867,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "ECE445L:MountingHole_4_40"
 			(at 228.6 198.755 0)
 			(effects
 				(font
@@ -15697,7 +15934,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 252.4252 236.855 0)
 			(effects
 				(font
@@ -15767,7 +16004,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 117.856 272.669 90)
 			(effects
 				(font
@@ -15835,7 +16072,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 131.445 233.9848 0)
 			(effects
 				(font
@@ -15946,73 +16183,6 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 114.3 19.05 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "3d071cc8-ed12-47de-9db9-04cfd7302c1d")
-		(property "Reference" "#PWR033"
-			(at 107.95 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 110.49 19.0499 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 114.3 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 114.3 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 114.3 19.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8686632f-ab58-4bb5-9432-5adb100fbbf2")
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "#PWR033")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
 		(at 57.785 151.765 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -16105,7 +16275,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 394.0048 183.515 0)
 			(effects
 				(font
@@ -16240,7 +16410,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 266.7 256.8448 0)
 			(effects
 				(font
@@ -16284,7 +16454,7 @@
 	)
 	(symbol
 		(lib_id "power:+3V3")
-		(at 70.485 164.465 90)
+		(at 70.485 163.83 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -16293,7 +16463,7 @@
 		(fields_autoplaced yes)
 		(uuid "4b9f5279-3333-4f32-b665-0073a6124021")
 		(property "Reference" "#PWR042"
-			(at 74.295 164.465 0)
+			(at 70.485 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16301,17 +16471,16 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+3V3"
-			(at 67.31 164.4649 90)
+		(property "Value" "+5V_USB"
+			(at 70.485 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
 		(property "Footprint" ""
-			(at 70.485 164.465 0)
+			(at 70.485 163.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16320,7 +16489,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 70.485 164.465 0)
+			(at 70.485 163.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16329,7 +16498,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 70.485 164.465 0)
+			(at 70.485 163.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16377,7 +16546,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 127.3302 83.185 0)
 			(effects
 				(font
@@ -16421,6 +16590,76 @@
 	)
 	(symbol
 		(lib_id "ECE445L:C")
+		(at 70.485 167.64 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5103e85c-89d9-47bb-9fed-bd7c76ebdfea")
+		(property "Reference" "C23"
+			(at 74.295 166.3699 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "4.7uF"
+			(at 74.295 168.9099 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 71.4502 171.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 70.485 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 70.485 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c70ae91a-c6b0-4434-a14b-1f0835f8dda8")
+		)
+		(pin "2"
+			(uuid "07f0f478-2feb-4bc1-a010-d23ec8729c51")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "C23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ECE445L:C")
 		(at 156.845 112.395 180)
 		(unit 1)
 		(exclude_from_sim no)
@@ -16447,7 +16686,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 155.8798 108.585 0)
 			(effects
 				(font
@@ -16516,7 +16755,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "ECE445L:MountingHole_4_40"
 			(at 231.14 196.215 0)
 			(effects
 				(font
@@ -16581,7 +16820,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Inductor_SMD:L_1008_2520Metric"
 			(at 165.735 108.585 0)
 			(effects
 				(font
@@ -16827,8 +17066,78 @@
 		)
 	)
 	(symbol
+		(lib_id "ECE445L:C")
+		(at 114.3 213.36 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "601f90cf-e801-46ad-90c6-e929deee6b4f")
+		(property "Reference" "C22"
+			(at 118.11 212.0899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1uF"
+			(at 118.11 214.6299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 115.2652 217.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 114.3 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 114.3 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d2ad37e1-81da-469a-9c4f-f7542258644c")
+		)
+		(pin "2"
+			(uuid "889f5ead-784a-4b52-991b-9fb2bda46b19")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "C22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3V3")
-		(at 166.37 15.875 0)
+		(at 167.005 17.145 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -16836,7 +17145,7 @@
 		(dnp no)
 		(uuid "6128a42c-cd9f-4fc0-8fa2-73ead6abf989")
 		(property "Reference" "#PWR030"
-			(at 166.37 19.685 0)
+			(at 167.005 20.955 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16845,7 +17154,7 @@
 			)
 		)
 		(property "Value" "+3V3"
-			(at 166.37 12.065 0)
+			(at 167.005 13.335 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16853,7 +17162,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 166.37 15.875 0)
+			(at 167.005 17.145 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16862,7 +17171,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 166.37 15.875 0)
+			(at 167.005 17.145 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16871,7 +17180,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 166.37 15.875 0)
+			(at 167.005 17.145 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16917,7 +17226,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 164.465 103.2002 0)
 			(effects
 				(font
@@ -16961,16 +17270,16 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 47.625 151.765 0)
+		(at 156.21 128.905 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "62db867e-8c13-442e-baad-61f1f6ebc5eb")
-		(property "Reference" "#PWR011"
-			(at 47.625 158.115 0)
+		(uuid "6390a11f-986b-4c84-9b5b-7f3958e6c5b4")
+		(property "Reference" "#PWR034"
+			(at 156.21 135.255 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16979,15 +17288,16 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 47.625 156.845 0)
+			(at 156.21 133.985 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Footprint" ""
-			(at 47.625 151.765 0)
+			(at 156.21 128.905 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16996,7 +17306,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 47.625 151.765 0)
+			(at 156.21 128.905 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17005,7 +17315,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 47.625 151.765 0)
+			(at 156.21 128.905 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17014,12 +17324,77 @@
 			)
 		)
 		(pin "1"
-			(uuid "fed41a16-a10e-4ab1-96d8-2d44bfc96ee5")
+			(uuid "f8a551e5-1e49-45c2-8592-b0123ae01e17")
 		)
 		(instances
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "#PWR011")
+					(reference "#PWR034")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ECE445L:MountingHole")
+		(at 247.015 17.145 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "6564cad0-1abc-49a7-b49e-182bd0e7e31f")
+		(property "Reference" "H3"
+			(at 243.205 15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 247.015 17.145 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "ECE445L:MountingHole_4_40"
+			(at 247.015 17.145 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 247.015 17.145 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Drill hole for 4-40 screw"
+			(at 247.015 17.145 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "187b7992-6ebe-4ceb-ab20-75a45644b434")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "H3")
 					(unit 1)
 				)
 			)
@@ -17044,7 +17419,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+5V"
+		(property "Value" "+5V_USB"
 			(at 42.545 266.065 0)
 			(effects
 				(font
@@ -17183,7 +17558,7 @@
 				)
 			)
 		)
-		(property "Footprint" "21-100509_N302D2+1_MXM"
+		(property "Footprint" "MAX77659AENV+:21-100509_N302D2&plus_1_MXM"
 			(at 64.135 227.33 0)
 			(effects
 				(font
@@ -17378,69 +17753,6 @@
 		)
 	)
 	(symbol
-		(lib_id "imu-eagle-import:MOUNTINGHOLE2.5")
-		(at 213.995 68.58 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "6e40ec8d-efd1-4530-b955-4abfb9463481")
-		(property "Reference" "U$1"
-			(at 213.995 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "MOUNTINGHOLE2.5"
-			(at 213.995 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "imu:MOUNTINGHOLE_2.5_PLATED"
-			(at 213.995 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 213.995 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 213.995 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "U$1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ECE445L:C")
 		(at 57.785 147.955 0)
 		(unit 1)
@@ -17468,7 +17780,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 58.7502 151.765 0)
 			(effects
 				(font
@@ -17536,7 +17848,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 368.935 174.9298 0)
 			(effects
 				(font
@@ -17670,7 +17982,7 @@
 				)
 			)
 		)
-		(property "Footprint" "AQFN50P700X700X85_HS-74N"
+		(property "Footprint" ""
 			(at 67.945 154.305 0)
 			(effects
 				(font
@@ -18105,69 +18417,6 @@
 		)
 	)
 	(symbol
-		(lib_id "imu-eagle-import:MOUNTINGHOLE2.5")
-		(at 213.995 60.96 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "79e6753b-b8ef-49c9-8dae-a72e616ebce9")
-		(property "Reference" "U$17"
-			(at 213.995 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "MOUNTINGHOLE2.5"
-			(at 213.995 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "imu:MOUNTINGHOLE_2.5_PLATED"
-			(at 213.995 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 213.995 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 213.995 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "U$17")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 366.395 208.915 90)
 		(unit 1)
@@ -18193,7 +18442,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 366.649 207.899 90)
 			(effects
 				(font
@@ -18236,69 +18485,6 @@
 		)
 	)
 	(symbol
-		(lib_id "imu-eagle-import:MOUNTINGHOLE2.5")
-		(at 189.865 55.88 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7b67e585-6adb-4080-a8b0-16b2d56d621d")
-		(property "Reference" "U$3"
-			(at 189.865 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "MOUNTINGHOLE2.5"
-			(at 189.865 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "imu:MOUNTINGHOLE_2.5_PLATED"
-			(at 189.865 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 189.865 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 189.865 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "U$3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 14.605 256.54 0)
 		(unit 1)
@@ -18326,7 +18512,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 15.621 256.794 90)
 			(effects
 				(font
@@ -18396,7 +18582,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 48.5902 83.185 0)
 			(effects
 				(font
@@ -18464,7 +18650,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 19.685 89.8398 0)
 			(effects
 				(font
@@ -18508,7 +18694,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 182.245 26.67 90)
+		(at 182.88 27.94 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -18517,7 +18703,7 @@
 		(fields_autoplaced yes)
 		(uuid "7f327a50-2c97-4a61-a1c1-9da0f45b201d")
 		(property "Reference" "D4"
-			(at 186.055 26.9874 90)
+			(at 186.69 28.2574 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18526,7 +18712,7 @@
 			)
 		)
 		(property "Value" "LED"
-			(at 186.055 29.5274 90)
+			(at 186.69 30.7974 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18535,7 +18721,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 182.245 26.67 0)
+			(at 182.88 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18544,7 +18730,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 182.245 26.67 0)
+			(at 182.88 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18553,7 +18739,7 @@
 			)
 		)
 		(property "Description" "Light emitting diode"
-			(at 182.245 26.67 0)
+			(at 182.88 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18562,7 +18748,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
-			(at 182.245 26.67 0)
+			(at 182.88 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18613,7 +18799,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 53.0352 270.51 0)
 			(effects
 				(font
@@ -18656,6 +18842,71 @@
 		)
 	)
 	(symbol
+		(lib_id "ECE445L:MountingHole")
+		(at 247.015 6.985 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "80a9d2a6-87f9-4a42-a2d9-1aa7046db7b9")
+		(property "Reference" "H1"
+			(at 243.205 5.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 247.015 6.985 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "ECE445L:MountingHole_4_40"
+			(at 247.015 6.985 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 247.015 6.985 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Drill hole for 4-40 screw"
+			(at 247.015 6.985 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "14bf8157-e2a7-4f40-913f-acc04d51e6a5")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "H1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 354.33 162.56 180)
 		(unit 1)
@@ -18683,7 +18934,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 353.3648 158.75 0)
 			(effects
 				(font
@@ -18753,7 +19004,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 157.8102 151.765 0)
 			(effects
 				(font
@@ -18821,7 +19072,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 159.385 62.5602 0)
 			(effects
 				(font
@@ -18957,7 +19208,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 134.366 252.349 90)
 			(effects
 				(font
@@ -19000,8 +19251,73 @@
 		)
 	)
 	(symbol
+		(lib_id "ECE445L:MountingHole")
+		(at 247.015 12.065 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "866024c5-03d3-4396-94bd-a892dcc3ae80")
+		(property "Reference" "H2"
+			(at 243.205 10.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 247.015 12.065 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "ECE445L:MountingHole_4_40"
+			(at 247.015 12.065 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 247.015 12.065 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Drill hole for 4-40 screw"
+			(at 247.015 12.065 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3315ad8a-6f25-4f46-ae93-9550375c55af")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "H2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ECE445L:R_0.125W")
-		(at 166.37 18.415 180)
+		(at 167.005 19.685 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19009,7 +19325,7 @@
 		(dnp no)
 		(uuid "86dae617-1e18-401b-868b-2e93a86c2824")
 		(property "Reference" "R6"
-			(at 164.084 19.177 90)
+			(at 164.719 20.447 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19017,15 +19333,15 @@
 			)
 		)
 		(property "Value" "820"
-			(at 169.672 18.669 90)
+			(at 170.307 19.939 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal"
-			(at 166.37 18.415 0)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 167.005 19.685 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19034,7 +19350,7 @@
 			)
 		)
 		(property "Datasheet" "https://users.ece.utexas.edu/~valvano/mspm0/CarbonFilmresistors.pdf"
-			(at 166.37 18.415 0)
+			(at 167.005 19.685 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19043,7 +19359,7 @@
 			)
 		)
 		(property "Description" "Resistor, small US symbol"
-			(at 166.37 18.415 0)
+			(at 167.005 19.685 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19093,7 +19409,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "ECE445L:MountingHole_4_40"
 			(at 234.315 193.675 0)
 			(effects
 				(font
@@ -19158,7 +19474,7 @@
 				)
 			)
 		)
-		(property "Footprint" "PAG64_TEX"
+		(property "Footprint" "ADS1299:PAG64_TEX"
 			(at 271.145 163.195 0)
 			(effects
 				(font
@@ -19480,7 +19796,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 131.445 222.5548 0)
 			(effects
 				(font
@@ -19550,7 +19866,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 242.2652 236.22 0)
 			(effects
 				(font
@@ -19687,7 +20003,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 14.3002 144.145 0)
 			(effects
 				(font
@@ -19739,7 +20055,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9227363b-b5a1-45e9-b8e6-25311ea05052")
-		(property "Reference" "E6"
+		(property "Reference" "E5"
 			(at 347.98 147.9549 90)
 			(effects
 				(font
@@ -19757,7 +20073,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "ECE445L:MountingHole_4_40"
 			(at 346.075 147.955 0)
 			(effects
 				(font
@@ -19790,7 +20106,7 @@
 		(instances
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "E6")
+					(reference "E5")
 					(unit 1)
 				)
 			)
@@ -19824,7 +20140,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 217.5002 234.315 0)
 			(effects
 				(font
@@ -20013,7 +20329,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 175.5902 116.205 0)
 			(effects
 				(font
@@ -20050,72 +20366,6 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "C13")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3V3")
-		(at 14.605 260.985 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "960d70c5-d06f-4c1c-98a2-bfefd9162279")
-		(property "Reference" "#PWR028"
-			(at 14.605 257.175 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 14.605 266.065 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 14.605 260.985 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 14.605 260.985 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 14.605 260.985 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "40f3f200-8e9d-4671-9296-6c840f0b0d28")
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -20234,7 +20484,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 33.3502 243.84 0)
 			(effects
 				(font
@@ -20502,7 +20752,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 63.1952 270.51 0)
 			(effects
 				(font
@@ -20570,7 +20820,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 128.905 265.7348 0)
 			(effects
 				(font
@@ -20607,69 +20857,6 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "C17")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "imu-eagle-import:MOUNTINGHOLE2.5")
-		(at 221.615 60.96 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "9eb3500d-d901-4904-8c03-2d688dfa1781")
-		(property "Reference" "U$19"
-			(at 221.615 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "MOUNTINGHOLE2.5"
-			(at 221.615 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "imu:MOUNTINGHOLE_2.5_PLATED"
-			(at 221.615 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 221.615 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 221.615 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "U$19")
 					(unit 1)
 				)
 			)
@@ -20757,71 +20944,8 @@
 		)
 	)
 	(symbol
-		(lib_id "imu-eagle-import:FIDUCIAL_1MM")
-		(at 206.375 68.58 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "a0532dd5-8e35-4cbc-adf9-a814b114c4ca")
-		(property "Reference" "FID3"
-			(at 206.375 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "FIDUCIAL_1MM"
-			(at 206.375 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "imu:FIDUCIAL_1MM"
-			(at 206.375 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 206.375 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 206.375 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "FID3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
-		(at 166.37 33.02 0)
+		(at 167.005 34.29 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20830,7 +20954,7 @@
 		(fields_autoplaced yes)
 		(uuid "a7cee62a-dc68-4517-9beb-17a49d6edf84")
 		(property "Reference" "#PWR031"
-			(at 166.37 39.37 0)
+			(at 167.005 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20839,7 +20963,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 166.37 38.1 0)
+			(at 167.005 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20847,7 +20971,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 166.37 33.02 0)
+			(at 167.005 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20856,7 +20980,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 166.37 33.02 0)
+			(at 167.005 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20865,7 +20989,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 166.37 33.02 0)
+			(at 167.005 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20880,6 +21004,72 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "#PWR031")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3V3")
+		(at 14.605 260.985 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a87ae7c6-7ec9-4cb5-bd0e-bc3c76f6a4ee")
+		(property "Reference" "#PWR028"
+			(at 14.605 257.175 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VSYS"
+			(at 14.605 265.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 14.605 260.985 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 14.605 260.985 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 14.605 260.985 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "805d43b6-1350-4de0-8fe7-a62fcb423123")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -20911,7 +21101,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 267.335 235.8898 0)
 			(effects
 				(font
@@ -21020,6 +21210,7 @@
 		)
 	)
 	(symbol
+		(lib_name "R_US_1")
 		(lib_id "Device:R_US")
 		(at 366.395 219.075 90)
 		(unit 1)
@@ -21045,7 +21236,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 366.649 218.059 90)
 			(effects
 				(font
@@ -21287,6 +21478,73 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 116.84 219.71 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b8ced4b0-72fc-4b5d-b357-f46a2539b912")
+		(property "Reference" "#PWR052"
+			(at 116.84 226.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 118.745 220.9799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 116.84 219.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 116.84 219.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 116.84 219.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "49778e38-79ec-4af1-9d66-8461220a8f75")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "#PWR052")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 226.695 230.505 0)
 		(unit 1)
@@ -21314,7 +21572,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 227.6602 234.315 0)
 			(effects
 				(font
@@ -21357,72 +21615,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
-		(at 47.625 135.255 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "bbb91ebb-3979-4ffb-8323-1183ff9b4e29")
-		(property "Reference" "#PWR044"
-			(at 47.625 139.065 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 47.625 130.175 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 47.625 135.255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 47.625 135.255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 47.625 135.255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "76e10ad8-16a1-4873-8feb-f3317cd81db5")
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "#PWR044")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 359.41 213.995 90)
 		(unit 1)
@@ -21448,7 +21640,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 359.664 212.979 90)
 			(effects
 				(font
@@ -21552,69 +21744,6 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "#PWR026")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "imu-eagle-import:MOUNTINGHOLE2.5")
-		(at 221.615 68.58 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c450f3af-173a-4c8d-a53d-06b895b20601")
-		(property "Reference" "U$21"
-			(at 221.615 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "MOUNTINGHOLE2.5"
-			(at 221.615 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "imu:MOUNTINGHOLE_2.5_PLATED"
-			(at 221.615 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 221.615 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 221.615 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "U$21")
 					(unit 1)
 				)
 			)
@@ -21750,16 +21879,17 @@
 		)
 	)
 	(symbol
-		(lib_id "imu-eagle-import:MOUNTINGHOLE2.5")
-		(at 197.485 48.26 0)
+		(lib_id "power:+3V3")
+		(at 133.35 257.81 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c997fa2b-eef1-4ef9-aba5-b16c09665cae")
-		(property "Reference" "U$4"
-			(at 197.485 48.26 0)
+		(fields_autoplaced yes)
+		(uuid "c9d9fef5-08e4-4b99-838a-8c9c526320ba")
+		(property "Reference" "#PWR033"
+			(at 129.54 257.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21767,17 +21897,17 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "MOUNTINGHOLE2.5"
-			(at 197.485 48.26 0)
+		(property "Value" "+3V3"
+			(at 137.16 257.8099 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
+				(justify left)
 			)
 		)
-		(property "Footprint" "imu:MOUNTINGHOLE_2.5_PLATED"
-			(at 197.485 48.26 0)
+		(property "Footprint" ""
+			(at 133.35 257.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21786,7 +21916,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 197.485 48.26 0)
+			(at 133.35 257.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21794,82 +21924,22 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 197.485 48.26 0)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 133.35 257.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
 			)
+		)
+		(pin "1"
+			(uuid "fd4ffbb4-9f56-4372-a860-d7b4860831a0")
 		)
 		(instances
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "U$4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "imu-eagle-import:MOUNTINGHOLE2.5")
-		(at 189.865 48.26 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "cb9741ca-0ee2-449f-a602-324c5a4792cf")
-		(property "Reference" "U$2"
-			(at 189.865 48.26 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "MOUNTINGHOLE2.5"
-			(at 189.865 48.26 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "imu:MOUNTINGHOLE_2.5_PLATED"
-			(at 189.865 48.26 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 189.865 48.26 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 189.865 48.26 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "U$2")
+					(reference "#PWR033")
 					(unit 1)
 				)
 			)
@@ -21903,7 +21973,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 63.8302 83.185 0)
 			(effects
 				(font
@@ -21973,7 +22043,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Crystal:Crystal_SMD_3215-2Pin_3.2x1.5mm"
 			(at 24.765 93.98 0)
 			(effects
 				(font
@@ -22041,7 +22111,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 159.385 73.9902 0)
 			(effects
 				(font
@@ -22216,6 +22286,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 70.485 171.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d4a0ab85-d698-488c-94c4-10b825c5b80a")
+		(property "Reference" "#PWR011"
+			(at 70.485 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 70.485 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 70.485 171.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 70.485 171.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 70.485 171.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a94c87c6-a831-4a26-8968-4ef1960207b9")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "#PWR011")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ECE445L:C")
 		(at 106.045 188.595 0)
 		(unit 1)
@@ -22243,7 +22379,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 107.0102 192.405 0)
 			(effects
 				(font
@@ -22313,7 +22449,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 345.059 162.306 90)
 			(effects
 				(font
@@ -22554,73 +22690,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
-		(at 124.46 279.4 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "dea3ccf6-36ae-4791-a539-f773901b57fe")
-		(property "Reference" "#PWR034"
-			(at 120.65 279.4 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 128.27 279.3999 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 124.46 279.4 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 124.46 279.4 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 124.46 279.4 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "5c163b8a-c6d9-4ebe-b0a3-20169556b055")
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "#PWR034")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 170.815 73.025 0)
 		(unit 1)
@@ -22712,7 +22781,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 353.949 210.439 90)
 			(effects
 				(font
@@ -22781,7 +22850,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "ECE445L:MountingHole_4_40"
 			(at 226.06 201.295 0)
 			(effects
 				(font
@@ -22815,69 +22884,6 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "E4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "imu-eagle-import:FIDUCIAL_1MM")
-		(at 206.375 60.96 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "e43bc919-50d9-414b-b93a-08a01f7c958c")
-		(property "Reference" "FID4"
-			(at 206.375 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "FIDUCIAL_1MM"
-			(at 206.375 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "imu:FIDUCIAL_1MM"
-			(at 206.375 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 206.375 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 206.375 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "FID4")
 					(unit 1)
 				)
 			)
@@ -22950,44 +22956,33 @@
 		)
 	)
 	(symbol
-		(lib_id "ECE445L:C")
-		(at 47.625 147.955 0)
+		(lib_id "ECE445L:MountingHole")
+		(at 247.015 22.225 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "e76883ab-27fb-4153-bbce-4f7a068c3ff1")
-		(property "Reference" "C36"
-			(at 51.435 146.6849 0)
+		(uuid "e687ac88-985d-41ec-8d38-c5487c4fe8ce")
+		(property "Reference" "H4"
+			(at 243.205 20.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Value" "4.7uF"
-			(at 51.435 149.2249 0)
+		(property "Value" "~"
+			(at 247.015 22.225 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
-			(at 48.5902 151.765 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 47.625 147.955 0)
+		(property "Footprint" "ECE445L:MountingHole_4_40"
+			(at 247.015 22.225 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22995,8 +22990,17 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
-			(at 47.625 147.955 0)
+		(property "Datasheet" ""
+			(at 247.015 22.225 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Drill hole for 4-40 screw"
+			(at 247.015 22.225 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23005,15 +23009,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "2c5b7958-6b2a-435a-8cb1-c15e0a8f724d")
-		)
-		(pin "2"
-			(uuid "691ace9f-8d9f-49f8-b926-10d9ce38dbc0")
+			(uuid "fc75580f-67a7-4909-bf03-011f9817089f")
 		)
 		(instances
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "C36")
+					(reference "H4")
 					(unit 1)
 				)
 			)
@@ -23045,7 +23046,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 368.935 185.7248 0)
 			(effects
 				(font
@@ -23088,6 +23089,73 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+3V3")
+		(at 60.325 242.57 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "edee1cca-4105-4bf4-b188-95ce82e9207f")
+		(property "Reference" "#PWR022"
+			(at 64.135 242.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VSYS"
+			(at 57.15 242.5699 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 60.325 242.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 60.325 242.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 60.325 242.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d9955c52-14e1-4937-b639-03cf229e8a66")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "#PWR022")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ECE445L:C")
 		(at 50.165 254 0)
 		(unit 1)
@@ -23115,7 +23183,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 51.1302 257.81 0)
 			(effects
 				(font
@@ -23158,105 +23226,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector_Generic_MountingPin:Conn_01x10_MountingPin")
-		(at 130.81 24.13 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "f3165d95-7aae-40ff-b4eb-c14ed60e2c3c")
-		(property "Reference" "J1"
-			(at 133.35 24.4855 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "Conn_01x10_MountingPin"
-			(at 133.35 27.0255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 130.81 24.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 130.81 24.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connectable mounting pin connector, single row, 01x10, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 130.81 24.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "3"
-			(uuid "626b9a25-1d08-40ac-8b16-77692ddebf06")
-		)
-		(pin "10"
-			(uuid "e7930407-2948-42f6-8c02-34f55d08e194")
-		)
-		(pin "8"
-			(uuid "9d6a7e0e-63cd-449e-8c80-cca4e0fe063f")
-		)
-		(pin "MP"
-			(uuid "d20fa6dc-29a0-4e84-a968-c1e936663236")
-		)
-		(pin "7"
-			(uuid "29846c2c-a52f-46e4-a7c6-124207048ee9")
-		)
-		(pin "6"
-			(uuid "856ff60d-965b-4d0f-9691-8bd1d4084ed0")
-		)
-		(pin "5"
-			(uuid "b688b744-61b4-4027-8e77-8af84afa9e92")
-		)
-		(pin "4"
-			(uuid "93320e0d-65e6-489e-8aaf-67ae0c4bf0fe")
-		)
-		(pin "9"
-			(uuid "e7d1e073-9920-457e-89b9-f30747372f82")
-		)
-		(pin "1"
-			(uuid "6dd7047f-e2b5-472c-a55e-64f5d190fc21")
-		)
-		(pin "2"
-			(uuid "3f11dda3-e456-4d72-a013-e76ff10b6e64")
-		)
-		(instances
-			(project ""
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "J1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ECE445L:R_0.125W")
-		(at 182.245 19.685 180)
+		(at 182.88 20.955 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -23264,7 +23235,7 @@
 		(dnp no)
 		(uuid "f5693f42-daea-4458-88e4-a164f15b3183")
 		(property "Reference" "R5"
-			(at 179.959 20.447 90)
+			(at 180.594 21.717 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23272,15 +23243,15 @@
 			)
 		)
 		(property "Value" "330"
-			(at 185.547 19.939 90)
+			(at 186.182 21.209 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal"
-			(at 182.245 19.685 0)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 182.88 20.955 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23289,7 +23260,7 @@
 			)
 		)
 		(property "Datasheet" "https://users.ece.utexas.edu/~valvano/mspm0/CarbonFilmresistors.pdf"
-			(at 182.245 19.685 0)
+			(at 182.88 20.955 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23298,7 +23269,7 @@
 			)
 		)
 		(property "Description" "Resistor, small US symbol"
-			(at 182.245 19.685 0)
+			(at 182.88 20.955 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23316,6 +23287,71 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "R5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3V3")
+		(at 132.715 20.32 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f58d5015-98cb-4d05-ab43-639f247fc6be")
+		(property "Reference" "#PWR050"
+			(at 136.525 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 128.905 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 132.715 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 132.715 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 132.715 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ddaf95b1-0d07-40d5-a6c1-335476f32b21")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "#PWR050")
 					(unit 1)
 				)
 			)
@@ -23347,7 +23383,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ECE445L:C_Axial_200mil"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 122.555 236.5248 0)
 			(effects
 				(font
@@ -23457,16 +23493,33 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
-		(at 113.665 13.97 90)
+		(lib_id "Connector_Generic:Conn_02x05_Odd_Even")
+		(at 137.795 25.4 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "fa88b24b-ad7f-46f0-922a-090bf8f01cec")
-		(property "Reference" "#PWR022"
-			(at 117.475 13.97 0)
+		(fields_autoplaced yes)
+		(uuid "fd35ab49-68ad-499e-b03f-7ebc2e91fd2b")
+		(property "Reference" "J2"
+			(at 139.065 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_02x05_Odd_Even"
+			(at 139.065 16.51 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_DIN:DIN41612_B3_2x5_Male_Horizontal_THT"
+			(at 137.795 25.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23474,16 +23527,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+3V3"
-			(at 109.855 13.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 113.665 13.97 0)
+		(property "Datasheet" "~"
+			(at 137.795 25.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23491,8 +23536,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
-			(at 113.665 13.97 0)
+		(property "Description" "Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 137.795 25.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23500,22 +23545,40 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 113.665 13.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(pin "10"
+			(uuid "ba9486f7-e2d8-4b99-aec6-a1575e171dce")
+		)
+		(pin "8"
+			(uuid "eae6acdc-31ee-4cb8-b24c-cd19aa52eeff")
+		)
+		(pin "3"
+			(uuid "01efed45-5459-4c8d-9fd9-442a52c0b14c")
+		)
+		(pin "7"
+			(uuid "ea4d25cf-52b3-40fe-8d92-634fc8f544ff")
+		)
+		(pin "5"
+			(uuid "f245e1a2-04b8-4a69-85d8-42222bc68ec6")
+		)
+		(pin "9"
+			(uuid "67868757-4919-49a2-97ea-c836ce92e50c")
+		)
+		(pin "4"
+			(uuid "5c6d73dd-39fa-4278-96ea-3b3dbd5013d0")
 		)
 		(pin "1"
-			(uuid "347d0555-8b4b-4641-b39a-285cea69f84b")
+			(uuid "144e0aa5-e6f9-4d79-9177-e820aa9c78f5")
+		)
+		(pin "6"
+			(uuid "0df19970-fe54-407e-908c-5ba921e27093")
+		)
+		(pin "2"
+			(uuid "364262d5-9df0-478a-8f42-1160a425e0d7")
 		)
 		(instances
-			(project "wearable"
+			(project ""
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "#PWR022")
+					(reference "J2")
 					(unit 1)
 				)
 			)
@@ -23604,7 +23667,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 166.37 26.035 90)
+		(at 167.005 27.305 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -23613,7 +23676,7 @@
 		(fields_autoplaced yes)
 		(uuid "fe38c498-c060-4e92-82aa-5f5311836544")
 		(property "Reference" "D1"
-			(at 170.18 26.3524 90)
+			(at 170.815 27.6224 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23622,7 +23685,7 @@
 			)
 		)
 		(property "Value" "LED"
-			(at 170.18 28.8924 90)
+			(at 170.815 30.1624 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23631,7 +23694,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 166.37 26.035 0)
+			(at 167.005 27.305 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23640,7 +23703,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 166.37 26.035 0)
+			(at 167.005 27.305 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23649,7 +23712,7 @@
 			)
 		)
 		(property "Description" "Light emitting diode"
-			(at 166.37 26.035 0)
+			(at 167.005 27.305 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23658,7 +23721,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
-			(at 166.37 26.035 0)
+			(at 167.005 27.305 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23709,7 +23772,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 126.746 252.349 90)
 			(effects
 				(font

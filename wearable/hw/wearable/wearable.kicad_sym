@@ -23,7 +23,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "ECE445L:MountingHole_4_40"
 			(at 0 0 0)
 			(effects
 				(font
