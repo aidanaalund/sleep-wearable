@@ -1227,6 +1227,24 @@
 					)
 				)
 			)
+			(pin power_in line
+				(at 71.12 -73.66 180)
+				(length 7.62)
+				(name "*PWDN"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "35"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
 			(pin input line
 				(at 71.12 -76.2 180)
 				(length 7.62)
@@ -1256,26 +1274,6 @@
 					)
 				)
 				(number "33"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-		)
-		(symbol "ADS1299IPAG_1_1"
-			(pin input line
-				(at 71.12 -73.66 180)
-				(length 7.62)
-				(name "*PWDN"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "35"
 					(effects
 						(font
 							(size 1.27 1.27)
