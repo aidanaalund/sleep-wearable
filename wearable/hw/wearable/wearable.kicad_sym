@@ -23,7 +23,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "ECE445L:MountingHole_4_40"
+		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x01_P1.00mm_Vertical"
 			(at 0 0 0)
 			(effects
 				(font
@@ -74,7 +74,7 @@
 						)
 					)
 				)
-				(number ""
+				(number "1"
 					(effects
 						(font
 							(size 1.27 1.27)

@@ -23,7 +23,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x01_P1.00mm_Vertical"
 			(at 0 0 0)
 			(effects
 				(font
@@ -67,14 +67,14 @@
 			(pin output line
 				(at 3.81 0 180)
 				(length 2.54)
-				(name ""
+				(name "Output"
 					(effects
 						(font
 							(size 1.27 1.27)
 						)
 					)
 				)
-				(number ""
+				(number "1"
 					(effects
 						(font
 							(size 1.27 1.27)
