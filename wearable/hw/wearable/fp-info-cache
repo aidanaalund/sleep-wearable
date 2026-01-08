@@ -1,4 +1,4 @@
-26982404069434331
+26984171142806058
 ADS1299
 PAG64_TEX
 
@@ -34,6 +34,13 @@ audio belton reverb
 0
 7
 7
+BNO080
+IC_BNO080
+
+
+0
+28
+28
 Battery
 BatteryClip_Keystone_54_D16-19mm
 Battery clip for batteries with a diameter between 16-19 mm: https://www.keyelco.com/product.cfm/product_id/826
