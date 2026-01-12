@@ -7536,8 +7536,8 @@
 		)
 	)
 	(rectangle
-		(start 223.52 161.925)
-		(end 272.415 207.645)
+		(start 210.185 161.925)
+		(end 272.415 208.28)
 		(stroke
 			(width 0)
 			(type default)
@@ -7677,9 +7677,9 @@
 		)
 		(uuid "6cf2382a-d1b4-477b-8381-df0200b02508")
 	)
-	(text "EEG Inputs"
+	(text "EEG Inputs (TODO: Add filters)"
 		(exclude_from_sim no)
-		(at 229.108 206.756 0)
+		(at 245.872 206.756 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7873,7 +7873,7 @@
 		)
 		(uuid "e0697e80-84b2-4cf4-813a-a10cdcbe8add")
 	)
-	(text_box "Logic Analyzer Pins (optional)"
+	(text_box "Through Holes (TODO)"
 		(exclude_from_sim no)
 		(at 196.215 1.905 0)
 		(size 47.625 8.89)
@@ -7994,6 +7994,12 @@
 		(uuid "1d5e7f5a-5f4f-4973-b871-f967767ef384")
 	)
 	(junction
+		(at 346.075 165.735)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1f6be313-9eb6-4564-8213-d9040e0324f7")
+	)
+	(junction
 		(at 204.47 236.855)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8042,6 +8048,12 @@
 		(uuid "2669b0e9-9f1f-4d12-a8c5-318c81fc135b")
 	)
 	(junction
+		(at 346.075 157.48)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "27a68cb6-f70e-463c-8cc8-7d2472b858f7")
+	)
+	(junction
 		(at 250.19 165.735)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8054,10 +8066,10 @@
 		(uuid "2af7daf5-3ea3-4a5f-8668-332b2857b266")
 	)
 	(junction
-		(at 346.075 157.48)
+		(at 354.33 165.735)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "2b4e7baa-1d4c-4626-9d39-61732d39bd9f")
+		(uuid "2b1fc38b-1035-4cb1-a334-dded7271abc4")
 	)
 	(junction
 		(at 374.015 211.455)
@@ -8088,6 +8100,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3c4ec2b7-affc-4217-905a-84b670f0e6b9")
+	)
+	(junction
+		(at 220.345 206.375)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3db127f3-e936-44e3-8123-0057e65dc8bd")
 	)
 	(junction
 		(at 140.335 123.825)
@@ -8186,6 +8204,12 @@
 		(uuid "60e9733b-679f-4e5e-9676-34be0fc205a5")
 	)
 	(junction
+		(at 342.265 165.735)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "614fc275-1dcb-4d62-b6c2-d783cb2a8070")
+	)
+	(junction
 		(at 252.095 257.81)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8222,16 +8246,16 @@
 		(uuid "7126516f-1912-4c97-9cd2-c628b9297b89")
 	)
 	(junction
+		(at 220.345 198.755)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "744a5027-b68c-4516-b3b6-4d9d041db858")
+	)
+	(junction
 		(at 62.23 273.05)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7b790dba-5716-40b8-ae8f-9e4eed04fe21")
-	)
-	(junction
-		(at 346.075 166.37)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "7cba273d-a841-42ee-9f19-51cbc08213e5")
 	)
 	(junction
 		(at 50.165 247.015)
@@ -8366,6 +8390,12 @@
 		(uuid "b0f7612a-1cbc-4d1c-ae99-15b7fdb30bc2")
 	)
 	(junction
+		(at 237.49 188.595)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b3245cff-075b-4112-bc2f-e127a2345a42")
+	)
+	(junction
 		(at 60.325 239.395)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8394,6 +8424,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b8321907-650c-4a6e-961d-0fbaa316e550")
+	)
+	(junction
+		(at 237.49 196.215)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bad14819-8ecd-4bd3-90af-83a53b9810d9")
 	)
 	(junction
 		(at 132.715 182.245)
@@ -8508,12 +8544,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e76391d3-8e5f-4974-bb40-55be06bffa06")
-	)
-	(junction
-		(at 342.265 166.37)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e8526306-80b8-46f7-808d-95af8476125f")
 	)
 	(junction
 		(at 132.715 24.13)
@@ -8664,10 +8694,6 @@
 		(uuid "8fa8a22a-6fdb-414f-983f-b8d1e8648b26")
 	)
 	(no_connect
-		(at 342.265 170.815)
-		(uuid "91206ba2-f97d-4f95-a485-176a78dc3d6f")
-	)
-	(no_connect
 		(at 69.215 131.445)
 		(uuid "94b00120-e420-48a5-b4ee-ec00f2ac96b4")
 	)
@@ -8773,16 +8799,6 @@
 	)
 	(wire
 		(pts
-			(xy 342.265 166.37) (xy 342.265 168.275)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "02c88430-741d-46af-9b6e-82e198e46be5")
-	)
-	(wire
-		(pts
 			(xy 120.65 254.635) (xy 125.73 254.635)
 		)
 		(stroke
@@ -8870,16 +8886,6 @@
 			(type default)
 		)
 		(uuid "0911afa1-072f-4125-b0d2-e79e82405387")
-	)
-	(wire
-		(pts
-			(xy 342.265 165.735) (xy 342.265 166.37)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "091a4c82-7026-4907-8c5d-e2cae4056940")
 	)
 	(wire
 		(pts
@@ -9104,6 +9110,16 @@
 	)
 	(wire
 		(pts
+			(xy 237.49 196.215) (xy 271.145 196.215)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "168dd06b-c335-4dc5-819d-afb889dcc7b4")
+	)
+	(wire
+		(pts
 			(xy 250.19 165.735) (xy 271.145 165.735)
 		)
 		(stroke
@@ -9242,6 +9258,16 @@
 			(type solid)
 		)
 		(uuid "24f46c5a-703c-4375-b00a-1b5db2ab8850")
+	)
+	(wire
+		(pts
+			(xy 342.265 165.735) (xy 342.265 168.275)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "25540764-5a4a-42e7-9e58-0436e5d69cfa")
 	)
 	(wire
 		(pts
@@ -9523,6 +9549,16 @@
 		)
 		(uuid "38024e68-bec1-470d-a61d-5bf78ef07084")
 	)
+	(wire
+		(pts
+			(xy 229.87 206.375) (xy 229.87 201.295)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "394d0eb3-40b6-4a03-bf28-3d79c1164f2b")
+	)
 	(polyline
 		(pts
 			(xy 0 43.815) (xy 66.04 43.815)
@@ -9545,7 +9581,7 @@
 	)
 	(wire
 		(pts
-			(xy 238.125 193.675) (xy 271.145 193.675)
+			(xy 234.95 188.595) (xy 237.49 188.595)
 		)
 		(stroke
 			(width 0)
@@ -9562,16 +9598,6 @@
 			(type default)
 		)
 		(uuid "3e85f816-7753-407e-ba87-f76f756cb7b5")
-	)
-	(wire
-		(pts
-			(xy 346.075 151.765) (xy 346.075 157.48)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3e9366e1-22fd-42f9-aa8e-d7ecec71d259")
 	)
 	(wire
 		(pts
@@ -9956,7 +9982,7 @@
 	)
 	(wire
 		(pts
-			(xy 342.265 166.37) (xy 346.075 166.37)
+			(xy 342.265 165.735) (xy 346.075 165.735)
 		)
 		(stroke
 			(width 0)
@@ -10306,7 +10332,7 @@
 	)
 	(wire
 		(pts
-			(xy 232.41 198.755) (xy 271.145 198.755)
+			(xy 216.535 198.755) (xy 220.345 198.755)
 		)
 		(stroke
 			(width 0)
@@ -10323,6 +10349,16 @@
 			(type solid)
 		)
 		(uuid "77cf85d8-de05-4fb5-bd74-ee5fcce773ab")
+	)
+	(wire
+		(pts
+			(xy 220.345 198.755) (xy 271.145 198.755)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "798c7840-7cc9-4833-8329-d0e1d95e2993")
 	)
 	(wire
 		(pts
@@ -10717,6 +10753,16 @@
 	)
 	(wire
 		(pts
+			(xy 246.38 188.595) (xy 246.38 193.675)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9c0a10b1-8e85-4dc0-aace-41da51be11e5")
+	)
+	(wire
+		(pts
 			(xy 84.455 291.465) (xy 64.135 291.465)
 		)
 		(stroke
@@ -10767,6 +10813,16 @@
 	)
 	(wire
 		(pts
+			(xy 229.87 201.295) (xy 271.145 201.295)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9fbfd37d-7a38-4def-a6ba-70d7c520e7ef")
+	)
+	(wire
+		(pts
 			(xy 92.075 286.385) (xy 102.87 286.385)
 		)
 		(stroke
@@ -10794,6 +10850,16 @@
 			(type default)
 		)
 		(uuid "a31948a1-83c6-440f-b86f-5abd13533dac")
+	)
+	(wire
+		(pts
+			(xy 346.075 155.575) (xy 374.015 155.575)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a4f02222-8f46-45e7-98f0-6c68b85098e1")
 	)
 	(wire
 		(pts
@@ -10898,6 +10964,16 @@
 	)
 	(wire
 		(pts
+			(xy 374.015 155.575) (xy 374.015 170.815)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "adfef01d-1547-4d43-abf7-d1707ec71ea6")
+	)
+	(wire
+		(pts
 			(xy 128.905 263.525) (xy 130.81 263.525)
 		)
 		(stroke
@@ -10968,7 +11044,7 @@
 	)
 	(wire
 		(pts
-			(xy 354.33 157.48) (xy 354.33 158.75)
+			(xy 354.33 157.48) (xy 354.33 158.115)
 		)
 		(stroke
 			(width 0)
@@ -11048,6 +11124,16 @@
 	)
 	(wire
 		(pts
+			(xy 237.49 188.595) (xy 246.38 188.595)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b53aa495-7d28-4d7c-bf9a-33a1678c7fe0")
+	)
+	(wire
+		(pts
 			(xy 114.935 249.555) (xy 114.935 252.095)
 		)
 		(stroke
@@ -11078,7 +11164,7 @@
 	)
 	(wire
 		(pts
-			(xy 346.075 166.37) (xy 354.33 166.37)
+			(xy 346.075 165.735) (xy 354.33 165.735)
 		)
 		(stroke
 			(width 0)
@@ -11108,6 +11194,16 @@
 	)
 	(wire
 		(pts
+			(xy 374.015 170.815) (xy 342.265 170.815)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bbcc7b5c-799f-4346-a042-74c0b19388ca")
+	)
+	(wire
+		(pts
 			(xy 125.73 239.395) (xy 133.35 239.395)
 		)
 		(stroke
@@ -11128,7 +11224,7 @@
 	)
 	(wire
 		(pts
-			(xy 234.95 196.215) (xy 271.145 196.215)
+			(xy 234.95 196.215) (xy 237.49 196.215)
 		)
 		(stroke
 			(width 0)
@@ -11318,7 +11414,7 @@
 	)
 	(wire
 		(pts
-			(xy 229.87 201.295) (xy 271.145 201.295)
+			(xy 216.535 206.375) (xy 220.345 206.375)
 		)
 		(stroke
 			(width 0)
@@ -11338,7 +11434,7 @@
 	)
 	(wire
 		(pts
-			(xy 346.075 157.48) (xy 346.075 158.75)
+			(xy 346.075 157.48) (xy 346.075 158.115)
 		)
 		(stroke
 			(width 0)
@@ -11589,6 +11685,16 @@
 	)
 	(wire
 		(pts
+			(xy 346.075 157.48) (xy 346.075 155.575)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ddf41e26-3f6c-4a5d-a789-876a1385cfa3")
+	)
+	(wire
+		(pts
 			(xy 75.565 290.195) (xy 75.565 289.56)
 		)
 		(stroke
@@ -11706,6 +11812,16 @@
 			(type solid)
 		)
 		(uuid "e5c843c1-5bbb-4027-b4b0-bd6f6609d238")
+	)
+	(wire
+		(pts
+			(xy 246.38 193.675) (xy 271.145 193.675)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e5eaa2e1-a438-4aec-abe8-f35c4b567d5d")
 	)
 	(wire
 		(pts
@@ -11891,6 +12007,16 @@
 	)
 	(wire
 		(pts
+			(xy 363.855 165.735) (xy 354.33 165.735)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f47514d2-922c-4ee0-aa57-24be60a8b9ba")
+	)
+	(wire
+		(pts
 			(xy 158.75 168.91) (xy 158.75 167.005)
 		)
 		(stroke
@@ -12008,6 +12134,16 @@
 			(type default)
 		)
 		(uuid "fa26c39d-388a-4869-8822-5ef7d455481d")
+	)
+	(wire
+		(pts
+			(xy 220.345 206.375) (xy 229.87 206.375)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fc3af58e-aeb6-45d1-8387-a71c089d17da")
 	)
 	(wire
 		(pts
@@ -14671,7 +14807,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
 			(at 141.3002 131.445 0)
 			(effects
 				(font
@@ -14741,7 +14877,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x02_P1.00mm_Vertical"
 			(at 60.96 267.97 0)
 			(effects
 				(font
@@ -15060,6 +15196,76 @@
 		)
 	)
 	(symbol
+		(lib_id "ECE445L:C")
+		(at 237.49 192.405 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "193df9c6-62f4-4a52-96a0-4a00f6aaace4")
+		(property "Reference" "C10"
+			(at 241.3 191.1349 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "???"
+			(at 241.3 193.6749 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 236.5248 188.595 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 237.49 192.405 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 237.49 192.405 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8c5d84d2-3b89-4d20-8322-9c00563a29ce")
+		)
+		(pin "2"
+			(uuid "42aee79c-35bf-46d8-9202-1f9be8f641b9")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "C10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 234.95 230.505 0)
 		(unit 1)
@@ -15154,7 +15360,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x08_P1.00mm_Vertical"
 			(at 198.12 24.765 0)
 			(effects
 				(font
@@ -15508,7 +15714,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
 			(at 138.1252 174.625 0)
 			(effects
 				(font
@@ -15782,7 +15988,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_1008_2520Metric"
+		(property "Footprint" "Inductor_SMD:L_0201_0603Metric"
 			(at 144.145 123.825 0)
 			(effects
 				(font
@@ -15962,7 +16168,7 @@
 	)
 	(symbol
 		(lib_id "wearable:EEG_Electrode")
-		(at 228.6 198.755 0)
+		(at 212.725 198.755 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15971,7 +16177,7 @@
 		(fields_autoplaced yes)
 		(uuid "2e4097ac-2ec5-460c-93e5-48103aa7f5b1")
 		(property "Reference" "E3"
-			(at 228.6 194.945 0)
+			(at 212.725 194.945 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15979,7 +16185,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 228.6 198.755 0)
+			(at 212.725 198.755 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15988,7 +16194,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x01_P1.00mm_Horizontal"
-			(at 228.6 198.755 0)
+			(at 212.725 198.755 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15997,7 +16203,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 228.6 198.755 0)
+			(at 212.725 198.755 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16006,7 +16212,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 228.6 198.755 0)
+			(at 212.725 198.755 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16194,7 +16400,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
 			(at 49.2252 65.405 0)
 			(effects
 				(font
@@ -16673,7 +16879,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x02_P1.00mm_Vertical"
 			(at 218.44 33.02 0)
 			(effects
 				(font
@@ -17015,7 +17221,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+		(property "Footprint" "Resistor_SMD:R_0201_0603Metric"
 			(at 136.144 162.941 90)
 			(effects
 				(font
@@ -17151,7 +17357,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x03_P1.00mm_Vertical"
 			(at 218.44 20.32 0)
 			(effects
 				(font
@@ -17292,7 +17498,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
 			(at 61.9252 65.405 0)
 			(effects
 				(font
@@ -17563,7 +17769,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_1008_2520Metric"
+		(property "Footprint" "Inductor_SMD:L_0201_0603Metric"
 			(at 128.905 123.825 0)
 			(effects
 				(font
@@ -17600,6 +17806,76 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "L5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ECE445L:C")
+		(at 220.345 202.565 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5f9ae1ac-c3fd-4ab8-9314-c4a9494a5f70")
+		(property "Reference" "C12"
+			(at 224.155 201.2949 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "???"
+			(at 224.155 203.8349 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 219.3798 198.755 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 220.345 202.565 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 220.345 202.565 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a4150f29-01ea-49da-a541-aaa6a849160b")
+		)
+		(pin "2"
+			(uuid "82021e16-b18f-4a3b-9977-4ce42426d89a")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "C12")
 					(unit 1)
 				)
 			)
@@ -18053,7 +18329,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
 			(at 133.6802 131.445 0)
 			(effects
 				(font
@@ -18255,7 +18531,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
 			(at 151.4602 131.445 0)
 			(effects
 				(font
@@ -18848,7 +19124,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 354.33 162.56 180)
+		(at 354.33 161.925 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -18857,7 +19133,7 @@
 		(fields_autoplaced yes)
 		(uuid "821c34da-82cd-4345-86db-4bf9a5bd0304")
 		(property "Reference" "C30"
-			(at 358.14 161.2899 0)
+			(at 358.14 160.6549 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18866,7 +19142,7 @@
 			)
 		)
 		(property "Value" "1.5nF"
-			(at 358.14 163.8299 0)
+			(at 358.14 163.1949 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18875,7 +19151,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 353.3648 158.75 0)
+			(at 353.3648 158.115 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18884,7 +19160,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 354.33 162.56 0)
+			(at 354.33 161.925 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18893,7 +19169,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 354.33 162.56 0)
+			(at 354.33 161.925 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19350,7 +19626,7 @@
 	)
 	(symbol
 		(lib_id "wearable:EEG_Electrode")
-		(at 234.315 193.675 0)
+		(at 231.14 188.595 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19359,7 +19635,7 @@
 		(fields_autoplaced yes)
 		(uuid "87f76b83-9821-4d79-b883-d688697c7d8f")
 		(property "Reference" "E1"
-			(at 234.315 189.865 0)
+			(at 231.14 184.785 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19367,7 +19643,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 234.315 193.675 0)
+			(at 231.14 188.595 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19376,7 +19652,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x01_P1.00mm_Horizontal"
-			(at 234.315 193.675 0)
+			(at 231.14 188.595 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19385,7 +19661,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 234.315 193.675 0)
+			(at 231.14 188.595 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19394,7 +19670,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 234.315 193.675 0)
+			(at 231.14 188.595 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20077,7 +20353,7 @@
 	)
 	(symbol
 		(lib_id "wearable:EEG_Electrode")
-		(at 346.075 147.955 270)
+		(at 367.665 165.735 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20086,16 +20362,16 @@
 		(fields_autoplaced yes)
 		(uuid "9227363b-b5a1-45e9-b8e6-25311ea05052")
 		(property "Reference" "E5"
-			(at 347.98 147.9549 90)
+			(at 370.205 165.7349 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Value" "~"
-			(at 346.075 147.955 0)
+			(at 367.665 165.735 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20104,7 +20380,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x01_P1.00mm_Horizontal"
-			(at 346.075 147.955 0)
+			(at 367.665 165.735 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20113,7 +20389,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 346.075 147.955 0)
+			(at 367.665 165.735 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20122,7 +20398,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 346.075 147.955 0)
+			(at 367.665 165.735 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22296,7 +22572,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_1008_2520Metric"
+		(property "Footprint" "Inductor_SMD:L_0201_0603Metric"
 			(at 136.525 123.825 0)
 			(effects
 				(font
@@ -22366,7 +22642,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
 			(at 87.3252 65.405 0)
 			(effects
 				(font
@@ -22434,7 +22710,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_1008_2520Metric"
+		(property "Footprint" "Inductor_SMD:L_0603_1608Metric"
 			(at 167.64 78.105 0)
 			(effects
 				(font
@@ -22684,7 +22960,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 346.075 162.56 180)
+		(at 346.075 161.925 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -22693,7 +22969,7 @@
 		(fields_autoplaced yes)
 		(uuid "d9258fc3-dcde-4147-959c-8a927571b4ca")
 		(property "Reference" "R2"
-			(at 347.98 161.2899 0)
+			(at 347.98 160.6549 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22702,7 +22978,7 @@
 			)
 		)
 		(property "Value" "1M"
-			(at 347.98 163.8299 0)
+			(at 347.98 163.1949 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22711,7 +22987,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 345.059 162.306 90)
+			(at 345.059 161.671 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22720,7 +22996,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 346.075 162.56 0)
+			(at 346.075 161.925 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22729,7 +23005,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 346.075 162.56 0)
+			(at 346.075 161.925 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22780,7 +23056,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0201_0603Metric"
 			(at 74.6252 65.405 0)
 			(effects
 				(font
@@ -23098,7 +23374,7 @@
 	)
 	(symbol
 		(lib_id "wearable:EEG_Electrode")
-		(at 226.06 201.295 0)
+		(at 212.725 206.375 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -23107,7 +23383,7 @@
 		(fields_autoplaced yes)
 		(uuid "e3b3a0ba-c410-44ee-ae91-f4f4bc7b824a")
 		(property "Reference" "E4"
-			(at 226.06 197.485 0)
+			(at 212.725 202.565 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23115,7 +23391,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 226.06 201.295 0)
+			(at 212.725 206.375 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23124,7 +23400,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x01_P1.00mm_Horizontal"
-			(at 226.06 201.295 0)
+			(at 212.725 206.375 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23133,7 +23409,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 226.06 201.295 0)
+			(at 212.725 206.375 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23142,7 +23418,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 226.06 201.295 0)
+			(at 212.725 206.375 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23318,7 +23594,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x08_P1.00mm_Vertical"
 			(at 234.95 25.4 0)
 			(effects
 				(font
