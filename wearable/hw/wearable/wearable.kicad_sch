@@ -7746,7 +7746,7 @@
 	)
 	(text "TODO: layout the RF signal"
 		(exclude_from_sim no)
-		(at 157.226 120.142 0)
+		(at 147.828 121.666 0)
 		(effects
 			(font
 				(size 1.778 1.5113)
@@ -10025,16 +10025,6 @@
 	)
 	(wire
 		(pts
-			(xy 150.495 123.825) (xy 162.56 123.825)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "671f9a2a-1321-4684-a232-b55cd04b3bbb")
-	)
-	(wire
-		(pts
 			(xy 52.07 267.335) (xy 62.23 267.335)
 		)
 		(stroke
@@ -10934,6 +10924,16 @@
 			(type default)
 		)
 		(uuid "aef97269-5c51-43f3-b969-e516a80b81f9")
+	)
+	(wire
+		(pts
+			(xy 150.495 123.825) (xy 160.655 123.825)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af1ee2d5-ec40-48eb-86cc-7066946b6ef7")
 	)
 	(wire
 		(pts
@@ -13948,7 +13948,7 @@
 	)
 	(global_label "RF"
 		(shape input)
-		(at 162.56 123.825 0)
+		(at 160.655 123.825 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -13958,7 +13958,7 @@
 		)
 		(uuid "ff59ac05-94a0-4cef-9286-09cb24755db9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 167.9038 123.825 0)
+			(at 165.9988 123.825 0)
 			(effects
 				(font
 					(size 1.27 1.27)
