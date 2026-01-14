@@ -54,6 +54,7 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       webSecurity: false,
+      experimentalFeatures: true,
       preload: path.join(__dirname, 'preload.js'),
       // Add these for Web Bluetooth
       sandbox: false,
