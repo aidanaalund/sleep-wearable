@@ -9002,7 +9002,7 @@
 	)
 	(wire
 		(pts
-			(xy 222.25 22.86) (xy 223.52 22.86)
+			(xy 222.25 24.765) (xy 223.52 24.765)
 		)
 		(stroke
 			(width 0)
@@ -10065,7 +10065,7 @@
 	)
 	(wire
 		(pts
-			(xy 222.25 17.78) (xy 223.52 17.78)
+			(xy 222.25 15.24) (xy 223.52 15.24)
 		)
 		(stroke
 			(width 0)
@@ -12286,7 +12286,7 @@
 	)
 	(global_label "AMUX"
 		(shape input)
-		(at 223.52 22.86 0)
+		(at 223.52 24.765 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -12296,7 +12296,7 @@
 		)
 		(uuid "09afd293-d0a0-47fd-a734-a4e87e2d3ab1")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 231.5852 22.86 0)
+			(at 231.5852 24.765 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12330,7 +12330,7 @@
 	)
 	(global_label "AVDD"
 		(shape input)
-		(at 223.52 17.78 0)
+		(at 223.52 15.24 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -12340,7 +12340,7 @@
 		)
 		(uuid "120f3160-1270-4d75-9345-96c4b8c677dc")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 231.2224 17.78 0)
+			(at 231.2224 15.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16535,15 +16535,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 222.25 17.78 90)
+		(at 222.25 15.24 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "3617f670-cacb-4ce3-a8ea-4e49734324c3")
-		(property "Reference" "TP3"
-			(at 218.948 12.7 90)
+		(property "Reference" "TP1"
+			(at 218.948 10.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16551,7 +16551,7 @@
 			)
 		)
 		(property "Value" "AVDD"
-			(at 218.948 15.494 90)
+			(at 218.948 12.954 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16559,7 +16559,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch2.0mm_Drill0.7mm"
-			(at 222.25 12.7 0)
+			(at 222.25 10.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16568,7 +16568,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 222.25 12.7 0)
+			(at 222.25 10.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16577,7 +16577,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 222.25 17.78 0)
+			(at 222.25 15.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16591,7 +16591,7 @@
 		(instances
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "TP3")
+					(reference "TP1")
 					(unit 1)
 				)
 			)
@@ -22370,15 +22370,15 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 222.25 22.86 90)
+		(at 222.25 24.765 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "bb89a7bd-55f4-4eb1-b8dc-747e846c2672")
-		(property "Reference" "TP1"
-			(at 218.948 17.78 90)
+		(property "Reference" "TP3"
+			(at 218.948 19.685 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22386,7 +22386,7 @@
 			)
 		)
 		(property "Value" "BatteryStatus"
-			(at 218.948 20.574 90)
+			(at 218.948 22.479 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22394,7 +22394,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Bridge_Pitch2.0mm_Drill0.7mm"
-			(at 222.25 17.78 0)
+			(at 222.25 19.685 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22403,7 +22403,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 222.25 17.78 0)
+			(at 222.25 19.685 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22412,7 +22412,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 222.25 22.86 0)
+			(at 222.25 24.765 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22426,7 +22426,7 @@
 		(instances
 			(project ""
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "TP1")
+					(reference "TP3")
 					(unit 1)
 				)
 			)
