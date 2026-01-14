@@ -32,7 +32,21 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Add Bluetooth APIs
   bluetooth: {
     available: () => ipcRenderer.invoke('bluetooth-available'),
-    scan: () => ipcRenderer.invoke('bluetooth-scan')
+    scan: () => ipcRenderer.invoke('bluetooth-scan'),
+    connect: (deviceId) => ipcRenderer.invoke('bluetooth-connect', deviceId),
+    subscribe: (serviceUuid, characteristicUuid) => 
+      ipcRenderer.invoke('bluetooth-subscribe', serviceUuid, characteristicUuid),
+    disconnect: () => ipcRenderer.invoke('bluetooth-disconnect'),
+    
+    // Listen for data from device
+    onData: (callback) => {
+      ipcRenderer.on('bluetooth-data', (event, data) => callback(data));
+    },
+    
+    // Listen for disconnect events
+    onDisconnect: (callback) => {
+      ipcRenderer.on('bluetooth-disconnected', () => callback());
+    }
   }
 });
 

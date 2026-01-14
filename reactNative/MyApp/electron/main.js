@@ -4,6 +4,7 @@ const fs = require('fs');
 
 let mainWindow;
 let noble;
+let connectedPeripheral = null;
 
 // Try to load noble
 try {
@@ -42,9 +43,141 @@ ipcMain.handle('bluetooth-scan', async () => {
       devices.push({
         id: peripheral.id,
         name: peripheral.advertisement.localName || 'Unknown Device',
-        rssi: peripheral.rssi
+        rssi: peripheral.rssi,
+        peripheral: peripheral
       });
     });
+  });
+});
+
+// NEW: Connect to a specific device
+ipcMain.handle('bluetooth-connect', async (event, deviceId) => {
+  return new Promise((resolve, reject) => {
+    if (!noble) {
+      reject(new Error('Bluetooth not available'));
+      return;
+    }
+
+    console.log('Attempting to connect to device:', deviceId);
+    
+    // Stop scanning first
+    noble.stopScanning();
+
+    const onDiscover = (peripheral) => {
+      if (peripheral.id === deviceId) {
+        console.log('Found target device, connecting...');
+        
+        peripheral.connect((error) => {
+          if (error) {
+            console.error('Connection error:', error);
+            reject(error);
+            return;
+          }
+
+          console.log('Connected to', peripheral.advertisement.localName);
+          connectedPeripheral = peripheral;
+
+          // Handle disconnect
+          peripheral.once('disconnect', () => {
+            console.log('Device disconnected');
+            connectedPeripheral = null;
+            mainWindow.webContents.send('bluetooth-disconnected');
+          });
+
+          resolve({
+            success: true,
+            name: peripheral.advertisement.localName,
+            id: peripheral.id
+          });
+        });
+
+        noble.removeListener('discover', onDiscover);
+        noble.stopScanning();
+      }
+    };
+
+    noble.on('discover', onDiscover);
+    
+    noble.on('stateChange', (state) => {
+      if (state === 'poweredOn') {
+        noble.startScanning([], false);
+      }
+    });
+
+    // Timeout after 30 seconds
+    setTimeout(() => {
+      noble.removeListener('discover', onDiscover);
+      noble.stopScanning();
+      reject(new Error('Connection timeout'));
+    }, 30000);
+  });
+});
+
+// NEW: Subscribe to a characteristic
+ipcMain.handle('bluetooth-subscribe', async (event, serviceUuid, characteristicUuid) => {
+  return new Promise((resolve, reject) => {
+    if (!connectedPeripheral) {
+      reject(new Error('No device connected'));
+      return;
+    }
+
+    console.log('Discovering services and characteristics...');
+
+    connectedPeripheral.discoverSomeServicesAndCharacteristics(
+      [serviceUuid],
+      [characteristicUuid],
+      (error, services, characteristics) => {
+        if (error) {
+          console.error('Discovery error:', error);
+          reject(error);
+          return;
+        }
+
+        if (characteristics.length === 0) {
+          reject(new Error('Characteristic not found'));
+          return;
+        }
+
+        const characteristic = characteristics[0];
+        console.log('Found characteristic, subscribing...');
+
+        characteristic.subscribe((error) => {
+          if (error) {
+            console.error('Subscribe error:', error);
+            reject(error);
+            return;
+          }
+
+          console.log('Subscribed to notifications');
+
+          // Listen for data
+          characteristic.on('data', (data) => {
+            const value = data.toString('utf8');
+            console.log('Received data:', value);
+            
+            // Send data to renderer
+            mainWindow.webContents.send('bluetooth-data', value);
+          });
+
+          resolve({ success: true });
+        });
+      }
+    );
+  });
+});
+
+// NEW: Disconnect
+ipcMain.handle('bluetooth-disconnect', async () => {
+  return new Promise((resolve) => {
+    if (connectedPeripheral) {
+      connectedPeripheral.disconnect(() => {
+        console.log('Disconnected');
+        connectedPeripheral = null;
+        resolve({ success: true });
+      });
+    } else {
+      resolve({ success: false, message: 'No device connected' });
+    }
   });
 });
 
