@@ -7580,9 +7580,9 @@
 		)
 		(uuid "6cf2382a-d1b4-477b-8381-df0200b02508")
 	)
-	(text "EEG Inputs (TODO: Add filters)"
+	(text "EEG Inputs\n"
 		(exclude_from_sim no)
-		(at 245.872 206.756 0)
+		(at 209.296 164.084 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7600,16 +7600,6 @@
 			(justify left bottom)
 		)
 		(uuid "7924ef76-b314-46d0-986f-d270dc6745aa")
-	)
-	(text "We need to make this 5V signal cleaner"
-		(exclude_from_sim no)
-		(at 201.422 216.916 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "7a79c1af-e7f0-4889-bb5d-f9e6ef62e5c3")
 	)
 	(text "EEG Circuit"
 		(exclude_from_sim no)
