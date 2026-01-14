@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron/renderer');
 
 window.addEventListener('DOMContentLoaded', () => {
   console.log('Preload: DOMContentLoaded');
@@ -26,7 +26,10 @@ try {
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
 contextBridge.exposeInMainWorld('electronAPI', {
-  saveFile: (args) => ipcRenderer.invoke('save-file', args)
+  saveFile: (args) => ipcRenderer.invoke('save-file', args),
+  cancelBluetoothRequest: () => ipcRenderer.send('cancel-bluetooth-request'),
+  bluetoothPairingRequest: (callback) => ipcRenderer.on('bluetooth-pairing-request', () => callback()),
+  bluetoothPairingResponse: (response) => ipcRenderer.send('bluetooth-pairing-response', response)
 });
 
 console.log('Preload script loaded - electronAPI available');

@@ -9,7 +9,7 @@ npm run start:electron
 */
 
 import * as FileSystem from 'expo-file-system';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Alert,
   FlatList,
@@ -194,55 +194,24 @@ const App = () => {
     }
   };
 
-  const connectWebBluetooth = async () => {
-    try {
-      // Check for Bluetooth API - either native or polyfill
-      const bluetoothAPI = navigator.bluetooth || (typeof window !== 'undefined' && window.bluetooth);
-      
-      if (!bluetoothAPI) {
-        alert('Bluetooth is not available.\n\nFor the best experience, try:\n1. Running this app in Chrome browser\n2. Or ensure Bluetooth is enabled on your system');
-        return;
-      }
-
-      console.log('Using Bluetooth API...');
-
-      // Nordic UART Service UUID
-      const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
-      const NUS_TX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
-
-      const device = await bluetoothAPI.requestDevice({
-        filters: [{ services: [NUS_SERVICE_UUID] }],
-        optionalServices: [NUS_SERVICE_UUID]
-      });
-
-      console.log('Device selected:', device.name);
-      setWebBluetoothDevice(device);
-      
-      const server = await device.gatt.connect();
-      console.log('Connected to GATT server');
-      
-      const service = await server.getPrimaryService(NUS_SERVICE_UUID);
-      console.log('Got NUS service');
-      
-      const characteristic = await service.getCharacteristic(NUS_TX_CHARACTERISTIC_UUID);
-      console.log('Got TX characteristic');
-      
-      await characteristic.startNotifications();
-      console.log('Notifications started');
-      
-      characteristic.addEventListener('characteristicvaluechanged', (event) => {
-        const value = new TextDecoder().decode(event.target.value);
-        console.log('Received data:', value);
-        handleReceivedData(value);
-      });
-
-      alert(`Connected to ${device.name || 'Unknown Device'}\nListening for data...`);
-    } catch (error) {
-      console.error('Web Bluetooth error:', error);
-      alert('Failed to connect to device: ' + error.message);
-      setWebBluetoothDevice(null);
+const connectWebBluetooth = async () => {
+  try {
+    // Debug logging
+    console.log('navigator.bluetooth:', navigator.bluetooth);
+    console.log('User agent:', navigator.userAgent);
+    console.log('All navigator properties:', Object.keys(navigator));
+    
+    // Check for Bluetooth API
+    if (!navigator.bluetooth) {
+      alert('Bluetooth is not enabled in Electron.\n\nMake sure your Electron app has:\n1. enableBluetoothAPI: true in webPreferences\n2. enable-experimental-web-platform-features flag\n3. select-bluetooth-device handler');
+      return;
     }
-  };
+    
+    // Your connection code...
+  } catch (error) {
+    console.error('Bluetooth error:', error);
+  }
+};
 
   const disconnectWebBluetooth = async () => {
     if (webBluetoothDevice && webBluetoothDevice.gatt.connected) {

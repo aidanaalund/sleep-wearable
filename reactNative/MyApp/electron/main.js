@@ -3,6 +3,8 @@ const path = require('path');
 const fs = require('fs');
 
 let mainWindow;
+let bluetoothPinCallback;
+let selectBluetoothCallback;
 
 // Must be called before app is ready
 app.whenReady().then(() => {
@@ -52,7 +54,25 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       webSecurity: false,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      // Add these for Web Bluetooth
+      sandbox: false,
+      enableBluetoothAPI: true
+    }
+  });
+
+  mainWindow.webContents.session.setPermissionCheckHandler((webContents, permission) => {
+    if (permission === 'bluetooth' || permission === 'bluetooth-scan') {
+      return true;
+    }
+    return false;
+  });
+
+  mainWindow.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
+    if (permission === 'bluetooth' || permission === 'bluetooth-scan') {
+      callback(true);
+    } else {
+      callback(false);
     }
   });
 
@@ -86,7 +106,7 @@ function createWindow() {
   });
 
   // Handle Bluetooth device selection
-  mainWindow.webContents.on('select-bluetooth-device', (event, deviceList, callback) => {
+  mainWindow.webContents.session.on('select-bluetooth-device', (event, deviceList, callback) => {
     event.preventDefault();
     
     console.log('Bluetooth device selection requested');
