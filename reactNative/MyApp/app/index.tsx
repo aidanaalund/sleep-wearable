@@ -25,5 +25,5 @@ export default function Index() {
 }
 
 /*
-I want to add Bluetooth functionality to my Electron app on Windows. 
+
 */

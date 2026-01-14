@@ -196,50 +196,75 @@ const App = () => {
 
   const connectWebBluetooth = async () => {
     try {
-      // Check for Bluetooth API - either native or polyfill
-      const bluetoothAPI = navigator.bluetooth || (typeof window !== 'undefined' && window.bluetooth);
+      // Check if we're in Electron
+      const isElectron = window.electronAPI && window.electronAPI.bluetooth;
       
-      if (!bluetoothAPI) {
-        alert('Bluetooth is not available.\n\nFor the best experience, try:\n1. Running this app in Chrome browser\n2. Or ensure Bluetooth is enabled on your system');
-        return;
+      if (isElectron) {
+        // === ELECTRON PATH (using Noble) ===
+        console.log('Using Electron native Bluetooth');
+        
+        const available = await window.electronAPI.bluetooth.available();
+        if (!available) {
+          alert('Bluetooth is not available');
+          return;
+        }
+        
+        console.log('Scanning for Bluetooth devices...');
+        const devices = await window.electronAPI.bluetooth.scan();
+        
+        console.log('Found devices:', devices);
+        
+        if (devices.length === 0) {
+          alert('No Bluetooth devices found');
+          return;
+        }
+        
+        // Display found devices
+        alert(`Found ${devices.length} devices:\n` + 
+              devices.map(d => d.name).join('\n'));
+        
+        // TODO: You'll need to add connection logic for Noble
+        // This requires additional IPC handlers in main.js
+        
+      } else {
+        // === WEB BROWSER PATH (using Web Bluetooth API) ===
+        console.log('Using Web Bluetooth API');
+        
+        const bluetoothAPI = navigator.bluetooth;
+        
+        if (!bluetoothAPI || typeof bluetoothAPI.requestDevice !== 'function') {
+          alert('Web Bluetooth is not available.\n\nPlease use Chrome, Edge, or Opera browser.');
+          return;
+        }
+        
+        // Nordic UART Service UUID
+        const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+        const NUS_TX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
+        
+        const device = await bluetoothAPI.requestDevice({
+          filters: [{ services: [NUS_SERVICE_UUID] }],    // acceptAllDevices: true,
+          optionalServices: [NUS_SERVICE_UUID]
+        });
+        
+        setWebBluetoothDevice(device);
+        
+        const server = await device.gatt.connect();
+        const service = await server.getPrimaryService(NUS_SERVICE_UUID);
+        const characteristic = await service.getCharacteristic(NUS_TX_CHARACTERISTIC_UUID);
+        
+        await characteristic.startNotifications();
+        
+        characteristic.addEventListener('characteristicvaluechanged', (event) => {
+          const value = new TextDecoder().decode(event.target.value);
+          handleReceivedData(value);
+        });
+        
+        alert(`Connected to ${device.name || 'Unknown Device'}\nListening for data...`);
       }
-
-      console.log('Using Bluetooth API...');
-
-      // Nordic UART Service UUID
-      const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
-      const NUS_TX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
-
-      const device = await bluetoothAPI.requestDevice({
-        filters: [{ services: [NUS_SERVICE_UUID] }],
-        optionalServices: [NUS_SERVICE_UUID]
-      });
-
-      console.log('Device selected:', device.name);
-      setWebBluetoothDevice(device);
       
-      const server = await device.gatt.connect();
-      console.log('Connected to GATT server');
-      
-      const service = await server.getPrimaryService(NUS_SERVICE_UUID);
-      console.log('Got NUS service');
-      
-      const characteristic = await service.getCharacteristic(NUS_TX_CHARACTERISTIC_UUID);
-      console.log('Got TX characteristic');
-      
-      await characteristic.startNotifications();
-      console.log('Notifications started');
-      
-      characteristic.addEventListener('characteristicvaluechanged', (event) => {
-        const value = new TextDecoder().decode(event.target.value);
-        console.log('Received data:', value);
-        handleReceivedData(value);
-      });
-
-      alert(`Connected to ${device.name || 'Unknown Device'}\nListening for data...`);
     } catch (error) {
-      console.error('Web Bluetooth error:', error);
-      alert('Failed to connect to device: ' + error.message);
+      console.error('Bluetooth error:', error);
+      alert('Bluetooth connection failed: ' + error.message);
       setWebBluetoothDevice(null);
     }
   };

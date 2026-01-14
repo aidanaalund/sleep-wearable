@@ -3,8 +3,87 @@ const path = require('path');
 const fs = require('fs');
 
 let mainWindow;
-let bluetoothPinCallback;
-let selectBluetoothCallback;
+let noble;
+
+// Try to load noble
+try {
+  noble = require('@abandonware/noble');
+  console.log('Noble loaded successfully');
+} catch (err) {
+  console.log('Noble not available:', err.message);
+}
+
+ipcMain.handle('bluetooth-available', async () => {
+  return !!noble;
+});
+
+ipcMain.handle('bluetooth-scan', async () => {
+  return new Promise((resolve, reject) => {
+    if (!noble) {
+      reject(new Error('Bluetooth not available'));
+      return;
+    }
+
+    const devices = [];
+    const timeout = setTimeout(() => {
+      noble.stopScanning();
+      resolve(devices);
+    }, 10000); // 10 second scan
+
+    noble.on('stateChange', (state) => {
+      console.log('Bluetooth state:', state);
+      if (state === 'poweredOn') {
+        noble.startScanning([], true); // Scan for all devices
+      }
+    });
+
+    noble.on('discover', (peripheral) => {
+      console.log('Found device:', peripheral.advertisement.localName || 'Unknown');
+      devices.push({
+        id: peripheral.id,
+        name: peripheral.advertisement.localName || 'Unknown Device',
+        rssi: peripheral.rssi
+      });
+    });
+  });
+});
+
+// IPC Handler for saving files
+ipcMain.handle('save-file', async (event, { data, defaultPath }) => {
+  try {
+    const result = await dialog.showSaveDialog(mainWindow, {
+      defaultPath: defaultPath || 'sleepData.txt',
+      filters: [
+        { name: 'Text Files', extensions: ['txt'] },
+        { name: 'CSV Files', extensions: ['csv'] },
+        { name: 'JSON Files', extensions: ['json'] },
+        { name: 'All Files', extensions: ['*'] }
+      ]
+    });
+
+    if (result.canceled) {
+      return { success: false, canceled: true };
+    }
+
+    if (result.filePath) {
+      fs.writeFileSync(result.filePath, data, 'utf8');
+      return { 
+        success: true, 
+        path: result.filePath,
+        canceled: false 
+      };
+    }
+
+    return { success: false, canceled: false };
+  } catch (error) {
+    console.error('Error saving file:', error);
+    return { 
+      success: false, 
+      error: error.message,
+      canceled: false 
+    };
+  }
+});
 
 // Must be called before app is ready
 app.whenReady().then(() => {
@@ -107,7 +186,7 @@ function createWindow() {
   });
 
   // Handle Bluetooth device selection
-  mainWindow.webContents.session.on('select-bluetooth-device', (event, deviceList, callback) => {
+  mainWindow.webContents.on('select-bluetooth-device', (event, deviceList, callback) => {
     event.preventDefault();
     
     console.log('Bluetooth device selection requested');
@@ -130,43 +209,6 @@ function createWindow() {
     }
   });
 }
-
-// IPC Handler for saving files
-ipcMain.handle('save-file', async (event, { data, defaultPath }) => {
-  try {
-    const result = await dialog.showSaveDialog(mainWindow, {
-      defaultPath: defaultPath || 'sleepData.txt',
-      filters: [
-        { name: 'Text Files', extensions: ['txt'] },
-        { name: 'CSV Files', extensions: ['csv'] },
-        { name: 'JSON Files', extensions: ['json'] },
-        { name: 'All Files', extensions: ['*'] }
-      ]
-    });
-
-    if (result.canceled) {
-      return { success: false, canceled: true };
-    }
-
-    if (result.filePath) {
-      fs.writeFileSync(result.filePath, data, 'utf8');
-      return { 
-        success: true, 
-        path: result.filePath,
-        canceled: false 
-      };
-    }
-
-    return { success: false, canceled: false };
-  } catch (error) {
-    console.error('Error saving file:', error);
-    return { 
-      success: false, 
-      error: error.message,
-      canceled: false 
-    };
-  }
-});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
