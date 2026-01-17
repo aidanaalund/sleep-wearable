@@ -6075,6 +6075,110 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "RSLK2:Testpoint_1"
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 0 2.794 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TP"
+				(at 0 -2.286 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "RSLK2:Testpoint_1x1"
+				(at 0 5.715 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Testpoint"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "Testpoint"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Jumper* TestPoint*2Pads* TestPoint*Bridge*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Testpoint_1_0_1"
+				(circle
+					(center -1.905 3.175)
+					(radius 0.635)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Testpoint_1_1_1"
+				(pin passive line
+					(at -1.905 0 90)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "R_US_1"
 			(pin_numbers
 				(hide yes)
@@ -7678,7 +7782,7 @@
 	)
 	(text "TODO: Do we need 'WAKE_BNO085'?"
 		(exclude_from_sim no)
-		(at 21.336 124.968 0)
+		(at 11.176 114.3 0)
 		(effects
 			(font
 				(size 1.778 1.5113)
@@ -8121,12 +8225,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "22a49cf1-cf27-4095-a5f4-e122bde7eee1")
-	)
-	(junction
-		(at 158.75 167.005)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "233ddab2-5cc6-40eb-9697-c31524779713")
 	)
 	(junction
 		(at 142.875 210.82)
@@ -8757,6 +8855,10 @@
 		(uuid "439914e0-4714-4a8e-8d41-b9a6146c9c2b")
 	)
 	(no_connect
+		(at 31.115 241.3)
+		(uuid "48729032-41be-4919-904d-2b4264f965e7")
+	)
+	(no_connect
 		(at 69.215 139.065)
 		(uuid "54dd262c-728c-40cb-b85e-1b247114fe97")
 	)
@@ -8765,8 +8867,8 @@
 		(uuid "6686ff11-4472-4a2a-8b71-f7deecc64aab")
 	)
 	(no_connect
-		(at 69.215 98.425)
-		(uuid "76e8ff0d-7b08-4dc2-9095-a9ab58196351")
+		(at 31.115 236.22)
+		(uuid "732ebd60-9713-487d-8886-df4e69dd0953")
 	)
 	(no_connect
 		(at 118.745 32.385)
@@ -8847,6 +8949,10 @@
 	(no_connect
 		(at 132.715 30.48)
 		(uuid "efbd15de-665f-451c-ae9a-cf728343cb69")
+	)
+	(no_connect
+		(at 31.115 238.76)
+		(uuid "f19e962f-46cc-4bb9-a26f-d730c186c43a")
 	)
 	(no_connect
 		(at 132.715 27.94)
@@ -9386,7 +9492,7 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 167.005) (xy 158.75 167.005)
+			(xy 137.16 167.005) (xy 160.655 167.005)
 		)
 		(stroke
 			(width 0)
@@ -9533,6 +9639,16 @@
 			(type default)
 		)
 		(uuid "308bc81f-a819-4a0f-af5f-a41a6dde8f3e")
+	)
+	(wire
+		(pts
+			(xy 109.22 215.9) (xy 102.235 215.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "30a261ff-c41a-4ede-be8e-50d526f502cf")
 	)
 	(wire
 		(pts
@@ -11169,16 +11285,6 @@
 	)
 	(wire
 		(pts
-			(xy 160.655 167.005) (xy 158.75 167.005)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "af91bbe0-f5f5-4fdb-aab2-b8033c038506")
-	)
-	(wire
-		(pts
 			(xy 267.97 252.73) (xy 342.265 252.73)
 		)
 		(stroke
@@ -12142,16 +12248,6 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 168.91) (xy 158.75 167.005)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f62d5249-6136-4105-8d85-0aaf7aca5fb6")
-	)
-	(wire
-		(pts
 			(xy 313.69 92.075) (xy 313.69 102.235)
 		)
 		(stroke
@@ -12490,6 +12586,28 @@
 			)
 		)
 	)
+	(global_label "SDA"
+		(shape bidirectional)
+		(at 53.975 20.955 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "0d7c03f3-5def-44e5-8e0f-bb5d40cffc59")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 53.975 28.6196 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "AVDD"
 		(shape input)
 		(at 223.52 17.145 0)
@@ -12547,6 +12665,28 @@
 		(uuid "1513504e-e083-4704-bc8d-39a8a21ed8cb")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 23.269 228.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "DRDY"
+		(shape input)
+		(at 74.295 22.86 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "151400fc-1698-4c5c-8ced-30933cfab8d2")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 74.295 30.7438 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12710,6 +12850,94 @@
 			)
 		)
 	)
+	(global_label "MISO"
+		(shape input)
+		(at 79.375 20.32 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2635e88d-90a5-400c-b619-df534845e88e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 79.375 27.9014 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "INT_BNO085"
+		(shape input)
+		(at 69.215 20.955 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2a8898f9-82ba-4342-b8f2-a0f6f06ab714")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 69.215 35.3702 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "BOOT_BNO085"
+		(shape input)
+		(at 66.675 20.955 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2cd37fb2-bf5b-47e8-9e38-1fd67d260dcd")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 66.675 37.3659 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "PWDWN_ADS1299"
+		(shape input)
+		(at 64.135 20.955 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3212d848-3906-4004-8529-741c227f36a9")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 64.135 40.0872 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "START_ADS1299"
 		(shape input)
 		(at 342.265 229.235 0)
@@ -12767,6 +12995,28 @@
 		(uuid "4b812015-e6cd-4ffd-94cd-35f5e3625427")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 50.0828 118.745 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SHPHLD"
+		(shape output)
+		(at 69.215 98.425 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "4c5c5e0b-1c06-4970-855a-c574d0356fb5")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 58.7912 98.425 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12864,6 +13114,28 @@
 			)
 		)
 	)
+	(global_label "START_ADS1299"
+		(shape input)
+		(at 59.055 20.955 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "5f109c95-2928-409e-92a2-84c681128258")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 59.055 38.8172 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "RESET"
 		(shape input)
 		(at 160.655 167.005 0)
@@ -12882,28 +13154,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "nRST"
-		(shape input)
-		(at 158.75 168.91 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "65ca3146-f3f4-4d71-8c23-521998d95537")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 158.75 176.4913 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 				(hide yes)
 			)
 		)
@@ -12965,6 +13215,28 @@
 		(uuid "720c55a6-0f9d-44d9-bb34-99f03f597b92")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 173.6053 14.605 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SCL"
+		(shape input)
+		(at 56.515 20.955 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "725d37d2-2520-4b8d-96ae-7d39ce7dfbf3")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 56.515 27.4478 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13238,6 +13510,28 @@
 			)
 		)
 	)
+	(global_label "SCK"
+		(shape input)
+		(at 76.835 20.32 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "94499539-fe2a-470d-abe8-78125b1915fa")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 76.835 27.0547 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "AVSS"
 		(shape input)
 		(at 372.745 180.975 0)
@@ -13300,6 +13594,28 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "RST_BNO085"
+		(shape input)
+		(at 71.755 20.955 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ac2c7d15-259f-41e3-9e43-4b3e2c69b65c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 71.755 35.9144 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -13414,6 +13730,28 @@
 			)
 		)
 	)
+	(global_label "RST_ADS1299"
+		(shape input)
+		(at 61.595 20.955 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b403fbb2-6903-4adb-92c5-44d4f5120574")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 61.595 36.761 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "SCL"
 		(shape input)
 		(at 6.985 264.16 180)
@@ -13427,6 +13765,28 @@
 		(uuid "ba61e4d4-d19f-411b-8407-6854c28f73f3")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 0.4922 264.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "CS_ADS1299"
+		(shape input)
+		(at 99.695 20.32 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "bb3b148b-e429-4058-ae9d-eec5e577b5ad")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 99.695 35.1584 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13656,6 +14016,28 @@
 			)
 		)
 	)
+	(global_label "MOSI"
+		(shape input)
+		(at 81.915 20.32 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "dda1d390-66b0-4482-9978-342902262b28")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 81.915 27.9014 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "DRDY"
 		(shape output)
 		(at 342.265 206.375 0)
@@ -13713,6 +14095,28 @@
 		(uuid "edf435dd-fcb9-4797-8b22-456fdd29054b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 54.7998 126.365 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "CS_BNO085"
+		(shape input)
+		(at 97.155 20.32 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f27a85d7-4a2c-4561-b5ad-e0d02bceca00")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 97.155 34.3118 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15003,6 +15407,73 @@
 		)
 	)
 	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 60.96 20.955 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1d5cb744-cd1d-4e36-92bb-680b5b19a470")
+		(property "Reference" "TP5"
+			(at 57.7849 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 60.3249 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 60.96 15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 60.96 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 60.96 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "15848963-85b7-44f8-9d09-ea7b8861e4ef")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3V3")
 		(at 319.405 53.975 0)
 		(unit 1)
@@ -15202,6 +15673,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 109.22 223.52 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "22ce5ab2-2e31-43c2-8644-c16e589c5382")
+		(property "Reference" "#PWR024"
+			(at 109.22 229.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 109.22 227.965 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 109.22 223.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 109.22 223.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 109.22 223.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "71241985-67ca-4ada-8e8a-03f499371eba")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "#PWR024")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ECE445L:C")
 		(at 137.16 170.815 0)
 		(unit 1)
@@ -15266,6 +15803,74 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "C53")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 55.88 20.955 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2391488b-9e75-4021-9ea9-6afe8d6dacc5")
+		(property "Reference" "TP3"
+			(at 52.7049 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 55.2449 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 55.88 15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 55.88 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 55.88 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a3c5a758-0dc8-4b82-8082-a980caeb1358")
+		)
+		(instances
+			(project ""
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP3")
 					(unit 1)
 				)
 			)
@@ -15406,6 +16011,73 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "C15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 63.5 20.955 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "24e41426-e24d-491d-95a5-3821d200c03b")
+		(property "Reference" "TP6"
+			(at 60.3249 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 62.8649 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 63.5 15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 63.5 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 63.5 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2fe3f94a-e4b1-4c0d-ab4f-c8672bede047")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP6")
 					(unit 1)
 				)
 			)
@@ -15881,6 +16553,73 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "C9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 81.28 20.32 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2fae77d3-bbc4-4e91-9d98-50e696db31b5")
+		(property "Reference" "TP13"
+			(at 78.1049 15.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 80.6449 15.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 81.28 14.605 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 81.28 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 81.28 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8bc2e4e7-8799-4450-86f0-4ee031cf0eb6")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP13")
 					(unit 1)
 				)
 			)
@@ -16578,6 +17317,73 @@
 		)
 	)
 	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 71.12 20.955 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "404b883a-1def-4433-b159-2143f1ffe54f")
+		(property "Reference" "TP9"
+			(at 67.9449 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 70.4849 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 71.12 15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 71.12 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 71.12 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3ccee274-15dc-4dd1-b0a7-7e1fd25a42ea")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 15.24 260.35 0)
 		(unit 1)
@@ -17060,6 +17866,73 @@
 		)
 	)
 	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 99.06 20.32 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "499ecf8a-f08a-4f51-bb2f-bd89bc1f17af")
+		(property "Reference" "TP20"
+			(at 95.8849 15.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 98.4249 15.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 99.06 14.605 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 99.06 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 99.06 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bcc29e59-9c13-4608-89b1-e84a8aea5205")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 262.89 257.81 90)
 		(unit 1)
@@ -17475,6 +18348,76 @@
 		)
 	)
 	(symbol
+		(lib_id "ECE445L:C")
+		(at 109.22 219.71 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "545a6d6c-7132-4b1a-85e5-ce6807739a78")
+		(property "Reference" "C21"
+			(at 113.03 218.4399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1uF"
+			(at 113.03 220.9799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 110.1852 223.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 109.22 219.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 109.22 219.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d38638ed-6418-484c-9d9f-96b019d799eb")
+		)
+		(pin "2"
+			(uuid "f15e8d31-f612-4404-acbf-43401421f6f3")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "C21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "wearable:EEG_Electrode")
 		(at 219.075 196.215 0)
 		(unit 1)
@@ -17605,6 +18548,73 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "BT1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 83.82 20.32 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5829fc40-e0ac-4d38-b87c-2751ad6a4838")
+		(property "Reference" "TP14"
+			(at 80.6449 15.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 83.1849 15.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 83.82 14.605 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 83.82 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 83.82 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8955db42-5933-4c91-a15f-6996ccdaaf0c")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP14")
 					(unit 1)
 				)
 			)
@@ -18613,6 +19623,73 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "#PWR016")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 76.2 22.86 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "78a0e5d7-747a-40dd-81f4-16e53988a92a")
+		(property "Reference" "TP11"
+			(at 73.0249 17.78 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 75.5649 17.78 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 76.2 17.145 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 76.2 22.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 76.2 22.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "70b79faa-266c-4234-ab75-ea98c325c784")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP11")
 					(unit 1)
 				)
 			)
@@ -20133,6 +21210,73 @@
 		)
 	)
 	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 101.6 20.32 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8f39445b-a2a6-418d-aeaf-f65bf1ff549b")
+		(property "Reference" "TP21"
+			(at 98.4249 15.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 100.9649 15.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 101.6 14.605 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 101.6 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 101.6 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a61070e6-fb4e-4196-8764-2835ea4ca083")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 248.285 66.675 270)
 		(unit 1)
@@ -21457,6 +22601,73 @@
 		)
 	)
 	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 66.04 20.955 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a4defa30-5c8b-4bae-a63a-3e4105d38635")
+		(property "Reference" "TP7"
+			(at 62.8649 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 65.4049 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 66.04 15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 66.04 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 66.04 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ae0ea87c-513b-4594-99b0-4f1f9382a755")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 244.475 86.995 90)
 		(unit 1)
@@ -22148,6 +23359,139 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "#PWR059")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 68.58 20.955 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b3837883-7ff3-4b9d-b487-de7e3f8317e3")
+		(property "Reference" "TP8"
+			(at 65.4049 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 67.9449 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 68.58 15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 68.58 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 68.58 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0703b74b-44cd-41f4-9acb-ce808da0678b")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 78.74 20.32 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b44b9b9e-efa6-4e2d-b388-7f8b17303942")
+		(property "Reference" "TP12"
+			(at 75.5649 15.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 78.1049 15.24 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 78.74 14.605 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 78.74 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 78.74 20.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e194dcf9-d93b-4f7d-a1b4-c300bee7fff3")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP12")
 					(unit 1)
 				)
 			)
@@ -22890,6 +24234,73 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "C23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 73.66 20.955 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c8873f75-914c-4c01-9edf-0f90033bd7cd")
+		(property "Reference" "TP10"
+			(at 70.4849 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 73.0249 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 73.66 15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 73.66 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 73.66 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6ecc6697-98e4-433a-9af7-f2b93f83f6c6")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP10")
 					(unit 1)
 				)
 			)
@@ -24472,6 +25883,73 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "#PWR014")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "RSLK2:Testpoint_1")
+		(at 58.42 20.955 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f3135c8e-cade-4dad-9d90-5ee6b90d6e1c")
+		(property "Reference" "TP4"
+			(at 55.2449 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TP"
+			(at 57.7849 15.875 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+			(at 58.42 15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 58.42 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Testpoint"
+			(at 58.42 20.955 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0291d043-d9c6-429f-85de-fdb86105f047")
+		)
+		(instances
+			(project "wearable"
+				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
+					(reference "TP4")
 					(unit 1)
 				)
 			)
