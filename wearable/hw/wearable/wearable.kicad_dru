@@ -1,0 +1,4 @@
+(version 1)
+(rule "RF_Clearance"
+	(constraint clearance (min 0.5mm))
+	(condition "A.NetClass == 'RF_50' && !B.belongsToNet('RF_ANT')"))
