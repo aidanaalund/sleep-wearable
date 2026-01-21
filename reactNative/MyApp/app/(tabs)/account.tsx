@@ -382,6 +382,19 @@ const connectWebBluetooth = async () => {
     const timestamp = new Date().toISOString();             // change this for CSV
     const dataWithTimestamp = `[${timestamp}] ${data}\n`;   // change this for CSV
     
+    if (isElectron) {
+      try {
+        const result = await window.electronAPI.appendToFile(dataWithTimestamp);
+        if (result.success) {
+          console.log('Data appended to:', result.path);
+        } else {
+          console.error('Failed to append data:', result.error);
+        }
+      } catch (error) {
+        console.error('Error appending to file:', error);
+      }
+    }
+    
     if (isWeb) {
       saveWebData(dataWithTimestamp);
     } else {

@@ -253,6 +253,39 @@ ipcMain.handle('save-file', async (event, { data, defaultPath }) => {
   }
 });
 
+// IPC Handler for appending data to file
+ipcMain.handle('append-to-file', async (event, { data, filePath }) => {
+  try {
+    const path = require('path');
+    const fs = require('fs');
+    
+    let targetPath;
+    
+    if (filePath) {
+      // Use provided path
+      targetPath = filePath;
+    } else {
+      // Default to the directory where main.js is located
+      targetPath = path.join(__dirname, '../app/(tabs)/sleepData/sleepData.txt');
+    }
+    
+    let dataToWrite = typeof data === 'string' ? data : JSON.stringify(data, null, 2) + '\n';
+    
+    fs.appendFileSync(targetPath, dataToWrite, 'utf8');
+    
+    return { 
+      success: true, 
+      path: targetPath
+    };
+  } catch (error) {
+    console.error('Error appending to file:', error);
+    return { 
+      success: false, 
+      error: error.message
+    };
+  }
+});
+
 // Must be called before app is ready
 app.whenReady().then(() => {
   // Register a custom protocol to serve files as if from a web server

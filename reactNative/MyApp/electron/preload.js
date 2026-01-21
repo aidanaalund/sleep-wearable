@@ -29,6 +29,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Your existing saveFile API
   saveFile: (data, defaultPath) => ipcRenderer.invoke('save-file', { data, defaultPath }),
   
+  // Add appendToFile API
+  appendToFile: (data, filePath) => ipcRenderer.invoke('append-to-file', { data, filePath }),
+  
   // Add Bluetooth APIs
   bluetooth: {
     available: () => ipcRenderer.invoke('bluetooth-available'),
