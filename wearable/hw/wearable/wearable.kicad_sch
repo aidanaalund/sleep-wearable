@@ -7823,16 +7823,6 @@
 		)
 		(uuid "461e650f-3c27-47f8-bcde-8a0f0cccb131")
 	)
-	(text "TODO: integrate nordic pmic and find good boost converter to use with the LT LDO"
-		(exclude_from_sim no)
-		(at 67.056 303.022 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "4dba2d0e-d579-4d55-bade-1c458adb9644")
-	)
 	(text "nRF54L15-QFAA"
 		(exclude_from_sim no)
 		(at 0.762 187.452 0)
