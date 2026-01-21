@@ -175,7 +175,7 @@ ipcMain.handle('bluetooth-subscribe', async (event, serviceUuid, characteristicU
           // Listen for data
           characteristic.on('data', (data) => {
             const value = data.toString('utf8');
-            console.log('Received data:', value);
+            //console.log('Received data:', value);
             
             // Send data to renderer
             if (mainWindow) {
@@ -223,7 +223,18 @@ ipcMain.handle('save-file', async (event, { data, defaultPath }) => {
     }
 
     if (result.filePath) {
-      fs.writeFileSync(result.filePath, data, 'utf8');
+      // Convert data to string if it's not already
+      let dataToWrite;
+      if (typeof data === 'string') {
+        dataToWrite = data;
+      } else if (Buffer.isBuffer(data)) {
+        dataToWrite = data;
+      } else {
+        // If it's an object, stringify it
+        dataToWrite = JSON.stringify(data, null, 2);
+      }
+      
+      fs.writeFileSync(result.filePath, dataToWrite, 'utf8');
       return { 
         success: true, 
         path: result.filePath,

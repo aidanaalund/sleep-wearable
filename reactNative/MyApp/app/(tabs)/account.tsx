@@ -240,7 +240,7 @@ const connectWebBluetooth = async () => {
       
       // Listen for data
       window.electronAPI.bluetooth.onData((data) => {
-        console.log('Received from Snoozy:', data);
+        //console.log('Received from Snoozy:', data);
         handleReceivedData(data);
       });
       
@@ -361,7 +361,7 @@ const connectWebBluetooth = async () => {
           
           if (characteristic?.value) {
             const data = Buffer.from(characteristic.value, 'base64').toString('utf-8');
-            console.log('Received data:', data);
+            //console.log('Received data:', data);
             handleReceivedData(data);
           }
         }
