@@ -210,14 +210,14 @@ const connectWebBluetooth = async () => {
       console.log('Scanning for Bluetooth devices...');
       const devices = await window.electronAPI.bluetooth.scan();
       
-      console.log('Found devices:', devices);
+      //console.log('Found devices:', devices);
       
       // Filter for "Snoozy" device
       const snoozyDevice = devices.find(d => d.name === 'Snoozy');
       
       if (!snoozyDevice) {
         alert('Snoozy device not found. Make sure it is powered on and nearby.');
-        console.log('Available devices:', devices.map(d => d.name));
+        //console.log('Available devices:', devices.map(d => d.name));
         return;
       }
       
