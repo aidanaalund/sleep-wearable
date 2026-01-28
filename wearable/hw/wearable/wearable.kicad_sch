@@ -7079,222 +7079,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "ti_LM4041CILPR:LM4041CILPR"
-			(pin_names
-				(offset 1.016)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "IC"
-				(at 2.7965 1.9067 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left bottom)
-				)
-			)
-			(property "Value" "LM4041CILPR"
-				(at 2.796 -0.8896 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left bottom)
-				)
-			)
-			(property "Footprint" "ECE445L:ti_LM4041CILPR"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify bottom)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://www.ti.com/general/docs/suppproductinfo.tsp?distId=26&gotoUrl=https://www.ti.com/lit/gpn/lm4041a12"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Distributor" "Mouser"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Manufacturer" "Texas Instruments"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "P/N" "LM4041CILPR"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "LCSC Part #" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Cost" "0.78"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "LM4041CILPR_0_0"
-				(polyline
-					(pts
-						(xy -1.27 1.524) (xy -1.27 1.143)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 1.524) (xy -1.27 1.524)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 1.524) (xy -1.27 -0.762) (xy 1.27 -0.762) (xy 0 1.524)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 1.905) (xy 1.27 1.524)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 1.524) (xy 0 1.524)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin passive line
-					(at -2.54 0 0)
-					(length 2.54)
-					(name "~"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 2.54 270)
-					(length 2.54)
-					(name "~"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -2.54 90)
-					(length 2.54)
-					(name "~"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "wearable:EEG_Electrode"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -8006,12 +7790,6 @@
 		(uuid "61ff63fd-94f4-423a-923e-9e64bd2c61be")
 	)
 	(junction
-		(at 252.095 257.81)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "699d1ab3-b529-4b3b-90f2-b81bd1e328ea")
-	)
-	(junction
 		(at 127.635 241.935)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8022,12 +7800,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6ff6e466-b7fb-491e-a353-45b746389e41")
-	)
-	(junction
-		(at 252.095 264.795)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "70046b87-320e-44fb-9bc8-3a8e94e97eea")
 	)
 	(junction
 		(at 220.345 198.755)
@@ -8052,12 +7824,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "8154fdd3-c615-4006-9888-f15a9702c054")
-	)
-	(junction
-		(at 258.445 257.81)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "855e7f7d-17ce-421a-8901-6f19940b1e7d")
 	)
 	(junction
 		(at 125.73 290.195)
@@ -9091,16 +8857,6 @@
 	)
 	(wire
 		(pts
-			(xy 258.445 257.81) (xy 252.095 257.81)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "299659ee-bbce-4642-b0f2-91c913bb635a")
-	)
-	(wire
-		(pts
 			(xy 271.145 208.915) (xy 264.795 208.915)
 		)
 		(stroke
@@ -9559,16 +9315,6 @@
 			(type default)
 		)
 		(uuid "4a88ea12-395e-4115-ba38-8f4d7ef3c6a0")
-	)
-	(wire
-		(pts
-			(xy 249.555 262.255) (xy 249.555 264.795)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4be35110-8896-4589-a188-20cf6c6bf778")
 	)
 	(wire
 		(pts
@@ -10433,16 +10179,6 @@
 	)
 	(wire
 		(pts
-			(xy 249.555 264.795) (xy 252.095 264.795)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9b7cf3bf-8fb3-415c-be03-23e5baf736f3")
-	)
-	(wire
-		(pts
 			(xy 246.38 188.595) (xy 246.38 193.675)
 		)
 		(stroke
@@ -11154,16 +10890,6 @@
 	)
 	(wire
 		(pts
-			(xy 252.095 255.905) (xy 252.095 257.81)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cc8b3edc-59ca-4435-86a6-16319d2559ec")
-	)
-	(wire
-		(pts
 			(xy 139.065 258.445) (xy 139.065 255.905)
 		)
 		(stroke
@@ -11282,16 +11008,6 @@
 			(type solid)
 		)
 		(uuid "d472dc3a-70bc-416d-ab50-e6ac3bc2c598")
-	)
-	(wire
-		(pts
-			(xy 252.095 257.81) (xy 252.095 259.715)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d4cd2147-2fbb-4d19-b6f6-3ac2c8578a02")
 	)
 	(wire
 		(pts
@@ -13597,76 +13313,6 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "#PWR019")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_US")
-		(at 252.095 252.095 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "0c32ebe1-ae80-46e8-b8c4-1c6b643d0b2e")
-		(property "Reference" "R6"
-			(at 254 250.8249 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "5.1K"
-			(at 254 253.3649 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 253.111 252.349 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 252.095 252.095 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 252.095 252.095 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "12c239ea-9832-4b6c-a14f-be918e7bd4aa")
-		)
-		(pin "2"
-			(uuid "83291137-7fa6-4635-aba6-abc6f7c7c70d")
-		)
-		(instances
-			(project ""
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "R6")
 					(unit 1)
 				)
 			)
@@ -17450,72 +17096,6 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 252.095 264.795 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "6dac4936-dbdf-48f8-aa91-e247ba2f5151")
-		(property "Reference" "#PWR035"
-			(at 252.095 271.145 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 252.095 269.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 252.095 264.795 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 252.095 264.795 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 252.095 264.795 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "7d224aef-b4d4-41ac-878c-96d30d49ebcd")
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "#PWR035")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
 		(at 313.69 114.935 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -19835,125 +19415,6 @@
 		)
 	)
 	(symbol
-		(lib_id "ti_LM4041CILPR:LM4041CILPR")
-		(at 252.095 262.255 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "94524cbe-6432-4859-8048-be02b2a5829a")
-		(property "Reference" "IC1"
-			(at 255.27 260.4134 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "LM4041CILPR"
-			(at 255.27 262.9534 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "ECE445L:ti_LM4041CILPR"
-			(at 252.095 262.255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.ti.com/general/docs/suppproductinfo.tsp?distId=26&gotoUrl=https://www.ti.com/lit/gpn/lm4041a12"
-			(at 252.095 262.255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 252.095 262.255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Distributor" "Mouser"
-			(at 252.095 262.255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Texas Instruments"
-			(at 252.095 262.255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "P/N" "LM4041CILPR"
-			(at 252.095 262.255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part #" ""
-			(at 252.095 262.255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cost" "0.78"
-			(at 252.095 262.255 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "6f46df44-657b-4fc7-bb96-c05d4a972e6b")
-		)
-		(pin "3"
-			(uuid "604085fd-075e-4127-aa70-acb20675eb10")
-		)
-		(pin "1"
-			(uuid "a2c89ffb-d50d-45b8-b748-672d092ff16c")
-		)
-		(instances
-			(project ""
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "IC1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "PCM_nordic-lib-kicad-npm:nPM1300-QEXX")
 		(at 79.375 248.285 0)
 		(unit 1)
@@ -21439,72 +20900,6 @@
 			(project "wearable"
 				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
 					(reference "TP14")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3V3")
-		(at 252.095 248.285 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "b553b929-0611-4c9c-a747-80b998e50bad")
-		(property "Reference" "#PWR034"
-			(at 252.095 252.095 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 252.095 243.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 252.095 248.285 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 252.095 248.285 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 252.095 248.285 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2ca37199-5629-4dc0-9abd-99c7b66d84cd")
-		)
-		(instances
-			(project "wearable"
-				(path "/eeafcd59-7fa6-43d8-bb03-b6b192c7124f"
-					(reference "#PWR034")
 					(unit 1)
 				)
 			)
