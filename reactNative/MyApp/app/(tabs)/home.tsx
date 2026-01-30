@@ -8,18 +8,10 @@ npx expo export --platform web
 npm run start:electron
 */
 
+import * as FileSystem from 'expo-file-system';
 import React, { useState } from 'react';
-import {
-  Dimensions,
-  Modal,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { VictoryAxis, VictoryChart, VictoryLine } from 'victory-native';
 
   function HexColorsMath(color1, op, color2) {
     // Convert hex strings to numbers
@@ -43,6 +35,7 @@ import {
   }
 
 /* === Constants === */
+const isElectron = typeof window !== 'undefined' && window.electronAPI;
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const screenBound = Math.min(screenWidth, screenHeight);
 const CalendarWH = screenBound * 0.9;
@@ -71,6 +64,9 @@ const TimeTable = () => {
   const [isHorizontal, setIsHorizontal] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [chartData, setChartData] = useState([]);
+  const [showChart, setShowChart] = useState(false);
+  const [chartTitle, setChartTitle] = useState('');
 
   /* === Generate timestamps for 72 hours === */
   const times = [];
@@ -88,13 +84,13 @@ const TimeTable = () => {
   }
 
   const boxes = [
-    { label: 'Sleep0', start: 1,  end: 2,  color: '#DD44DD', day: 'Yesterday' },
-    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: 'Yesterday' },
-    { label: 'Sleep2', start: 21, end: 27, color: '#DDDD44', day: 'Yesterday' },
-    { label: 'Sleep3', start: 6,  end: 18, color: '#44DD44', day: 'Today' },
-    { label: 'Sleep4', start: 21, end: 27, color: '#44DDDD', day: 'Today' },
-    { label: 'Sleep5', start: 6,  end: 18, color: '#4444DD', day: 'Tomorrow' },
-    { label: 'Sleep6', start: 21, end: 27, color: '#DD44DD', day: 'Tomorrow' },
+    { label: 'Sleep0', start: 1,  end: 2,  color: '#DD44DD', day: 'Yesterday', filePath: `../app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: 'Yesterday', filePath: `../app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep2', start: 21, end: 27, color: '#DDDD44', day: 'Yesterday', filePath: `../app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep3', start: 6,  end: 18, color: '#44DD44', day: 'Today'    , filePath: `../app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep4', start: 21, end: 27, color: '#44DDDD', day: 'Today'    , filePath: `../app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep5', start: 6,  end: 18, color: '#4444DD', day: 'Tomorrow' , filePath: `../app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep6', start: 21, end: 27, color: '#DD44DD', day: 'Tomorrow' , filePath: `../app/(tabs)/sleepData/sleepData.csv` },
   ];
 
   const manyBoxes = createManyBoxes(boxes);
@@ -112,6 +108,46 @@ const TimeTable = () => {
       ];
     });
   }
+
+  const parseCSV = (csvString) => {
+    const lines = csvString.trim().split('\n');
+    const data = [];
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split(',');
+      const timestamp = new Date(values[0]).getTime();
+      const value = parseFloat(values[1]);
+      data.push({ x: timestamp, y: value });
+    }
+    return data;
+  };
+
+  const readCSVFile = async (filePath) => {
+    try {
+      const csvContent = await FileSystem.readAsStringAsync(filePath);
+      const parsedData = parseCSV(csvContent);
+      setChartData(parsedData);
+      setChartTitle(filePath.split('/').pop());
+      setShowChart(true);
+    } catch (err) {
+      console.error('Error reading CSV:', err);
+      alert('Failed to read CSV file');
+    }
+  };
+
+  const formatXAxis = (timestamp) => {
+    const date = new Date(timestamp);
+    return `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}.${String(date.getMilliseconds()).padStart(3, '0')}`;
+  };
+
+const handleBoxPress = (subBox) => {
+  if (isElectron) {
+    console.log('TRYING TO READ FILE');
+    readCSVFile(subBox.filePath);
+    console.log('DONE ATTEMPTING TO READ FILE');
+  } else {
+    alert(`Clicked ${subBox.label}`);
+  }
+};
 
   const toggleScrollDirection = () => setIsHorizontal(!isHorizontal);
 
@@ -186,8 +222,6 @@ const TimeTable = () => {
             ? { flexDirection: 'row' }
             : { flexDirection: 'column' }),
         }}
-        //nestedScrollEnabled={true}
-        //scrollEventThrottle={16}
       >
         <View
           style={[
@@ -218,7 +252,7 @@ const TimeTable = () => {
                             top: `${(100 / row.length) * colIndex}%`,
                           },
                         ]}
-                        onPress={() => alert(`Clicked ${subBox.label}`)}
+                        onPress={() => handleBoxPress(subBox)}
                       >
                         <Text style={[styles.boxText,
                           {
@@ -292,7 +326,7 @@ const TimeTable = () => {
                             left: `${(100 / row.length) * colIndex}%`,
                           },
                         ]}
-                        onPress={() => alert(`Clicked ${subBox.label}`)}
+                        onPress={() => handleBoxPress(subBox)}
                       >
                         <Text style={[styles.boxText,
                           {
@@ -423,6 +457,63 @@ const TimeTable = () => {
             >
               <Text style={styles.closeText}>Close</Text>
             </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Chart Modal */}
+      <Modal
+        visible={showChart}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowChart(false)}
+      >
+        <View style={styles.chartModalOverlay}>
+          <View style={styles.chartModalContent}>
+            <View style={styles.chartHeader}>
+              <Text style={styles.chartTitle}>{chartTitle}</Text>
+              <TouchableOpacity onPress={() => setShowChart(false)} style={styles.chartCloseButton}>
+                <Text style={styles.chartCloseButtonText}>✕</Text>
+              </TouchableOpacity>
+            </View>
+            
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+              <VictoryChart
+                width={Math.max(350, chartData.length * 50)}
+                height={300}
+                scale={{ x: 'time' }}
+                style={{
+                  background: { fill: BGColor1 }
+                }}
+              >
+                <VictoryAxis
+                  dependentAxis
+                  label="Value"
+                  style={{
+                    axisLabel: { padding: 40, fill: textLightColor },
+                    tickLabels: { fill: textLightColor },
+                    axis: { stroke: textLightColor },
+                    grid: { stroke: bordersColor }
+                  }}
+                />
+                <VictoryAxis
+                  label="Time (HH:MM:SS.mmm)"
+                  tickFormat={formatXAxis}
+                  style={{
+                    axisLabel: { padding: 30, fill: textLightColor },
+                    tickLabels: { angle: -45, fontSize: 8, fill: textLightColor },
+                    axis: { stroke: textLightColor },
+                    grid: { stroke: bordersColor }
+                  }}
+                />
+                <VictoryLine
+                  data={chartData}
+                  style={{
+                    data: { stroke: "#4287f5", strokeWidth: 2 }
+                  }}
+                />
+              </VictoryChart>
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -577,6 +668,40 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   closeText: { color: textDarkColor, fontWeight: 'bold' },
+
+  /* Chart Modal Styles */
+  chartModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.75)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  chartModalContent: {
+    backgroundColor: BGColor1,
+    borderRadius: 10,
+    padding: 20,
+    width: '90%',
+    maxHeight: '80%',
+  },
+  chartHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  chartTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: textLightColor,
+  },
+  chartCloseButton: {
+    padding: 5,
+  },
+  chartCloseButtonText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: textLightColor,
+  },
 });
 
 export default TimeTable;

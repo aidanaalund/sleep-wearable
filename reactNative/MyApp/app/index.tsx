@@ -9,6 +9,10 @@ ctrl + c (close webapp)
 // for actual app //
 npx expo export --platform web
 npm run start:electron
+
+// for mobile //
+npx expo prebuild
+npx expo run:android
 */
 
 import { Redirect, usePathname } from 'expo-router';
