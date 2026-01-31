@@ -10,17 +10,7 @@ npm run start:electron
 
 import * as FileSystem from 'expo-file-system';
 import React, { useEffect, useState } from 'react';
-import {
-  Alert,
-  FlatList,
-  PermissionsAndroid,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Alert, FlatList, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import { BGColor1, BGColor2, buttonColor, textLightColor } from './home';
 
@@ -379,8 +369,8 @@ const connectWebBluetooth = async () => {
   const handleReceivedData = async (data) => {
     setReceivedData(prev => prev + data);
     
-    const timestamp = new Date().toISOString();             // change this for CSV
-    const dataWithTimestamp = `[${timestamp}] ${data}\n`;   // change this for CSV
+    const timestamp = new Date().toISOString();         // change this for CSV
+    const dataWithTimestamp = `${timestamp},${data}`;   // change this for CSV
     
     if (isElectron) {
       try {

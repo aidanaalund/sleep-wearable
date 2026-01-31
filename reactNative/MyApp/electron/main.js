@@ -10,7 +10,6 @@ let discoveredPeripherals = new Map(); // Store peripherals by ID
 // Try to load noble
 try {
   noble = require('@abandonware/noble');
-  console.log('Noble loaded successfully');
 } catch (err) {
   console.log('Noble not available:', err.message);
 }
@@ -269,7 +268,7 @@ ipcMain.handle('append-to-file', async (event, { data, filePath }) => {
       targetPath = path.join(__dirname, '../app/(tabs)/sleepData/sleepData.txt');
     }
     
-    let dataToWrite = typeof data === 'string' ? data : JSON.stringify(data, null, 2) + '\n';
+    let dataToWrite = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
     
     fs.appendFileSync(targetPath, dataToWrite, 'utf8');
     

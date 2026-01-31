@@ -1,9 +1,9 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 window.addEventListener('DOMContentLoaded', () => {
-  console.log('Preload: DOMContentLoaded');
-  console.log('Preload: Current hash:', window.location.hash);
-  console.log('Preload: Current href:', window.location.href);
+  // console.log('Preload: DOMContentLoaded');
+  // console.log('Preload: Current hash:', window.location.hash);
+  // console.log('Preload: Current href:', window.location.href);
 });
 
 // Try to load webbluetooth polyfill
@@ -18,7 +18,6 @@ try {
     }
   }));
   
-  console.log('Web Bluetooth polyfill loaded');
 } catch (error) {
   console.log('Web Bluetooth polyfill not available:', error.message);
 }
@@ -54,5 +53,3 @@ contextBridge.exposeInMainWorld('electronAPI', {
     }
   }
 });
-
-console.log('Preload script loaded - electronAPI available');
