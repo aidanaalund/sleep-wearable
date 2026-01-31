@@ -208,7 +208,7 @@ ipcMain.handle('bluetooth-disconnect', async () => {
 ipcMain.handle('save-file', async (event, { data, defaultPath }) => {
   try {
     const result = await dialog.showSaveDialog(mainWindow, {
-      defaultPath: defaultPath || 'sleepData.txt',
+      defaultPath: defaultPath || 'sleepData.csv',
       filters: [
         { name: 'Text Files', extensions: ['txt'] },
         { name: 'CSV Files', extensions: ['csv'] },
@@ -265,7 +265,7 @@ ipcMain.handle('append-to-file', async (event, { data, filePath }) => {
       targetPath = filePath;
     } else {
       // Default to the directory where main.js is located
-      targetPath = path.join(__dirname, '../app/(tabs)/sleepData/sleepData.txt');
+      targetPath = path.join(__dirname, '../app/(tabs)/sleepData/sleepData.csv');
     }
     
     let dataToWrite = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
