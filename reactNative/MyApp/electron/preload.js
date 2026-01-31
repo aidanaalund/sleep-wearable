@@ -32,6 +32,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Add appendToFile API
   appendToFile: (data, filePath) => ipcRenderer.invoke('append-to-file', { data, filePath }),
   
+  readFile: (filePath) => ipcRenderer.invoke('read-file', filePath),
+
   // Add Bluetooth APIs
   bluetooth: {
     available: () => ipcRenderer.invoke('bluetooth-available'),

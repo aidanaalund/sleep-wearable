@@ -286,6 +286,15 @@ ipcMain.handle('append-to-file', async (event, { data, filePath }) => {
   }
 });
 
+// Handle file reading
+ipcMain.handle('read-file', async (event, filePath) => {
+  try {
+    return fs.readFileSync(filePath, 'utf8');
+  } catch (error) {
+    throw error;
+  }
+});
+
 // Must be called before app is ready
 app.whenReady().then(() => {
   // Register a custom protocol to serve files as if from a web server

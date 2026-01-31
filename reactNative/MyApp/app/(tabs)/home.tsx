@@ -8,10 +8,21 @@ npx expo export --platform web
 npm run start:electron
 */
 
-import * as FileSystem from 'expo-file-system';
 import React, { useState } from 'react';
 import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
-import { VictoryAxis, VictoryChart, VictoryLine } from 'victory-native';
+let VictoryChart, VictoryLine, VictoryAxis;
+
+if (Platform.OS === 'web') {
+  const Victory = require('victory');
+  VictoryChart = Victory.VictoryChart;
+  VictoryLine = Victory.VictoryLine;
+  VictoryAxis = Victory.VictoryAxis;
+} else {
+  const VictoryNative = require('victory-native');
+  VictoryChart = VictoryNative.VictoryChart;
+  VictoryLine = VictoryNative.VictoryLine;
+  VictoryAxis = VictoryNative.VictoryAxis;
+}
 
   function HexColorsMath(color1, op, color2) {
     // Convert hex strings to numbers
@@ -84,13 +95,13 @@ const TimeTable = () => {
   }
 
   const boxes = [
-    { label: 'Sleep0', start: 1,  end: 2,  color: '#DD44DD', day: 'Yesterday', filePath: `../app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: 'Yesterday', filePath: `../app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep2', start: 21, end: 27, color: '#DDDD44', day: 'Yesterday', filePath: `../app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep3', start: 6,  end: 18, color: '#44DD44', day: 'Today'    , filePath: `../app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep4', start: 21, end: 27, color: '#44DDDD', day: 'Today'    , filePath: `../app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep5', start: 6,  end: 18, color: '#4444DD', day: 'Tomorrow' , filePath: `../app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep6', start: 21, end: 27, color: '#DD44DD', day: 'Tomorrow' , filePath: `../app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep0', start: 1,  end: 2,  color: '#DD44DD', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep2', start: 21, end: 27, color: '#DDDD44', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep3', start: 6,  end: 18, color: '#44DD44', day: 'Today'    , filePath: `./app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep4', start: 21, end: 27, color: '#44DDDD', day: 'Today'    , filePath: `./app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep5', start: 6,  end: 18, color: '#4444DD', day: 'Tomorrow' , filePath: `./app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep6', start: 21, end: 27, color: '#DD44DD', day: 'Tomorrow' , filePath: `./app/(tabs)/sleepData/sleepData.csv` },
   ];
 
   const manyBoxes = createManyBoxes(boxes);
@@ -121,18 +132,26 @@ const TimeTable = () => {
     return data;
   };
 
-  const readCSVFile = async (filePath) => {
-    try {
-      const csvContent = await FileSystem.readAsStringAsync(filePath);
-      const parsedData = parseCSV(csvContent);
-      setChartData(parsedData);
-      setChartTitle(filePath.split('/').pop());
-      setShowChart(true);
-    } catch (err) {
-      console.error('Error reading CSV:', err);
-      alert('Failed to read CSV file');
+const readCSVFile = async (filePath) => {
+  try {
+    let csvContent;
+    
+    if (isElectron) {
+      csvContent = await window.electronAPI.readFile(filePath);
+    } else {
+      const response = await fetch(filePath);
+      csvContent = await response.text();
     }
-  };
+    
+    const parsedData = parseCSV(csvContent);
+    setChartData(parsedData);
+    setChartTitle(filePath.split('/').pop());
+    setShowChart(true);
+  } catch (err) {
+    console.error('Error reading CSV:', err);
+    alert(`Failed to read CSV file: ${err.message}`);
+  }
+};
 
   const formatXAxis = (timestamp) => {
     const date = new Date(timestamp);
@@ -141,9 +160,7 @@ const TimeTable = () => {
 
 const handleBoxPress = (subBox) => {
   if (isElectron) {
-    console.log('TRYING TO READ FILE');
     readCSVFile(subBox.filePath);
-    console.log('DONE ATTEMPTING TO READ FILE');
   } else {
     alert(`Clicked ${subBox.label}`);
   }
