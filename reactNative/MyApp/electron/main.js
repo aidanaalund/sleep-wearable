@@ -326,10 +326,33 @@ ipcMain.handle('append-to-file', async (event, { data, todaysDate }) => {
   }
 });
 
-// Handle file reading
 ipcMain.handle('read-file', async (event, filePath) => {
   try {
-    return fs.readFileSync(filePath, 'utf8');
+    const fullPath = path.join(__dirname, '../app/(tabs)/sleepData/', filePath + '.csv');
+    //console.log('Trying to read:', fullPath);
+    const content = fs.readFileSync(fullPath, 'utf8');
+    const lines = content.trim().split('\n').filter(line => line.length > 0);
+    
+    const firstTimestamp = lines[0].split(',')[0];
+    const lastTimestamp = lines[lines.length - 1].split(',')[0];
+    
+    const firstHour = new Date(firstTimestamp).getUTCHours();
+    const lastHour = new Date(lastTimestamp).getUTCHours();
+    
+    return {
+      firstHour,
+      lastHour,
+    };
+  } catch (error) {
+    //throw error;
+  }
+});
+
+ipcMain.handle('read-file-content', async (event, filePath) => {
+  try {
+    const fullPath = path.join(__dirname, '../app/(tabs)/sleepData/', filePath + '.csv');
+    console.log("PATH:" + fullPath);
+    return fs.readFileSync(fullPath, 'utf8');
   } catch (error) {
     throw error;
   }

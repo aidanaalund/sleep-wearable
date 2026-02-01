@@ -78,17 +78,6 @@ const formatDate = (date) => {
   return `${year}-${month}-${day}`;
 };
 
-const tempToday = new Date();
-const tempYesterday = new Date(tempToday);
-tempYesterday.setDate(tempToday.getDate() - 1);
-
-const tempTomorrow = new Date(tempToday);
-tempTomorrow.setDate(tempToday.getDate() + 1);
-
-let globalSelectedDate = formatDate(tempToday);
-let globalPreviousDate = formatDate(tempYesterday);
-let globalNextDate = formatDate(tempTomorrow);
-
 const TimeTable = () => {
   const [isHorizontal, setIsHorizontal] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -96,6 +85,32 @@ const TimeTable = () => {
   const [chartData, setChartData] = useState([]);
   const [showChart, setShowChart] = useState(false);
   const [chartTitle, setChartTitle] = useState('');
+  const [boxHours, setBoxHours] = useState({});
+
+  // Calculate dates from selectedDate
+  const previousDate = new Date(selectedDate);
+  previousDate.setDate(selectedDate.getDate() - 1);
+  
+  const nextDate = new Date(selectedDate);
+  nextDate.setDate(selectedDate.getDate() + 1);
+  
+  const globalSelectedDate = formatDate(selectedDate);
+  const globalPreviousDate = formatDate(previousDate);
+  const globalNextDate = formatDate(nextDate);
+
+  // Define boxes based on current dates
+  const boxes = [
+    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: globalPreviousDate },
+    { label: 'Sleep2', start: 6,  end: 18, color: '#44DD44', day: globalSelectedDate },
+    { label: 'Sleep3', start: 6,  end: 18, color: '#4444DD', day: globalNextDate },
+  ];
+
+  // Merge boxes with hours from state
+  const boxesWithHours = boxes.map(box => ({
+    ...box,
+    start: boxHours[box.day]?.firstHour ?? box.start,
+    end: boxHours[box.day]?.lastHour ?? box.end
+  }));
 
   /* === Generate timestamps for 72 hours === */
   const times = [];
@@ -112,16 +127,7 @@ const TimeTable = () => {
     }
   }
 
-  const boxes = [
-    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: globalPreviousDate },
-    { label: 'Sleep2', start: 21, end: 27, color: '#DDDD44', day: globalPreviousDate },
-    { label: 'Sleep3', start: 6,  end: 18, color: '#44DD44', day: globalSelectedDate },
-    { label: 'Sleep4', start: 21, end: 27, color: '#44DDDD', day: globalSelectedDate },
-    { label: 'Sleep5', start: 6,  end: 18, color: '#4444DD', day: globalNextDate },
-    { label: 'Sleep6', start: 21, end: 27, color: '#DD44DD', day: globalNextDate },
-  ];
-
-  const manyBoxes = createManyBoxes(boxes);
+  const manyBoxes = createManyBoxes(boxesWithHours);
 
   function createManyBoxes(boxes) {
     return boxes.map((box) => {
@@ -140,7 +146,7 @@ const TimeTable = () => {
   const parseCSV = (csvString) => {
     const lines = csvString.trim().split('\n');
     const data = [];
-    for (let i = 1; i < lines.length; i++) {
+    for (let i = 0; i < lines.length; i++) {
       const values = lines[i].split(',');
       const timestamp = new Date(values[0]).getTime();
       const value = parseFloat(values[1]);
@@ -154,7 +160,7 @@ const readCSVFile = async (filePath) => {
     let csvContent;
     
     if (isElectron) {
-      csvContent = await window.electronAPI.readFile(filePath);
+      csvContent = await window.electronAPI.readFileContent(filePath);
     } else {
       const response = await fetch(filePath);
       csvContent = await response.text();
@@ -177,7 +183,7 @@ const readCSVFile = async (filePath) => {
 
 const handleBoxPress = (subBox) => {
   if (isElectron) {
-    readCSVFile(`./app/(tabs)/sleepData/` + globalSelectedDate + '.csv');
+    readCSVFile(subBox.day);
   } else {
     alert(`Clicked ${subBox.label}`);
   }
@@ -210,15 +216,19 @@ const handleBoxPress = (subBox) => {
     const newDate = new Date(newYear, selectedDate.getMonth(), selectedDate.getDate());
     setSelectedDate(newDate);
     
+    // Calculate the new dates
     const previousDate = new Date(newDate);
     previousDate.setDate(newDate.getDate() - 1);
     
     const nextDate = new Date(newDate);
     nextDate.setDate(newDate.getDate() + 1);
     
-    globalSelectedDate = formatDate(newDate);
-    globalPreviousDate = formatDate(previousDate);
-    globalNextDate = formatDate(nextDate);
+    // Update boxes with the new dates immediately
+    updateBoxHoursForDates(
+      formatDate(previousDate),
+      formatDate(newDate),
+      formatDate(nextDate)
+    );
   };
 
   const handleMonthChange = (monthIndex) => {
@@ -231,9 +241,11 @@ const handleBoxPress = (subBox) => {
     const nextDate = new Date(newDate);
     nextDate.setDate(newDate.getDate() + 1);
     
-    globalSelectedDate = formatDate(newDate);
-    globalPreviousDate = formatDate(previousDate);
-    globalNextDate = formatDate(nextDate);
+    updateBoxHoursForDates(
+      formatDate(previousDate),
+      formatDate(newDate),
+      formatDate(nextDate)
+    );
   };
 
   const handleDaySelect = (day) => {
@@ -246,9 +258,36 @@ const handleBoxPress = (subBox) => {
     const nextDate = new Date(newDate);
     nextDate.setDate(newDate.getDate() + 1);
     
-    globalSelectedDate = formatDate(newDate);
-    globalPreviousDate = formatDate(previousDate);
-    globalNextDate = formatDate(nextDate);
+    updateBoxHoursForDates(
+      formatDate(previousDate),
+      formatDate(newDate),
+      formatDate(nextDate)
+    );
+  };
+
+  // New function that takes the dates as parameters
+  const updateBoxHoursForDates = async (prevDate, selDate, nxtDate) => {
+    try {
+      const dayHoursMap = {};
+      const uniqueDays = [prevDate, selDate, nxtDate];
+      
+      for (const day of uniqueDays) {
+        try {
+          const result = await window.electronAPI.readFile(day);
+          dayHoursMap[day] = {
+            firstHour: result.firstHour,
+            lastHour: result.lastHour + 1
+          };
+        } catch (fileError) {
+          console.warn(`Could not read file for ${day}, skipping:`, fileError.message);
+          continue;
+        }
+      }
+      
+      setBoxHours(dayHoursMap);
+    } catch (error) {
+      console.error('Error updating box hours:', error);
+    }
   };
 
   /* === Calendar generation === */

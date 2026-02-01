@@ -25,13 +25,13 @@ try {
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
 contextBridge.exposeInMainWorld('electronAPI', {
-  // Your existing saveFile API
   saveFile: (data, defaultPath) => ipcRenderer.invoke('save-file', { data, defaultPath }),
   
-  // Add appendToFile API
   appendToFile: (data, todaysDate) => ipcRenderer.invoke('append-to-file', { data, todaysDate }),
   
   readFile: (filePath) => ipcRenderer.invoke('read-file', filePath),
+
+  readFileContent: (filePath) => ipcRenderer.invoke('read-file-content', filePath),
 
   // Add Bluetooth APIs
   bluetooth: {
