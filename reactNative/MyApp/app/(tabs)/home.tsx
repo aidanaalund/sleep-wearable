@@ -8,7 +8,7 @@ npx expo export --platform web
 npm run start:electron
 */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 let VictoryChart, VictoryLine, VictoryAxis;
 
@@ -87,6 +87,22 @@ const TimeTable = () => {
   const [chartTitle, setChartTitle] = useState('');
   const [boxHours, setBoxHours] = useState({});
 
+  useEffect(() => {
+    // Calculate initial dates
+    const previousDate = new Date(selectedDate);
+    previousDate.setDate(selectedDate.getDate() - 1);
+    
+    const nextDate = new Date(selectedDate);
+    nextDate.setDate(selectedDate.getDate() + 1);
+    
+    // Call update with initial dates
+    updateBoxHoursForDates(
+      formatDate(previousDate),
+      formatDate(selectedDate),
+      formatDate(nextDate)
+    );
+  }, []);
+
   // Calculate dates from selectedDate
   const previousDate = new Date(selectedDate);
   previousDate.setDate(selectedDate.getDate() - 1);
@@ -100,9 +116,9 @@ const TimeTable = () => {
 
   // Define boxes based on current dates
   const boxes = [
-    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: globalPreviousDate },
-    { label: 'Sleep2', start: 6,  end: 18, color: '#44DD44', day: globalSelectedDate },
-    { label: 'Sleep3', start: 6,  end: 18, color: '#4444DD', day: globalNextDate },
+    { label: 'Sleep1', start: 0,  end: 0, color: '#DD4444', day: globalPreviousDate },
+    { label: 'Sleep2', start: 0,  end: 0, color: '#44DD44', day: globalSelectedDate },
+    { label: 'Sleep3', start: 0,  end: 0, color: '#4444DD', day: globalNextDate },
   ];
 
   // Merge boxes with hours from state
@@ -279,7 +295,7 @@ const handleBoxPress = (subBox) => {
             lastHour: result.lastHour + 1
           };
         } catch (fileError) {
-          console.warn(`Could not read file for ${day}, skipping:`, fileError.message);
+          console.warn(`SKIPPING ${day}`);
           continue;
         }
       }
