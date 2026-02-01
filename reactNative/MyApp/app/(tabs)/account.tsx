@@ -366,15 +366,22 @@ const connectWebBluetooth = async () => {
     }
   };
 
+  // change this for CSV
   const handleReceivedData = async (data) => {
     setReceivedData(prev => prev + data);
     
-    const timestamp = new Date().toISOString();         // change this for CSV
-    const dataWithTimestamp = `${timestamp},${data}`;   // change this for CSV
+    const timestamp = new Date().toISOString();
+    const dataWithTimestamp = `${timestamp},${data}`;
+    
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const dateString = `${year}-${month}-${day}`;
     
     if (isElectron) {
       try {
-        const result = await window.electronAPI.appendToFile(dataWithTimestamp);
+        const result = await window.electronAPI.appendToFile(dataWithTimestamp, dateString);
         if (result.success) {
           console.log('Data appended to:', result.path);
         } else {

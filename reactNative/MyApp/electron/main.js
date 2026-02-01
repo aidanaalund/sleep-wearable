@@ -253,23 +253,18 @@ ipcMain.handle('save-file', async (event, { data, defaultPath }) => {
 });
 
 // IPC Handler for appending data to file
-ipcMain.handle('append-to-file', async (event, { data, filePath }) => {
+ipcMain.handle('append-to-file', async (event, { data, todaysDate }) => {
   try {
     const path = require('path');
     const fs = require('fs');
     
     let targetPath;
-    
-    if (filePath) {
-      // Use provided path
-      targetPath = path.join(__dirname, '../app/(tabs)/sleepData/', filePath + '.csv')
-    } else {
-      // Default to the directory where main.js is located
-      targetPath = path.join(__dirname, '../app/(tabs)/sleepData/sleepData.csv');
-    }
+    if (todaysDate) { targetPath = path.join(__dirname, '../app/(tabs)/sleepData/', todaysDate + '.csv')
+    } else { targetPath = path.join(__dirname, '../app/(tabs)/sleepData/sleepData.csv'); }
+    // Check if file exists, if not create it
+    if (!fs.existsSync(targetPath)) { fs.writeFileSync(targetPath, '', 'utf8'); }
     
     let dataToWrite = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
-    
     fs.appendFileSync(targetPath, dataToWrite, 'utf8');
     
     return { 

@@ -29,7 +29,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   saveFile: (data, defaultPath) => ipcRenderer.invoke('save-file', { data, defaultPath }),
   
   // Add appendToFile API
-  appendToFile: (data, filePath) => ipcRenderer.invoke('append-to-file', { data, filePath }),
+  appendToFile: (data, todaysDate) => ipcRenderer.invoke('append-to-file', { data, todaysDate }),
   
   readFile: (filePath) => ipcRenderer.invoke('read-file', filePath),
 
