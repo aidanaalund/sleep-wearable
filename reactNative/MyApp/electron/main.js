@@ -6,6 +6,7 @@ let mainWindow;
 let noble;
 let connectedPeripheral = null;
 let discoveredPeripherals = new Map(); // Store peripherals by ID
+let activeCharacteristic = null; // Track active characteristic
 
 // Try to load noble
 try {
@@ -26,6 +27,11 @@ ipcMain.handle('bluetooth-scan', async () => {
       return;
     }
 
+    // Stop any existing scanning
+    if (noble.state === 'poweredOn') {
+      noble.stopScanning();
+    }
+
     discoveredPeripherals.clear(); // Clear previous scan
     const devices = [];
     
@@ -34,14 +40,14 @@ ipcMain.handle('bluetooth-scan', async () => {
       resolve(devices);
     }, 10000);
 
-    noble.on('stateChange', (state) => {
+    const onStateChange = (state) => {
       console.log('Bluetooth state:', state);
       if (state === 'poweredOn') {
         noble.startScanning([], true);
       }
-    });
+    };
 
-    noble.on('discover', (peripheral) => {
+    const onDiscover = (peripheral) => {
       console.log('Found device:', peripheral.advertisement.localName || 'Unknown');
       
       // Store peripheral reference
@@ -53,7 +59,15 @@ ipcMain.handle('bluetooth-scan', async () => {
         name: peripheral.advertisement.localName || 'Unknown Device',
         rssi: peripheral.rssi
       });
-    });
+    };
+
+    noble.on('stateChange', onStateChange);
+    noble.on('discover', onDiscover);
+
+    // Start scanning if already powered on
+    if (noble.state === 'poweredOn') {
+      noble.startScanning([], true);
+    }
   });
 });
 
@@ -72,6 +86,7 @@ ipcMain.handle('bluetooth-connect', async (event, deviceId) => {
     
     if (peripheral) {
       // We already have the peripheral from the scan
+      noble.stopScanning();
       connectToPeripheral(peripheral, resolve, reject);
     } else {
       // Need to scan for it
@@ -89,15 +104,18 @@ ipcMain.handle('bluetooth-connect', async (event, deviceId) => {
 
       noble.on('discover', onDiscover);
       
-      noble.on('stateChange', (state) => {
+      const onStateChange = (state) => {
         if (state === 'poweredOn') {
           noble.startScanning([], false);
         }
-      });
+      };
+
+      noble.on('stateChange', onStateChange);
 
       // Timeout after 30 seconds
       setTimeout(() => {
         noble.removeListener('discover', onDiscover);
+        noble.removeListener('stateChange', onStateChange);
         noble.stopScanning();
         reject(new Error('Connection timeout'));
       }, 30000);
@@ -121,6 +139,7 @@ function connectToPeripheral(peripheral, resolve, reject) {
     peripheral.once('disconnect', () => {
       console.log('Device disconnected');
       connectedPeripheral = null;
+      activeCharacteristic = null;
       if (mainWindow) {
         mainWindow.webContents.send('bluetooth-disconnected');
       }
@@ -162,6 +181,13 @@ ipcMain.handle('bluetooth-subscribe', async (event, serviceUuid, characteristicU
         const characteristic = characteristics[0];
         console.log('Found characteristic, subscribing...');
 
+        // Remove old data listener if it exists
+        if (activeCharacteristic) {
+          activeCharacteristic.removeAllListeners('data');
+        }
+
+        activeCharacteristic = characteristic;
+
         characteristic.subscribe((error) => {
           if (error) {
             console.error('Subscribe error:', error);
@@ -192,13 +218,27 @@ ipcMain.handle('bluetooth-subscribe', async (event, serviceUuid, characteristicU
 // Disconnect
 ipcMain.handle('bluetooth-disconnect', async () => {
   return new Promise((resolve) => {
+    console.log('Disconnect requested');
+    
+    // Clean up characteristic listeners
+    if (activeCharacteristic) {
+      activeCharacteristic.removeAllListeners('data');
+      activeCharacteristic = null;
+    }
+
     if (connectedPeripheral) {
-      connectedPeripheral.disconnect(() => {
-        console.log('Disconnected');
-        connectedPeripheral = null;
+      const peripheral = connectedPeripheral;
+      connectedPeripheral = null; // Clear reference immediately
+      
+      peripheral.disconnect((error) => {
+        if (error) {
+          console.error('Disconnect error:', error);
+        }
+        console.log('Disconnected successfully');
         resolve({ success: true });
       });
     } else {
+      console.log('No device connected');
       resolve({ success: false, message: 'No device connected' });
     }
   });
@@ -259,10 +299,16 @@ ipcMain.handle('append-to-file', async (event, { data, todaysDate }) => {
     const fs = require('fs');
     
     let targetPath;
-    if (todaysDate) { targetPath = path.join(__dirname, '../app/(tabs)/sleepData/', todaysDate + '.csv')
-    } else { targetPath = path.join(__dirname, '../app/(tabs)/sleepData/sleepData.csv'); }
+    if (todaysDate) { 
+      targetPath = path.join(__dirname, '../app/(tabs)/sleepData/', todaysDate + '.csv');
+    } else { 
+      targetPath = path.join(__dirname, '../app/(tabs)/sleepData/sleepData.csv'); 
+    }
+    
     // Check if file exists, if not create it
-    if (!fs.existsSync(targetPath)) { fs.writeFileSync(targetPath, '', 'utf8'); }
+    if (!fs.existsSync(targetPath)) { 
+      fs.writeFileSync(targetPath, '', 'utf8'); 
+    }
     
     let dataToWrite = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
     fs.appendFileSync(targetPath, dataToWrite, 'utf8');

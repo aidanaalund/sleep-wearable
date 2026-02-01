@@ -22,6 +22,7 @@ const App = () => {
   const [fileContent, setFileContent] = useState('');
   const [isScanning, setIsScanning] = useState(false);
   const [webBluetoothDevice, setWebBluetoothDevice] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
   // Store data in memory for Electron instead of localStorage
   const [inMemoryData, setInMemoryData] = useState('');
 
@@ -184,110 +185,155 @@ const App = () => {
     }
   };
 
-const connectWebBluetooth = async () => {
-  try {
-    const isElectron = window.electronAPI && window.electronAPI.bluetooth;
-    
-    if (isElectron) {
-      console.log('Using Electron native Bluetooth');
+  const connectWebBluetooth = async () => {
+    try {
+      const isElectronBluetooth = window.electronAPI && window.electronAPI.bluetooth;
       
-      const available = await window.electronAPI.bluetooth.available();
-      if (!available) {
-        alert('Bluetooth is not available');
-        return;
+      if (isElectronBluetooth) {
+        console.log('Using Electron native Bluetooth');
+        
+        // Clean up any existing listeners first
+        if (window.electronAPI.bluetooth.removeAllListeners) {
+          await window.electronAPI.bluetooth.removeAllListeners();
+        }
+        
+        const available = await window.electronAPI.bluetooth.available();
+        if (!available) {
+          alert('Bluetooth is not available');
+          return;
+        }
+        
+        console.log('Scanning for Bluetooth devices...');
+        const devices = await window.electronAPI.bluetooth.scan();
+        
+        //console.log('Found devices:', devices);
+        
+        // Filter for "Snoozy" device
+        const snoozyDevice = devices.find(d => d.name === 'Snoozy');
+        
+        if (!snoozyDevice) {
+          alert('Snoozy device not found. Make sure it is powered on and nearby.');
+          //console.log('Available devices:', devices.map(d => d.name));
+          return;
+        }
+        
+        console.log('Found Snoozy:', snoozyDevice);
+        alert('Found Snoozy! Connecting...');
+        
+        // Connect to device
+        const connectResult = await window.electronAPI.bluetooth.connect(snoozyDevice.id);
+        console.log('Connected:', connectResult);
+        
+        // Nordic UART Service UUID
+        const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+        const NUS_TX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
+        
+        // Subscribe to notifications
+        await window.electronAPI.bluetooth.subscribe(
+          NUS_SERVICE_UUID,
+          NUS_TX_CHARACTERISTIC_UUID
+        );
+        
+        // Listen for data
+        window.electronAPI.bluetooth.onData((data) => {
+          //console.log('Received from Snoozy:', data);
+          handleReceivedData(data);
+        });
+        
+        // Listen for disconnect
+        window.electronAPI.bluetooth.onDisconnect(() => {
+          console.log('Snoozy disconnected');
+          alert('Snoozy disconnected');
+          setWebBluetoothDevice(null);
+          setIsConnected(false);
+        });
+        
+        // Set connected state and device AFTER everything is set up
+        setWebBluetoothDevice({ name: snoozyDevice.name, id: snoozyDevice.id });
+        setIsConnected(true);
+        
+        alert(`Connected to Snoozy!\nListening for data...`);
+      } else {
+        // Web Bluetooth code for browsers...
+        const bluetoothAPI = navigator.bluetooth;
+        
+        if (!bluetoothAPI || typeof bluetoothAPI.requestDevice !== 'function') {
+          alert('Web Bluetooth is not available.\n\nPlease use Chrome, Edge, or Opera browser.');
+          return;
+        }
+        
+        const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+        const NUS_TX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
+        
+        const device = await bluetoothAPI.requestDevice({
+          filters: [{ services: [NUS_SERVICE_UUID] }],
+          optionalServices: [NUS_SERVICE_UUID]
+        });
+        
+        const server = await device.gatt.connect();
+        const service = await server.getPrimaryService(NUS_SERVICE_UUID);
+        const characteristic = await service.getCharacteristic(NUS_TX_CHARACTERISTIC_UUID);
+        
+        await characteristic.startNotifications();
+        
+        characteristic.addEventListener('characteristicvaluechanged', (event) => {
+          const value = new TextDecoder().decode(event.target.value);
+          handleReceivedData(value);
+        });
+        
+        // Add disconnect listener for web bluetooth
+        device.addEventListener('gattserverdisconnected', () => {
+          console.log('Device disconnected');
+          setWebBluetoothDevice(null);
+          setIsConnected(false);
+        });
+        
+        setWebBluetoothDevice(device);
+        setIsConnected(true);
+        
+        alert(`Connected to ${device.name || 'Unknown Device'}\nListening for data...`);
       }
       
-      console.log('Scanning for Bluetooth devices...');
-      const devices = await window.electronAPI.bluetooth.scan();
-      
-      //console.log('Found devices:', devices);
-      
-      // Filter for "Snoozy" device
-      const snoozyDevice = devices.find(d => d.name === 'Snoozy');
-      
-      if (!snoozyDevice) {
-        alert('Snoozy device not found. Make sure it is powered on and nearby.');
-        //console.log('Available devices:', devices.map(d => d.name));
-        return;
-      }
-      
-      console.log('Found Snoozy:', snoozyDevice);
-      alert('Found Snoozy! Connecting...');
-      
-      // Connect to device
-      const connectResult = await window.electronAPI.bluetooth.connect(snoozyDevice.id);
-      console.log('Connected:', connectResult);
-      
-      // Nordic UART Service UUID
-      const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
-      const NUS_TX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
-      
-      // Subscribe to notifications
-      await window.electronAPI.bluetooth.subscribe(
-        NUS_SERVICE_UUID,
-        NUS_TX_CHARACTERISTIC_UUID
-      );
-      
-      // Listen for data
-      window.electronAPI.bluetooth.onData((data) => {
-        //console.log('Received from Snoozy:', data);
-        handleReceivedData(data);
-      });
-      
-      // Listen for disconnect
-      window.electronAPI.bluetooth.onDisconnect(() => {
-        console.log('Snoozy disconnected');
-        alert('Snoozy disconnected');
-        setWebBluetoothDevice(null);
-      });
-      
-      alert(`Connected to Snoozy!\nListening for data...`);
-      
-    } else {
-      // Web Bluetooth code for browsers...
-      const bluetoothAPI = navigator.bluetooth;
-      
-      if (!bluetoothAPI || typeof bluetoothAPI.requestDevice !== 'function') {
-        alert('Web Bluetooth is not available.\n\nPlease use Chrome, Edge, or Opera browser.');
-        return;
-      }
-      
-      const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
-      const NUS_TX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
-      
-      const device = await bluetoothAPI.requestDevice({
-        filters: [{ services: [NUS_SERVICE_UUID] }],  // acceptAllDevices: true,
-        optionalServices: [NUS_SERVICE_UUID]
-      });
-      
-      setWebBluetoothDevice(device);
-      
-      const server = await device.gatt.connect();
-      const service = await server.getPrimaryService(NUS_SERVICE_UUID);
-      const characteristic = await service.getCharacteristic(NUS_TX_CHARACTERISTIC_UUID);
-      
-      await characteristic.startNotifications();
-      
-      characteristic.addEventListener('characteristicvaluechanged', (event) => {
-        const value = new TextDecoder().decode(event.target.value);
-        handleReceivedData(value);
-      });
-      
-      alert(`Connected to ${device.name || 'Unknown Device'}\nListening for data...`);
+    } catch (error) {
+      console.error('Bluetooth error:', error);
+      alert('Bluetooth connection failed: ' + error.message);
+      setWebBluetoothDevice(null);
+      setIsConnected(false);
     }
-    
-  } catch (error) {
-    console.error('Bluetooth error:', error);
-    alert('Bluetooth connection failed: ' + error.message);
-    setWebBluetoothDevice(null);
-  }
-};
+  };
 
   const disconnectWebBluetooth = async () => {
-    if (webBluetoothDevice && webBluetoothDevice.gatt.connected) {
-      webBluetoothDevice.gatt.disconnect();
+    const isElectronBluetooth = window.electronAPI && window.electronAPI.bluetooth;
+    
+    if (isElectronBluetooth) {
+      // Disconnect Electron Bluetooth
+      try {
+        // Remove listeners before disconnecting
+        if (window.electronAPI.bluetooth.removeAllListeners) {
+          await window.electronAPI.bluetooth.removeAllListeners();
+        }
+        await window.electronAPI.bluetooth.disconnect();
+        setWebBluetoothDevice(null);
+        setIsConnected(false);
+        alert('Device disconnected');
+      } catch (error) {
+        console.error('Error disconnecting Electron Bluetooth:', error);
+        // Still update state even if disconnect fails
+        setWebBluetoothDevice(null);
+        setIsConnected(false);
+      }
+    } else if (webBluetoothDevice) {
+      // Disconnect regular Web Bluetooth
+      if (webBluetoothDevice.gatt && webBluetoothDevice.gatt.connected) {
+        webBluetoothDevice.gatt.disconnect();
+      }
       setWebBluetoothDevice(null);
+      setIsConnected(false);
       alert('Device disconnected');
+    } else {
+      // No device connected, just update state
+      setWebBluetoothDevice(null);
+      setIsConnected(false);
     }
   };
 
@@ -357,12 +403,14 @@ const connectWebBluetooth = async () => {
         }
       );
       
+      setIsConnected(true);
       Alert.alert('Success', `Connected to ${device.name}\nListening for data...`);
       console.log('Successfully connected and monitoring');
     } catch (error) {
       console.error('Connection error:', error);
       Alert.alert('Error', `Failed to connect: ${error.message}`);
       setConnectedDevice(null);
+      setIsConnected(false);
     }
   };
 
@@ -470,6 +518,7 @@ const connectWebBluetooth = async () => {
       setConnectedDevice(null);
       Alert.alert('Disconnected', 'Device disconnected');
     }
+    setIsConnected(false);
   };
 
   const handleConnect = () => {
@@ -480,9 +529,6 @@ const connectWebBluetooth = async () => {
     }
   };
 
-  const isConnected = isWeb 
-    ? (webBluetoothDevice && webBluetoothDevice.gatt?.connected) 
-    : !!connectedDevice;
   const deviceName = isWeb 
     ? (webBluetoothDevice ? webBluetoothDevice.name || 'Unknown Device' : '')
     : (connectedDevice ? connectedDevice.name : '');
@@ -519,7 +565,9 @@ const connectWebBluetooth = async () => {
               </Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity style={styles.button} onPress={disconnectDevice}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={disconnectDevice}>
               <Text style={styles.buttonText}>Disconnect</Text>
             </TouchableOpacity>
           )}

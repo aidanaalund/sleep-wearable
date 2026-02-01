@@ -44,12 +44,22 @@ contextBridge.exposeInMainWorld('electronAPI', {
     
     // Listen for data from device
     onData: (callback) => {
+      // Remove all previous listeners before adding new one
+      ipcRenderer.removeAllListeners('bluetooth-data');
       ipcRenderer.on('bluetooth-data', (event, data) => callback(data));
     },
     
     // Listen for disconnect events
     onDisconnect: (callback) => {
+      // Remove all previous listeners before adding new one
+      ipcRenderer.removeAllListeners('bluetooth-disconnected');
       ipcRenderer.on('bluetooth-disconnected', () => callback());
+    },
+    
+    // Add method to remove all listeners
+    removeAllListeners: () => {
+      ipcRenderer.removeAllListeners('bluetooth-data');
+      ipcRenderer.removeAllListeners('bluetooth-disconnected');
     }
   }
 });
