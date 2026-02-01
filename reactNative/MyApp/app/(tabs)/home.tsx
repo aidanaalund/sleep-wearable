@@ -78,7 +78,16 @@ const formatDate = (date) => {
   return `${year}-${month}-${day}`;
 };
 
-let globalSelectedDate = formatDate(new Date());
+const tempToday = new Date();
+const tempYesterday = new Date(tempToday);
+tempYesterday.setDate(tempToday.getDate() - 1);
+
+const tempTomorrow = new Date(tempToday);
+tempTomorrow.setDate(tempToday.getDate() + 1);
+
+let globalSelectedDate = formatDate(tempToday);
+let globalPreviousDate = formatDate(tempYesterday);
+let globalNextDate = formatDate(tempTomorrow);
 
 const TimeTable = () => {
   const [isHorizontal, setIsHorizontal] = useState(false);
@@ -90,7 +99,7 @@ const TimeTable = () => {
 
   /* === Generate timestamps for 72 hours === */
   const times = [];
-  const dayLabels = ['Yesterday', 'Today', 'Tomorrow'];
+  const dayLabels = [globalPreviousDate, globalSelectedDate, globalNextDate];
   for (let d = 0; d < 3; d++) {
     for (let h = 0; h < 24; h++) {
       const period = h < 12 ? 'AM' : 'PM';
@@ -104,13 +113,12 @@ const TimeTable = () => {
   }
 
   const boxes = [
-    { label: 'Sleep0', start: 1,  end: 2,  color: '#DD44DD', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/` },
-    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/` },
-    { label: 'Sleep2', start: 21, end: 27, color: '#DDDD44', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/` },
-    { label: 'Sleep3', start: 6,  end: 18, color: '#44DD44', day: 'Today'    , filePath: `./app/(tabs)/sleepData/` },
-    { label: 'Sleep4', start: 21, end: 27, color: '#44DDDD', day: 'Today'    , filePath: `./app/(tabs)/sleepData/` },
-    { label: 'Sleep5', start: 6,  end: 18, color: '#4444DD', day: 'Tomorrow' , filePath: `./app/(tabs)/sleepData/` },
-    { label: 'Sleep6', start: 21, end: 27, color: '#DD44DD', day: 'Tomorrow' , filePath: `./app/(tabs)/sleepData/` },
+    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: globalPreviousDate },
+    { label: 'Sleep2', start: 21, end: 27, color: '#DDDD44', day: globalPreviousDate },
+    { label: 'Sleep3', start: 6,  end: 18, color: '#44DD44', day: globalSelectedDate },
+    { label: 'Sleep4', start: 21, end: 27, color: '#44DDDD', day: globalSelectedDate },
+    { label: 'Sleep5', start: 6,  end: 18, color: '#4444DD', day: globalNextDate },
+    { label: 'Sleep6', start: 21, end: 27, color: '#DD44DD', day: globalNextDate },
   ];
 
   const manyBoxes = createManyBoxes(boxes);
@@ -180,10 +188,10 @@ const handleBoxPress = (subBox) => {
   const getBoxIndices = (start, end, day) => {
     let baseOffset = 0;
     switch(day) {
-      case 'Today':
+      case globalSelectedDate:
         baseOffset = 24;
         break;
-      case 'Tomorrow':
+      case globalNextDate:
         baseOffset = 48;
         break;
     }
@@ -201,19 +209,46 @@ const handleBoxPress = (subBox) => {
     const newYear = selectedDate.getFullYear() + dir;
     const newDate = new Date(newYear, selectedDate.getMonth(), selectedDate.getDate());
     setSelectedDate(newDate);
+    
+    const previousDate = new Date(newDate);
+    previousDate.setDate(newDate.getDate() - 1);
+    
+    const nextDate = new Date(newDate);
+    nextDate.setDate(newDate.getDate() + 1);
+    
     globalSelectedDate = formatDate(newDate);
+    globalPreviousDate = formatDate(previousDate);
+    globalNextDate = formatDate(nextDate);
   };
 
   const handleMonthChange = (monthIndex) => {
     const newDate = new Date(selectedDate.getFullYear(), monthIndex, selectedDate.getDate());
     setSelectedDate(newDate);
+    
+    const previousDate = new Date(newDate);
+    previousDate.setDate(newDate.getDate() - 1);
+    
+    const nextDate = new Date(newDate);
+    nextDate.setDate(newDate.getDate() + 1);
+    
     globalSelectedDate = formatDate(newDate);
+    globalPreviousDate = formatDate(previousDate);
+    globalNextDate = formatDate(nextDate);
   };
 
   const handleDaySelect = (day) => {
     const newDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day);
     setSelectedDate(newDate);
+    
+    const previousDate = new Date(newDate);
+    previousDate.setDate(newDate.getDate() - 1);
+    
+    const nextDate = new Date(newDate);
+    nextDate.setDate(newDate.getDate() + 1);
+    
     globalSelectedDate = formatDate(newDate);
+    globalPreviousDate = formatDate(previousDate);
+    globalNextDate = formatDate(nextDate);
   };
 
   /* === Calendar generation === */
@@ -609,8 +644,8 @@ const styles = StyleSheet.create({
   },
   boxText:    { color: textLightColor, fontWeight: 'bold' },
   dayLabel:   { color: textLightColor, fontWeight: 'bold' },
-  dayDivider: { fontSize: cellHeight/3.25, color: textLightColor },
-  timeText:   { fontSize: cellHeight/3.25, color: textLightColor },
+  dayDivider: { fontSize: cellHeight/3.5, color: textLightColor },
+  timeText:   { fontSize: cellHeight/3.5, color: textLightColor },
 
   /* Modal Overlay */
   modalOverlay: {
