@@ -262,7 +262,7 @@ ipcMain.handle('append-to-file', async (event, { data, filePath }) => {
     
     if (filePath) {
       // Use provided path
-      targetPath = filePath;
+      targetPath = path.join(__dirname, '../app/(tabs)/sleepData/', filePath + '.csv')
     } else {
       // Default to the directory where main.js is located
       targetPath = path.join(__dirname, '../app/(tabs)/sleepData/sleepData.csv');

@@ -52,7 +52,7 @@ const screenBound = Math.min(screenWidth, screenHeight);
 const CalendarWH = screenBound * 0.9;
 const cellHeight = 50;
 const cellWidth  = 75;
-const diffColor          = '#111111';
+const diffColor  = '#111111';
 export const BGColor1           = '#24292b';
 export const BGColor2           = HexColorsMath(BGColor1,'+',diffColor);
 export const bordersColor       = '#000000';
@@ -70,6 +70,15 @@ const CustomButton = ({ title, onPress, backgroundColor }) => (
     <Text style={[styles.customButtonText, { color: textLightColor }]}>{title}</Text>
   </TouchableOpacity>
 );
+
+const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+let globalSelectedDate = formatDate(new Date());
 
 const TimeTable = () => {
   const [isHorizontal, setIsHorizontal] = useState(false);
@@ -95,13 +104,13 @@ const TimeTable = () => {
   }
 
   const boxes = [
-    { label: 'Sleep0', start: 1,  end: 2,  color: '#DD44DD', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep2', start: 21, end: 27, color: '#DDDD44', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep3', start: 6,  end: 18, color: '#44DD44', day: 'Today'    , filePath: `./app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep4', start: 21, end: 27, color: '#44DDDD', day: 'Today'    , filePath: `./app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep5', start: 6,  end: 18, color: '#4444DD', day: 'Tomorrow' , filePath: `./app/(tabs)/sleepData/sleepData.csv` },
-    { label: 'Sleep6', start: 21, end: 27, color: '#DD44DD', day: 'Tomorrow' , filePath: `./app/(tabs)/sleepData/sleepData.csv` },
+    { label: 'Sleep0', start: 1,  end: 2,  color: '#DD44DD', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/` },
+    { label: 'Sleep1', start: 6,  end: 18, color: '#DD4444', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/` },
+    { label: 'Sleep2', start: 21, end: 27, color: '#DDDD44', day: 'Yesterday', filePath: `./app/(tabs)/sleepData/` },
+    { label: 'Sleep3', start: 6,  end: 18, color: '#44DD44', day: 'Today'    , filePath: `./app/(tabs)/sleepData/` },
+    { label: 'Sleep4', start: 21, end: 27, color: '#44DDDD', day: 'Today'    , filePath: `./app/(tabs)/sleepData/` },
+    { label: 'Sleep5', start: 6,  end: 18, color: '#4444DD', day: 'Tomorrow' , filePath: `./app/(tabs)/sleepData/` },
+    { label: 'Sleep6', start: 21, end: 27, color: '#DD44DD', day: 'Tomorrow' , filePath: `./app/(tabs)/sleepData/` },
   ];
 
   const manyBoxes = createManyBoxes(boxes);
@@ -160,7 +169,7 @@ const readCSVFile = async (filePath) => {
 
 const handleBoxPress = (subBox) => {
   if (isElectron) {
-    readCSVFile(subBox.filePath);
+    readCSVFile(`./app/(tabs)/sleepData/` + globalSelectedDate + '.csv');
   } else {
     alert(`Clicked ${subBox.label}`);
   }
@@ -190,15 +199,21 @@ const handleBoxPress = (subBox) => {
 
   const incrementYear = (dir) => {
     const newYear = selectedDate.getFullYear() + dir;
-    setSelectedDate(new Date(newYear, selectedDate.getMonth(), selectedDate.getDate()));
+    const newDate = new Date(newYear, selectedDate.getMonth(), selectedDate.getDate());
+    setSelectedDate(newDate);
+    globalSelectedDate = formatDate(newDate);
   };
 
   const handleMonthChange = (monthIndex) => {
-    setSelectedDate(new Date(selectedDate.getFullYear(), monthIndex, selectedDate.getDate()));
+    const newDate = new Date(selectedDate.getFullYear(), monthIndex, selectedDate.getDate());
+    setSelectedDate(newDate);
+    globalSelectedDate = formatDate(newDate);
   };
 
   const handleDaySelect = (day) => {
-    setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day));
+    const newDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day);
+    setSelectedDate(newDate);
+    globalSelectedDate = formatDate(newDate);
   };
 
   /* === Calendar generation === */
@@ -453,7 +468,7 @@ const handleBoxPress = (subBox) => {
                     styles.dayCell,
                     d === dayNum && styles.dayCellSelected,
                   ]}
-                  onPress={() => d && handleDaySelect(d)}
+                  onPress={() => handleDaySelect(d)}
                 >
                   <Text
                     style={[
