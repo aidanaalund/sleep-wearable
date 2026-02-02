@@ -1,5 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 let VictoryChart, VictoryLine, VictoryAxis;
 
@@ -78,21 +78,21 @@ const TimeTable = () => {
   const [chartTitle, setChartTitle] = useState('');
   const [boxHours, setBoxHours] = useState({});
 
-  useEffect(() => {
-    // Calculate initial dates
-    const previousDate = new Date(selectedDate);
-    previousDate.setDate(selectedDate.getDate() - 1);
+  // useEffect(() => {
+  //   // Calculate initial dates
+  //   const previousDate = new Date(selectedDate);
+  //   previousDate.setDate(selectedDate.getDate() - 1);
     
-    const nextDate = new Date(selectedDate);
-    nextDate.setDate(selectedDate.getDate() + 1);
+  //   const nextDate = new Date(selectedDate);
+  //   nextDate.setDate(selectedDate.getDate() + 1);
     
-    // Call update with initial dates
-    updateBoxHoursForDates(
-      formatDate(previousDate),
-      formatDate(selectedDate),
-      formatDate(nextDate)
-    );
-  }, []);
+  //   // Call update with initial dates
+  //   updateBoxHoursForDates(
+  //     formatDate(previousDate),
+  //     formatDate(selectedDate),
+  //     formatDate(nextDate)
+  //   );
+  // }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -678,7 +678,7 @@ const TimeTable = () => {
                 <Text style={styles.chartCloseButtonText}>✕</Text>
               </TouchableOpacity>
             </View>
-             
+              
               <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={true}
@@ -689,7 +689,7 @@ const TimeTable = () => {
               }}
               >
                 <VictoryChart
-                  width = {1280}
+                  width={chartData.length > 100 ? chartData.length * 12 : 1280}
                   height= {720}
                   scale={{ x: 'time' }}
                   style={{

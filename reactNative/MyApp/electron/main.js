@@ -48,8 +48,9 @@ ipcMain.handle('bluetooth-scan', async () => {
     };
 
     const onDiscover = (peripheral) => {
-      console.log('Found device:', peripheral.advertisement.localName || 'Unknown');
-      
+      if(peripheral.advertisement.localName) {
+        console.log('Found device:', peripheral.advertisement.localName);
+      }
       // Store peripheral reference
       discoveredPeripherals.set(peripheral.id, peripheral);
       
