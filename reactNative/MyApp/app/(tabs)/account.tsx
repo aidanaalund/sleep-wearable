@@ -1,13 +1,3 @@
-/*
-https://www.youtube.com/watch?v=1ETOJloLK3Y
-cd MyApp
-npx expo start --tunnel
-w
-
-npx expo export --platform web
-npm run start:electron
-*/
-
 import * as FileSystem from 'expo-file-system';
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
@@ -428,7 +418,7 @@ const App = () => {
     const seconds = String(now.getSeconds()).padStart(2, '0');
     const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
     
-    const timestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
+    const timestamp = `${hours}:${minutes}:${seconds}.${milliseconds}`;
     const dataWithTimestamp = `${timestamp},${data}`;
     
     const dateString = `${year}-${month}-${day}`;

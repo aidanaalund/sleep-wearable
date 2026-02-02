@@ -1,14 +1,5 @@
-/*
-https://www.youtube.com/watch?v=1ETOJloLK3Y
-cd MyApp
-npx expo start --tunnel
-w
-
-npx expo export --platform web
-npm run start:electron
-*/
-
-import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 let VictoryChart, VictoryLine, VictoryAxis;
 
@@ -103,6 +94,22 @@ const TimeTable = () => {
     );
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      const previousDate = new Date(selectedDate);
+      previousDate.setDate(selectedDate.getDate() - 1);
+      
+      const nextDate = new Date(selectedDate);
+      nextDate.setDate(selectedDate.getDate() + 1);
+      
+      updateBoxHoursForDates(
+        formatDate(previousDate),
+        formatDate(selectedDate),
+        formatDate(nextDate)
+      );
+    }, [selectedDate])
+  );
+  
   // Calculate dates from selectedDate
   const previousDate = new Date(selectedDate);
   previousDate.setDate(selectedDate.getDate() - 1);
@@ -159,51 +166,51 @@ const TimeTable = () => {
     });
   }
 
-  const parseCSV = (csvString) => {
+  const parseCSV = (csvString, dateHeader) => {
     const lines = csvString.trim().split('\n');
     const data = [];
     for (let i = 0; i < lines.length; i++) {
       const values = lines[i].split(',');
-      const timestamp = new Date(values[0]).getTime();
+      const timestamp = new Date(dateHeader + 'T' + values[0]).getTime();
       const value = parseFloat(values[1]);
       data.push({ x: timestamp, y: value });
     }
     return data;
   };
 
-const readCSVFile = async (filePath) => {
-  try {
-    let csvContent;
-    
-    if (isElectron) {
-      csvContent = await window.electronAPI.readFileContent(filePath);
-    } else {
-      const response = await fetch(filePath);
-      csvContent = await response.text();
+  const readCSVFile = async (filePath) => {
+    try {
+      let csvContent;
+      
+      if (isElectron) {
+        csvContent = await window.electronAPI.readFileContent(filePath);
+      } else {
+        const response = await fetch(filePath);
+        csvContent = await response.text();
+      }
+      
+      const parsedData = parseCSV(csvContent, filePath);
+      setChartData(parsedData);
+      setChartTitle(filePath.split('/').pop());
+      setShowChart(true);
+    } catch (err) {
+      console.error('Error reading CSV:', err);
+      alert(`Failed to read CSV file: ${err.message}`);
     }
-    
-    const parsedData = parseCSV(csvContent);
-    setChartData(parsedData);
-    setChartTitle(filePath.split('/').pop());
-    setShowChart(true);
-  } catch (err) {
-    console.error('Error reading CSV:', err);
-    alert(`Failed to read CSV file: ${err.message}`);
-  }
-};
+  };
 
   const formatXAxis = (timestamp) => {
     const date = new Date(timestamp);
     return `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}.${String(date.getMilliseconds()).padStart(3, '0')}`;
   };
 
-const handleBoxPress = (subBox) => {
-  if (isElectron) {
-    readCSVFile(subBox.day);
-  } else {
-    alert(`Clicked ${subBox.label}`);
-  }
-};
+  const handleBoxPress = (subBox) => {
+    if (isElectron) {
+      readCSVFile(subBox.day);
+    } else {
+      alert(`Clicked ${subBox.label}`);
+    }
+  };
 
   const toggleScrollDirection = () => setIsHorizontal(!isHorizontal);
 
@@ -631,7 +638,7 @@ const handleBoxPress = (subBox) => {
                 <VictoryLine
                   data={chartData}
                   style={{
-                    data: { stroke: "#4287f5", strokeWidth: 2 }
+                    data: { stroke: textLightColor, strokeWidth: 2 }
                   }}
                 />
               </VictoryChart>

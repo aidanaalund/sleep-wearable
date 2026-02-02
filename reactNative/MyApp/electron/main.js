@@ -336,8 +336,8 @@ ipcMain.handle('read-file', async (event, filePath) => {
     const firstTimestamp = lines[0].split(',')[0];
     const lastTimestamp = lines[lines.length - 1].split(',')[0];
     
-    const firstHour = new Date(firstTimestamp).getUTCHours();
-    const lastHour = new Date(lastTimestamp).getUTCHours();
+    const firstHour = new Date(filePath + 'T' + firstTimestamp).getUTCHours();
+    const lastHour  = new Date(filePath + 'T' + lastTimestamp).getUTCHours();
     
     return {
       firstHour,
@@ -351,7 +351,7 @@ ipcMain.handle('read-file', async (event, filePath) => {
 ipcMain.handle('read-file-content', async (event, filePath) => {
   try {
     const fullPath = path.join(__dirname, '../app/(tabs)/sleepData/', filePath + '.csv');
-    console.log("PATH:" + fullPath);
+    //console.log("PATH:" + fullPath);
     return fs.readFileSync(fullPath, 'utf8');
   } catch (error) {
     throw error;
