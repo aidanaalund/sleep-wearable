@@ -333,11 +333,11 @@ ipcMain.handle('read-file', async (event, filePath) => {
     const content = fs.readFileSync(fullPath, 'utf8');
     const lines = content.trim().split('\n').filter(line => line.length > 0);
     
-    const firstTimestamp = lines[0].split(',')[0];
-    const lastTimestamp = lines[lines.length - 1].split(',')[0];
+    const firstTimestamp = lines[0].split(',')[0].replace('Z', '');
+    const lastTimestamp = lines[lines.length - 1].split(',')[0].replace('Z', '');
     
-    const firstHour = new Date(filePath + 'T' + firstTimestamp).getUTCHours();
-    const lastHour  = new Date(filePath + 'T' + lastTimestamp).getUTCHours();
+    const firstHour = new Date(filePath + 'T' + firstTimestamp).getHours();
+    const lastHour  = new Date(filePath + 'T' + lastTimestamp).getHours();
     
     return {
       firstHour,

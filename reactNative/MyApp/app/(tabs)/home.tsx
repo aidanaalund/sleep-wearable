@@ -48,9 +48,9 @@ export const BGColor1           = '#24292b';
 export const BGColor2           = HexColorsMath(BGColor1,'+',diffColor);
 export const bordersColor       = '#000000';
 export const buttonColor        = '#222f55';
-export const buttonChoiceColor  = HexColorsMath(buttonColor,'-',HexColorsMath(diffColor,'*','#000002'));
+export const buttonChoiceColor  = HexColorsMath(buttonColor,'-',HexColorsMath(diffColor,'*','#000005'));
 export const textLightColor     = '#99cde6';
-export const textDarkColor      = HexColorsMath(textLightColor,'-',HexColorsMath(diffColor,'*','#000002'));
+export const textDarkColor      = HexColorsMath(textLightColor,'-',HexColorsMath(diffColor,'*','#000005'));
 
 /* === Custom Reusable Button === */
 const CustomButton = ({ title, onPress, backgroundColor }) => (
@@ -171,7 +171,8 @@ const TimeTable = () => {
     const data = [];
     for (let i = 0; i < lines.length; i++) {
       const values = lines[i].split(',');
-      const timestamp = new Date(dateHeader + 'T' + values[0]).getTime();
+      const timeWithoutZ = values[0].replace('Z', '');
+      const timestamp = new Date(dateHeader + 'T' + timeWithoutZ).getTime();
       const value = parseFloat(values[1]);
       data.push({ x: timestamp, y: value });
     }
@@ -201,14 +202,39 @@ const TimeTable = () => {
 
   const formatXAxis = (timestamp) => {
     const date = new Date(timestamp);
-    return `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}.${String(date.getMilliseconds()).padStart(3, '0')}`;
+    return `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
   };
 
   const handleBoxPress = (subBox) => {
     if (isElectron) {
       readCSVFile(subBox.day);
     } else {
-      alert(`Clicked ${subBox.label}`);
+      const parsedData = [
+        { x: new Date('2026-01-28T22:35:23.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:24.799').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:25.834').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:26.823').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:27.813').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:28.804').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:29.838').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:30.829').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:31.818').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:32.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:33.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:34.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:35.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:36.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:37.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:38.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:39.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:40.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:41.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:42.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:43.808').getTime(), y: 0 },
+      ];
+      setChartData(parsedData);
+      setChartTitle("Web Test");
+      setShowChart(true);
     }
   };
 
@@ -290,26 +316,35 @@ const TimeTable = () => {
 
   // New function that takes the dates as parameters
   const updateBoxHoursForDates = async (prevDate, selDate, nxtDate) => {
-    try {
-      const dayHoursMap = {};
-      const uniqueDays = [prevDate, selDate, nxtDate];
-      
-      for (const day of uniqueDays) {
-        try {
-          const result = await window.electronAPI.readFile(day);
-          dayHoursMap[day] = {
-            firstHour: result.firstHour,
-            lastHour: result.lastHour + 1
-          };
-        } catch (fileError) {
-          console.warn(`SKIPPING ${day}`);
-          continue;
+    if(isElectron) {
+      try {
+        const dayHoursMap = {};
+        const uniqueDays = [prevDate, selDate, nxtDate];
+        
+        for (const day of uniqueDays) {
+          try {
+            const result = await window.electronAPI.readFile(day);
+            dayHoursMap[day] = {
+              firstHour: result.firstHour,
+              lastHour: result.lastHour + 1
+            };
+          } catch (fileError) {
+            console.warn(`SKIPPING ${day}`);
+            continue;
+          }
         }
+        
+        setBoxHours(dayHoursMap);
+      } catch (error) {
+        console.error('Error updating box hours:', error);
       }
-      
+    } else {
+      const dayHoursMap = {
+        [prevDate]: { firstHour: 0, lastHour: 8 },
+        [selDate]:  { firstHour: 0, lastHour: 8 },
+        [nxtDate]:  { firstHour: 0, lastHour: 8 }
+      };
       setBoxHours(dayHoursMap);
-    } catch (error) {
-      console.error('Error updating box hours:', error);
     }
   };
 
@@ -605,44 +640,41 @@ const TimeTable = () => {
                 <Text style={styles.chartCloseButtonText}>✕</Text>
               </TouchableOpacity>
             </View>
-            
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
               <VictoryChart
-                width={Math.max(350, chartData.length * 50)}
-                height={300}
+                width ={Math.max(500, chartData.length * 50)}
+                height={Math.max(350, chartData.length * 50)*0.625}
                 scale={{ x: 'time' }}
                 style={{
-                  background: { fill: BGColor1 }
+                  background: { fill: BGColor2 }
                 }}
               >
                 <VictoryAxis
                   dependentAxis
-                  label="Value"
+                  label="Values"
                   style={{
-                    axisLabel: { padding: 40, fill: textLightColor },
+                    axisLabel: { padding: 60, angle: 0, fill: textLightColor },
                     tickLabels: { fill: textLightColor },
-                    axis: { stroke: textLightColor },
+                    axis: { stroke: textDarkColor, strokeWidth: 5 },
                     grid: { stroke: bordersColor }
                   }}
                 />
                 <VictoryAxis
-                  label="Time (HH:MM:SS.mmm)"
+                  label="HH:MM:SS"
                   tickFormat={formatXAxis}
                   style={{
-                    axisLabel: { padding: 30, fill: textLightColor },
-                    tickLabels: { angle: -45, fontSize: 8, fill: textLightColor },
-                    axis: { stroke: textLightColor },
+                    axisLabel: { padding: 10, fill: textDarkColor },
+                    tickLabels: { angle: -45, fill: textLightColor },
+                    axis: { stroke: textDarkColor, strokeWidth: 5 },
                     grid: { stroke: bordersColor }
                   }}
                 />
                 <VictoryLine
                   data={chartData}
                   style={{
-                    data: { stroke: textLightColor, strokeWidth: 2 }
+                    data: { stroke: textDarkColor, strokeWidth: 2 }
                   }}
                 />
               </VictoryChart>
-            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -810,16 +842,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     width: '90%',
-    maxHeight: '80%',
+    height: '90%',
   },
   chartHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 15,
   },
   chartTitle: {
-    fontSize: 18,
+    fontSize: 25,
     fontWeight: 'bold',
     color: textLightColor,
   },
@@ -827,7 +858,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   chartCloseButtonText: {
-    fontSize: 24,
+    fontSize: 25,
     fontWeight: 'bold',
     color: textLightColor,
   },

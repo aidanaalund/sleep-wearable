@@ -207,8 +207,8 @@ const App = () => {
           return;
         }
         
-        console.log('Found Snoozy:', snoozyDevice);
-        alert('Found Snoozy! Connecting...');
+        //console.log('Found Snoozy:', snoozyDevice);
+        //alert('Found Snoozy! Connecting...');
         
         // Connect to device
         const connectResult = await window.electronAPI.bluetooth.connect(snoozyDevice.id);
@@ -242,7 +242,7 @@ const App = () => {
         setWebBluetoothDevice({ name: snoozyDevice.name, id: snoozyDevice.id });
         setIsConnected(true);
         
-        alert(`Connected to Snoozy!\nListening for data...`);
+        //alert(`Connected to Snoozy!\nListening for data...`);
       } else {
         // Web Bluetooth code for browsers...
         const bluetoothAPI = navigator.bluetooth;
@@ -281,7 +281,7 @@ const App = () => {
         setWebBluetoothDevice(device);
         setIsConnected(true);
         
-        alert(`Connected to ${device.name || 'Unknown Device'}\nListening for data...`);
+        //alert(`Connected to ${device.name || 'Unknown Device'}\nListening for data...`);
       }
       
     } catch (error) {
@@ -394,8 +394,8 @@ const App = () => {
       );
       
       setIsConnected(true);
-      Alert.alert('Success', `Connected to ${device.name}\nListening for data...`);
-      console.log('Successfully connected and monitoring');
+      //Alert.alert('Success', `Connected to ${device.name}\nListening for data...`);
+      //console.log('Successfully connected and monitoring');
     } catch (error) {
       console.error('Connection error:', error);
       Alert.alert('Error', `Failed to connect: ${error.message}`);
@@ -418,7 +418,7 @@ const App = () => {
     const seconds = String(now.getSeconds()).padStart(2, '0');
     const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
     
-    const timestamp = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+    const timestamp = `${hours}:${minutes}:${seconds}.${milliseconds}Z`;
     const dataWithTimestamp = `${timestamp},${data}`;
     
     const dateString = `${year}-${month}-${day}`;
