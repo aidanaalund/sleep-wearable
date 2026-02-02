@@ -210,6 +210,28 @@ const TimeTable = () => {
       readCSVFile(subBox.day);
     } else {
       const parsedData = [
+        { x: new Date('2026-01-28T22:35:01.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:02.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:03.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:04.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:05.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:06.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:07.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:08.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:09.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:10.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:11.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:12.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:13.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:14.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:15.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:16.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:17.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:18.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:19.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:20.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:21.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:22.808').getTime(), y: 1 },
         { x: new Date('2026-01-28T22:35:23.808').getTime(), y: 0 },
         { x: new Date('2026-01-28T22:35:24.799').getTime(), y: 1 },
         { x: new Date('2026-01-28T22:35:25.834').getTime(), y: 0 },
@@ -231,6 +253,22 @@ const TimeTable = () => {
         { x: new Date('2026-01-28T22:35:41.808').getTime(), y: 0 },
         { x: new Date('2026-01-28T22:35:42.808').getTime(), y: 1 },
         { x: new Date('2026-01-28T22:35:43.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:34:45.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:34:46.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:34:47.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:34:48.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:34:49.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:34:50.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:34:51.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:34:52.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:34:53.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:34:54.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:34:55.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:34:56.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:34:57.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:34:58.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:34:59.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:00.808').getTime(), y: 0 },
       ];
       setChartData(parsedData);
       setChartTitle("Web Test");
@@ -640,41 +678,53 @@ const TimeTable = () => {
                 <Text style={styles.chartCloseButtonText}>✕</Text>
               </TouchableOpacity>
             </View>
-              <VictoryChart
-                width ={Math.max(500, chartData.length * 50)}
-                height={Math.max(350, chartData.length * 50)*0.625}
-                scale={{ x: 'time' }}
-                style={{
-                  background: { fill: BGColor2 }
-                }}
+             
+              <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={true}
+              contentContainerStyle={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                minWidth: '100%',
+              }}
               >
-                <VictoryAxis
-                  dependentAxis
-                  label="Values"
+                <VictoryChart
+                  width = {1280}
+                  height= {720}
+                  scale={{ x: 'time' }}
                   style={{
-                    axisLabel: { padding: 60, angle: 0, fill: textLightColor },
-                    tickLabels: { fill: textLightColor },
-                    axis: { stroke: textDarkColor, strokeWidth: 5 },
-                    grid: { stroke: bordersColor }
+                    background: { fill: BGColor2 },
+                    justifyContent: 'center',
                   }}
-                />
-                <VictoryAxis
-                  label="HH:MM:SS"
-                  tickFormat={formatXAxis}
-                  style={{
-                    axisLabel: { padding: 10, fill: textDarkColor },
-                    tickLabels: { angle: -45, fill: textLightColor },
-                    axis: { stroke: textDarkColor, strokeWidth: 5 },
-                    grid: { stroke: bordersColor }
-                  }}
-                />
-                <VictoryLine
-                  data={chartData}
-                  style={{
-                    data: { stroke: textDarkColor, strokeWidth: 2 }
-                  }}
-                />
-              </VictoryChart>
+                >
+                  <VictoryAxis
+                    dependentAxis
+                    label="Values"
+                    style={{
+                      axisLabel: { padding: 60, angle: 0, fill: textLightColor },
+                      tickLabels: { fill: textLightColor },
+                      axis: { stroke: textDarkColor, strokeWidth: 5 },
+                      grid: { stroke: bordersColor }
+                    }}
+                  />
+                  <VictoryAxis
+                    label="HH:MM:SS"
+                    tickFormat={formatXAxis}
+                    style={{
+                      axisLabel: { padding: 10, fill: textDarkColor },
+                      tickLabels: { angle: -45, fill: textLightColor },
+                      axis: { stroke: textDarkColor, strokeWidth: 5 },
+                      grid: { stroke: bordersColor }
+                    }}
+                  />
+                  <VictoryLine
+                    data={chartData}
+                    style={{
+                      data: { stroke: textDarkColor, strokeWidth: 2 }
+                    }}
+                  />
+                </VictoryChart>
+              </ScrollView>
           </View>
         </View>
       </Modal>
@@ -828,7 +878,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 4,
   },
-  closeText: { color: textDarkColor, fontWeight: 'bold' },
+  closeText: { color: textLightColor, fontWeight: 'bold' },
 
   /* Chart Modal Styles */
   chartModalOverlay: {
