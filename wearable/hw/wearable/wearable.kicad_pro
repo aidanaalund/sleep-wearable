@@ -37,9 +37,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.3,
-          "height": 0.5,
-          "width": 0.5
+          "drill": 0.0,
+          "height": 0.55,
+          "width": 0.3
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -58,7 +58,44 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "lib_footprint_mismatch|112000000|102200000|7e665f47-501f-4c77-be50-b38b516753a6|00000000-0000-0000-0000-000000000000",
+          ""
+        ],
+        [
+          "silk_overlap|131677548|115740692|07516701-e0e8-4d9d-93ce-7bbb7e53fb71|7ba33935-ff6e-451c-ae90-98cd4283d6a4",
+          ""
+        ],
+        [
+          "silk_overlap|132394713|116366208|07516701-e0e8-4d9d-93ce-7bbb7e53fb71|63ddfba6-d16d-4a9d-9d37-04b19dfe2861",
+          ""
+        ],
+        [
+          "silk_overlap|167425052|118619681|47ddea39-e68c-434f-b0da-2b72d8cedbdf|bde5128d-c4d0-423d-990c-562eda43b0e8",
+          ""
+        ],
+        [
+          "silk_overlap|167432126|119045641|47ddea39-e68c-434f-b0da-2b72d8cedbdf|eee655da-45a4-4348-9ca2-acd942b3f916",
+          ""
+        ],
+        [
+          "silk_overlap|168210601|117826822|bde5128d-c4d0-423d-990c-562eda43b0e8|e63b2f1f-f117-4a2c-af29-46dcd6b83f10",
+          ""
+        ],
+        [
+          "silk_overlap|168637585|117830423|067a2b7c-e902-4d23-b413-6c64b61d9ee1|e63b2f1f-f117-4a2c-af29-46dcd6b83f10",
+          ""
+        ],
+        [
+          "silk_overlap|171333333|88880000|cc7d5238-1e1e-474e-b37c-c860cf442f6d|f5237f75-9535-40da-a6dc-2b750367b98c",
+          ""
+        ],
+        [
+          "silk_overlap|171690475|88919438|4fc21697-9889-4bfd-a3b3-68722116a245|cc7d5238-1e1e-474e-b37c-c860cf442f6d",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -247,7 +284,16 @@
     "equivalence_files": []
   },
   "erc": {
-    "erc_exclusions": [],
+    "erc_exclusions": [
+      [
+        "lib_symbol_mismatch|1257300|2813050|57d68072-7b5d-4a0d-a837-b91c6aa5e812|00000000-0000-0000-0000-000000000000|||",
+        ""
+      ],
+      [
+        "lib_symbol_mismatch|793750|2482850|95836240-71e3-4786-bc1b-c930dd9f168d|00000000-0000-0000-0000-000000000000|||",
+        ""
+      ]
+    ],
     "meta": {
       "version": 0
     },
@@ -459,7 +505,7 @@
       "similar_labels": "warning",
       "similar_power": "warning",
       "simulation_model_issue": "warning",
-      "single_global_label": "ignore",
+      "single_global_label": "warning",
       "unannotated": "error",
       "unconnected_wire_endpoint": "warning",
       "undefined_netclass": "error",
@@ -480,7 +526,7 @@
     "classes": [
       {
         "bus_width": 12,
-        "clearance": 0.18,
+        "clearance": 0.15,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.18,
