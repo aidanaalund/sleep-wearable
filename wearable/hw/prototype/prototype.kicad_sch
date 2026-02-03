@@ -1350,6 +1350,17 @@
 		)
 		(uuid "d49de0ab-fbcc-4cd9-ac5a-e0ca01e53da2")
 	)
+	(text "FAQ:\n- I don't have a certain resistor/capacitor! What do I do!\n	- All of these values *should* be at checkout desk, but if they aren't \n	do some math to figure out a parallel or series combo that gets you within %5 tolerance."
+		(exclude_from_sim no)
+		(at 75.438 133.096 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f83cc3a5-8eeb-47c0-b09f-ab8693a65da8")
+	)
 	(junction
 		(at 101.6 68.58)
 		(diameter 0)
@@ -5097,28 +5108,28 @@
 			)
 		)
 		(pin "5"
-			(uuid "521ed1f6-82fa-4e88-9771-4406f237d2ef")
+			(uuid "521ed1f6-82fa-4e88-9771-4406f237d2f0")
 		)
 		(pin "1"
-			(uuid "3bfb577b-f5b1-4db2-a894-704f1aa9c168")
+			(uuid "3bfb577b-f5b1-4db2-a894-704f1aa9c169")
 		)
 		(pin "4"
-			(uuid "4e701837-87ac-43e0-810a-1bde2a1b81f5")
+			(uuid "4e701837-87ac-43e0-810a-1bde2a1b81f6")
 		)
 		(pin "6"
-			(uuid "adc0016e-2647-4c6e-9752-d8e89bdfab41")
+			(uuid "adc0016e-2647-4c6e-9752-d8e89bdfab42")
 		)
 		(pin "2"
-			(uuid "af90c1d3-0a98-4f9b-bd11-422ceb2f6662")
+			(uuid "af90c1d3-0a98-4f9b-bd11-422ceb2f6663")
 		)
 		(pin "8"
-			(uuid "6d166503-eb59-4774-ae16-effe993a56c0")
+			(uuid "6d166503-eb59-4774-ae16-effe993a56c1")
 		)
 		(pin "3"
-			(uuid "11bca76a-17e8-4394-aafb-2592a13c5cd2")
+			(uuid "11bca76a-17e8-4394-aafb-2592a13c5cd3")
 		)
 		(pin "7"
-			(uuid "97324dc9-38c4-41dd-9de2-8a4d6e7d3552")
+			(uuid "97324dc9-38c4-41dd-9de2-8a4d6e7d3553")
 		)
 		(instances
 			(project ""
@@ -5183,28 +5194,28 @@
 			)
 		)
 		(pin "4"
-			(uuid "3300e5c7-dc9d-4a2e-8551-e88725e85cb5")
+			(uuid "3300e5c7-dc9d-4a2e-8551-e88725e85cb6")
 		)
 		(pin "7"
-			(uuid "8fcdb443-161f-4550-8724-d597f26032a9")
+			(uuid "8fcdb443-161f-4550-8724-d597f26032aa")
 		)
 		(pin "5"
-			(uuid "6c14211e-8431-4b01-8ac6-f83a73502fac")
+			(uuid "6c14211e-8431-4b01-8ac6-f83a73502fad")
 		)
 		(pin "6"
-			(uuid "5de435d7-3b2c-4669-813a-574264db5d41")
+			(uuid "5de435d7-3b2c-4669-813a-574264db5d42")
 		)
 		(pin "2"
-			(uuid "57c76c9a-6f3d-4bd9-98bb-2789326bcf19")
+			(uuid "57c76c9a-6f3d-4bd9-98bb-2789326bcf1a")
 		)
 		(pin "8"
-			(uuid "07330bb6-8b87-4686-bf51-3866a29c21b4")
+			(uuid "07330bb6-8b87-4686-bf51-3866a29c21b5")
 		)
 		(pin "1"
-			(uuid "56b953e9-189d-410b-89a0-acd61422ccdc")
+			(uuid "56b953e9-189d-410b-89a0-acd61422ccdd")
 		)
 		(pin "3"
-			(uuid "bf5d5e53-c5ca-4599-a7f0-889931542dac")
+			(uuid "bf5d5e53-c5ca-4599-a7f0-889931542dad")
 		)
 		(instances
 			(project ""
@@ -5336,28 +5347,28 @@
 			)
 		)
 		(pin "5"
-			(uuid "521ed1f6-82fa-4e88-9771-4406f237d2ef")
+			(uuid "521ed1f6-82fa-4e88-9771-4406f237d2f1")
 		)
 		(pin "1"
-			(uuid "3bfb577b-f5b1-4db2-a894-704f1aa9c168")
+			(uuid "3bfb577b-f5b1-4db2-a894-704f1aa9c16a")
 		)
 		(pin "4"
-			(uuid "4e701837-87ac-43e0-810a-1bde2a1b81f5")
+			(uuid "4e701837-87ac-43e0-810a-1bde2a1b81f7")
 		)
 		(pin "6"
-			(uuid "adc0016e-2647-4c6e-9752-d8e89bdfab41")
+			(uuid "adc0016e-2647-4c6e-9752-d8e89bdfab43")
 		)
 		(pin "2"
-			(uuid "af90c1d3-0a98-4f9b-bd11-422ceb2f6662")
+			(uuid "af90c1d3-0a98-4f9b-bd11-422ceb2f6664")
 		)
 		(pin "8"
-			(uuid "6d166503-eb59-4774-ae16-effe993a56c0")
+			(uuid "6d166503-eb59-4774-ae16-effe993a56c2")
 		)
 		(pin "3"
-			(uuid "11bca76a-17e8-4394-aafb-2592a13c5cd2")
+			(uuid "11bca76a-17e8-4394-aafb-2592a13c5cd4")
 		)
 		(pin "7"
-			(uuid "97324dc9-38c4-41dd-9de2-8a4d6e7d3552")
+			(uuid "97324dc9-38c4-41dd-9de2-8a4d6e7d3554")
 		)
 		(instances
 			(project ""
