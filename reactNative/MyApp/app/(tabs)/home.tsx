@@ -15,26 +15,52 @@ if (Platform.OS === 'web') {
   VictoryAxis = VictoryNative.VictoryAxis;
 }
 
-  function HexColorsMath(color1, op, color2) {
-    // Convert hex strings to numbers
-    const num1 = parseInt(color1.replace(/^#/, ''), 16);
-    const num2 = parseInt(color2.replace(/^#/, ''), 16);
+function HexColorsMath(color1, op, color2) {
+  // Convert hex strings to numbers
+  const num1 = parseInt(color1.replace(/^#/, ''), 16);
+  const num2 = parseInt(color2.replace(/^#/, ''), 16);
 
-    let result = -1;
-    switch(op) {
-      case '*':
-        result = Math.min(16777215, num1 * num2);
-        break;
-      case '+':
-        result = Math.min(16777215, num1 + num2);
-        break;
-      case '-':
-        result = Math.max(0,        num1 - num2);
-        break;
-    }
-
-    return `#${result.toString(16).padStart(6, '0')}`;
+  let result = -1;
+  switch(op) {
+    case '*':
+      result = Math.min(16777215, num1 * num2);
+      break;
+    case '+':
+      result = Math.min(16777215, num1 + num2);
+      break;
+    case '-':
+      result = Math.max(0,        num1 - num2);
+      break;
   }
+
+  return `#${result.toString(16).padStart(6, '0')}`;
+}
+
+function fillTimeGaps(data, interval) {
+  if (data.length === 0) return data;
+  
+  const filled = [];
+  for (let i = 0; i < data.length - 1; i++) {
+    filled.push(data[i]);
+    
+    const currentTime = new Date(data[i].x).getTime();
+    const nextTime = new Date(data[i + 1].x).getTime();
+    const gap = nextTime - currentTime;
+    
+    // Fill gaps larger than expected interval
+    if (gap > interval * 1.5) {
+      const pointsToAdd = Math.floor(gap / interval) - 1;
+      for (let j = 1; j <= pointsToAdd; j++) {
+        filled.push({
+          x: new Date(currentTime + (j * interval)),
+          y: data[i].y
+        });
+      }
+    }
+  }
+  filled.push(data[data.length - 1]);
+  return filled;
+}
 
 /* === Constants === */
 const isElectron = typeof window !== 'undefined' && window.electronAPI;
@@ -51,7 +77,7 @@ export const buttonColor        = '#222f55';
 export const buttonChoiceColor  = HexColorsMath(buttonColor,'-',HexColorsMath(diffColor,'*','#000005'));
 export const textLightColor     = '#99cde6';
 export const textDarkColor      = HexColorsMath(textLightColor,'-',HexColorsMath(diffColor,'*','#000005'));
-
+export const textInverseColor   = HexColorsMath('#FFFFFF','-',textLightColor);
 /* === Custom Reusable Button === */
 const CustomButton = ({ title, onPress, backgroundColor }) => (
   <TouchableOpacity
@@ -77,7 +103,8 @@ const TimeTable = () => {
   const [showChart, setShowChart] = useState(false);
   const [chartTitle, setChartTitle] = useState('');
   const [boxHours, setBoxHours] = useState({});
-
+  const intervalInMs = 1000;
+  const filledChartData = fillTimeGaps(chartData, intervalInMs);
   // useEffect(() => {
   //   // Calculate initial dates
   //   const previousDate = new Date(selectedDate);
@@ -683,13 +710,13 @@ const TimeTable = () => {
               horizontal={true}
               showsHorizontalScrollIndicator={true}
               contentContainerStyle={{
-                justifyContent: 'center',
+                justifyContent: chartData.length <= 100 ? 'center' : 'flex-start',
                 alignItems: 'center',
                 minWidth: '100%',
               }}
               >
                 <VictoryChart
-                  width={chartData.length > 100 ? chartData.length * 12 : 1280}
+                  width={Math.max(1280, (filledChartData.length / 20) * 1280)}
                   height= {720}
                   scale={{ x: 'time' }}
                   style={{
@@ -718,9 +745,9 @@ const TimeTable = () => {
                     }}
                   />
                   <VictoryLine
-                    data={chartData}
+                    data={filledChartData}
                     style={{
-                      data: { stroke: textDarkColor, strokeWidth: 2 }
+                      data: { stroke: textInverseColor, strokeWidth: 2 }
                     }}
                   />
                 </VictoryChart>
