@@ -1,3 +1,7 @@
 [submodule "snoozy"]
 	path = wearable/sw/snoozy
 	url = https://github.com/aidanaalund/snoozy.git
+
+[submodule "m1_demo"]
+	path = wearable/sw/m1_demo
+	url = https://github.com/aidanaalund/m1_demo.git

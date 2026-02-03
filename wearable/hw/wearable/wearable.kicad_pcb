@@ -806,7 +806,7 @@
 			(net 3 "AVDD")
 			(pinfunction "1")
 			(pintype "passive")
-			(uuid "1550e3d5-da69-4bc0-948a-bab74869a60a")
+			(uuid "fc456d8a-b16c-4029-a77d-6299d43f8980")
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/TestPoint.3dshapes/TestPoint_Bridge_Pitch2.0mm_Drill0.7mm.step"
@@ -11532,7 +11532,7 @@
 			(net 1 "AVSS")
 			(pinfunction "1")
 			(pintype "passive")
-			(uuid "d972e20e-dc8d-4547-a10e-65f17cd5ce71")
+			(uuid "8f3eeed2-7246-451b-8ad8-a8cf604bf90f")
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/TestPoint.3dshapes/TestPoint_Bridge_Pitch2.0mm_Drill0.7mm.step"
@@ -16435,7 +16435,7 @@
 			(net 1 "AVSS")
 			(pinfunction "AVSS")
 			(pintype "power_in")
-			(uuid "07f70fbb-5fab-4dd5-ae72-393e1b07059b")
+			(uuid "674fe1b5-f976-4061-b5a5-bbe705bc2748")
 		)
 		(pad "33" thru_hole circle
 			(at -1 1 90)
@@ -16447,7 +16447,7 @@
 			(net 1 "AVSS")
 			(pinfunction "AVSS")
 			(pintype "power_in")
-			(uuid "07f70fbb-5fab-4dd5-ae72-393e1b07059b")
+			(uuid "3fe48492-22e1-4509-b716-631e697b6cb9")
 		)
 		(pad "33" thru_hole circle
 			(at 0 -1 90)
@@ -16459,7 +16459,7 @@
 			(net 1 "AVSS")
 			(pinfunction "AVSS")
 			(pintype "power_in")
-			(uuid "07f70fbb-5fab-4dd5-ae72-393e1b07059b")
+			(uuid "d1c4f5c7-403e-42ec-b13b-fc494d73d0cd")
 		)
 		(pad "33" thru_hole circle
 			(at 0 0 90)
@@ -16471,7 +16471,7 @@
 			(net 1 "AVSS")
 			(pinfunction "AVSS")
 			(pintype "power_in")
-			(uuid "07f70fbb-5fab-4dd5-ae72-393e1b07059b")
+			(uuid "f6e9779f-21af-4c51-818c-b7491e52d203")
 		)
 		(pad "33" smd rect
 			(at 0 0 90)
@@ -16482,7 +16482,7 @@
 			(pinfunction "AVSS")
 			(pintype "power_in")
 			(zone_connect 2)
-			(uuid "07f70fbb-5fab-4dd5-ae72-393e1b07059b")
+			(uuid "3de92e3d-6425-4e77-a6f7-fae89604f703")
 		)
 		(pad "33" smd rect
 			(at 0 0 90)
@@ -16493,7 +16493,7 @@
 			(pinfunction "AVSS")
 			(pintype "power_in")
 			(zone_connect 2)
-			(uuid "07f70fbb-5fab-4dd5-ae72-393e1b07059b")
+			(uuid "d2d34847-f4e6-4200-ac3d-f84983289f17")
 		)
 		(pad "33" thru_hole circle
 			(at 0 1 90)
@@ -16505,7 +16505,7 @@
 			(net 1 "AVSS")
 			(pinfunction "AVSS")
 			(pintype "power_in")
-			(uuid "07f70fbb-5fab-4dd5-ae72-393e1b07059b")
+			(uuid "caa9b25e-11d5-4403-8a78-8da285c0154d")
 		)
 		(pad "33" thru_hole circle
 			(at 1 -1 90)
@@ -16517,7 +16517,7 @@
 			(net 1 "AVSS")
 			(pinfunction "AVSS")
 			(pintype "power_in")
-			(uuid "07f70fbb-5fab-4dd5-ae72-393e1b07059b")
+			(uuid "d819442f-622f-461b-9b3f-58110a8a6da5")
 		)
 		(pad "33" thru_hole circle
 			(at 1 0 90)
@@ -16529,7 +16529,7 @@
 			(net 1 "AVSS")
 			(pinfunction "AVSS")
 			(pintype "power_in")
-			(uuid "07f70fbb-5fab-4dd5-ae72-393e1b07059b")
+			(uuid "a4f68cf8-1776-4f92-87dc-be5542f2e199")
 		)
 		(pad "33" thru_hole circle
 			(at 1 1 90)
@@ -16541,7 +16541,7 @@
 			(net 1 "AVSS")
 			(pinfunction "AVSS")
 			(pintype "power_in")
-			(uuid "07f70fbb-5fab-4dd5-ae72-393e1b07059b")
+			(uuid "396ba1b9-bf08-472b-9fc8-e632e7e219a6")
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/Package_DFN_QFN.3dshapes/QFN-32-1EP_5x5mm_P0.5mm_EP3.6x3.6mm.step"
