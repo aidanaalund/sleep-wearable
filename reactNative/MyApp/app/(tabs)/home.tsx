@@ -48,7 +48,7 @@ function fillTimeGaps(data, interval) {
     const gap = nextTime - currentTime;
     
     // Fill gaps larger than expected interval
-    if (gap > interval * 1.5) {
+    if (gap > interval) {
       const pointsToAdd = Math.floor(gap / interval) - 1;
       for (let j = 1; j <= pointsToAdd; j++) {
         filled.push({
@@ -77,7 +77,7 @@ export const buttonColor        = '#222f55';
 export const buttonChoiceColor  = HexColorsMath(buttonColor,'-',HexColorsMath(diffColor,'*','#000005'));
 export const textLightColor     = '#99cde6';
 export const textDarkColor      = HexColorsMath(textLightColor,'-',HexColorsMath(diffColor,'*','#000005'));
-export const textInverseColor   = HexColorsMath('#FFFFFF','-',textLightColor);
+export const textInverseColor   = HexColorsMath('#FFFFFF','-',textDarkColor);
 /* === Custom Reusable Button === */
 const CustomButton = ({ title, onPress, backgroundColor }) => (
   <TouchableOpacity
@@ -105,6 +105,7 @@ const TimeTable = () => {
   const [boxHours, setBoxHours] = useState({});
   const intervalInMs = 1000;
   const filledChartData = fillTimeGaps(chartData, intervalInMs);
+
   // useEffect(() => {
   //   // Calculate initial dates
   //   const previousDate = new Date(selectedDate);
@@ -280,22 +281,23 @@ const TimeTable = () => {
         { x: new Date('2026-01-28T22:35:41.808').getTime(), y: 0 },
         { x: new Date('2026-01-28T22:35:42.808').getTime(), y: 1 },
         { x: new Date('2026-01-28T22:35:43.808').getTime(), y: 0 },
-        { x: new Date('2026-01-28T22:34:45.808').getTime(), y: 1 },
-        { x: new Date('2026-01-28T22:34:46.808').getTime(), y: 0 },
-        { x: new Date('2026-01-28T22:34:47.808').getTime(), y: 1 },
-        { x: new Date('2026-01-28T22:34:48.808').getTime(), y: 0 },
-        { x: new Date('2026-01-28T22:34:49.808').getTime(), y: 1 },
-        { x: new Date('2026-01-28T22:34:50.808').getTime(), y: 0 },
-        { x: new Date('2026-01-28T22:34:51.808').getTime(), y: 1 },
-        { x: new Date('2026-01-28T22:34:52.808').getTime(), y: 0 },
-        { x: new Date('2026-01-28T22:34:53.808').getTime(), y: 1 },
-        { x: new Date('2026-01-28T22:34:54.808').getTime(), y: 0 },
-        { x: new Date('2026-01-28T22:34:55.808').getTime(), y: 1 },
-        { x: new Date('2026-01-28T22:34:56.808').getTime(), y: 0 },
-        { x: new Date('2026-01-28T22:34:57.808').getTime(), y: 1 },
-        { x: new Date('2026-01-28T22:34:58.808').getTime(), y: 0 },
-        { x: new Date('2026-01-28T22:34:59.808').getTime(), y: 1 },
-        { x: new Date('2026-01-28T22:35:00.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:44.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:45.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:46.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:47.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:48.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:49.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:50.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:51.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:52.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:53.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:54.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:55.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:56.808').getTime(), y: 1 },
+        { x: new Date('2026-01-28T22:35:57.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:35:58.808').getTime(), y: 2 },
+        { x: new Date('2026-01-28T22:35:59.808').getTime(), y: 0 },
+        { x: new Date('2026-01-28T22:36:00.808').getTime(), y: 1 },
       ];
       setChartData(parsedData);
       setChartTitle("Web Test");
@@ -716,7 +718,7 @@ const TimeTable = () => {
               }}
               >
                 <VictoryChart
-                  width={Math.max(1280, (filledChartData.length / 20) * 1280)}
+                  width={Math.max(1280, (filledChartData.length / 60) * 1280)}
                   height= {720}
                   scale={{ x: 'time' }}
                   style={{
