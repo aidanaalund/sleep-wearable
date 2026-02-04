@@ -1,8 +1,20 @@
 import * as FileSystem from 'expo-file-system';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { Alert, FlatList, Modal, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
-import { BGColor1, BGColor2, buttonColor, textLightColor } from './home';
+import { BGColor1, BGColor2, bordersColor, buttonColor, textDarkColor, textInverseColor, textLightColor } from './home';
+let VictoryChart, VictoryLine, VictoryAxis;
+if (Platform.OS === 'web') {
+  const Victory = require('victory');
+  VictoryChart = Victory.VictoryChart;
+  VictoryLine = Victory.VictoryLine;
+  VictoryAxis = Victory.VictoryAxis;
+} else {
+  const VictoryNative = require('victory-native');
+  VictoryChart = VictoryNative.VictoryChart;
+  VictoryLine = VictoryNative.VictoryLine;
+  VictoryAxis = VictoryNative.VictoryAxis;
+}
 
 const App = () => {
   const [manager] = useState(Platform.OS !== 'web' ? new BleManager() : null);
@@ -13,9 +25,9 @@ const App = () => {
   const [isScanning, setIsScanning] = useState(false);
   const [webBluetoothDevice, setWebBluetoothDevice] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-  // Store data in memory for Electron instead of localStorage
   const [inMemoryData, setInMemoryData] = useState('');
-
+  const [liveChartData, setLiveChartData] = useState([]);
+  const [showChart, setShowChart] = useState(false);
   // Check if running in Electron
   const isElectron = typeof window !== 'undefined' && window.electronAPI;
   const isWeb = Platform.OS === 'web';
@@ -48,6 +60,11 @@ const App = () => {
       }
     };
   }, []);
+
+  const formatXAxis = (timestamp) => {
+    const date = new Date(timestamp);
+    return `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+  };
 
   const requestPermissions = async () => {
     if (Platform.OS === 'android') {
@@ -404,7 +421,6 @@ const App = () => {
     }
   };
 
-  // change this for CSV
   const handleReceivedData = async (data) => {
     setReceivedData(prev => prev + data);
     
@@ -428,6 +444,12 @@ const App = () => {
         const result = await window.electronAPI.appendToFile(dataWithTimestamp, dateString);
         if (result.success) {
           console.log('Data appended to:', result.path);
+          
+          // Parse the dataWithTimestamp once to add to live chart
+          const values = dataWithTimestamp.split(',');
+          const timeWithoutZ = values[0].replace('Z', '');
+          const timestampMs = new Date(dateString + 'T' + timeWithoutZ).getTime();
+          setLiveChartData(prev => [...prev, { x: timestampMs, y: parseFloat(data) }]);
         } else {
           console.error('Failed to append data:', result.error);
         }
@@ -592,8 +614,8 @@ const App = () => {
 
       <View style={styles.section}>
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.button} onPress={readFileContent}>
-            <Text style={styles.buttonText}>Refresh Data</Text>
+          <TouchableOpacity style={styles.button} onPress={() => setShowChart(true)}>
+            <Text style={styles.buttonText}>Live Data</Text>
           </TouchableOpacity>
           {isWeb && (
             <TouchableOpacity style={styles.button} onPress={downloadWebData}>
@@ -602,7 +624,9 @@ const App = () => {
               </Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity style={styles.button} onPress={clearFile}>
+          <TouchableOpacity style={styles.button} onPress={() => {
+            setLiveChartData([]);
+          }}>
             <Text style={styles.buttonText}>Clear Data</Text>
           </TouchableOpacity>
         </View>
@@ -620,6 +644,72 @@ const App = () => {
           </Text>
         </ScrollView>
       </View>
+
+      {/* Chart Modal */}
+      <Modal
+        visible={showChart}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowChart(false)}
+      >
+        <View style={styles.chartModalOverlay}>
+          <View style={styles.chartModalContent}>
+            <View style={styles.chartHeader}>
+              <Text style={styles.chartTitle}>Live Data Chart</Text>
+              <TouchableOpacity onPress={() => setShowChart(false)} style={styles.chartCloseButton}>
+                <Text style={styles.chartCloseButtonText}>✕</Text>
+              </TouchableOpacity>
+            </View>
+              
+              <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={true}
+              contentContainerStyle={{
+                justifyContent: liveChartData.length <= 100 ? 'center' : 'flex-start',
+                alignItems: 'center',
+                minWidth: '100%',
+              }}
+              >
+                <VictoryChart
+                  width={Math.max(1280, (liveChartData.length / 60) * 1280)}
+                  height={720}
+                  scale={{ x: 'time' }}
+                  style={{
+                    background: { fill: BGColor2 },
+                    justifyContent: 'center',
+                  }}
+                >
+                  <VictoryAxis
+                    dependentAxis
+                    label="Values"
+                    style={{
+                      axisLabel: { padding: 60, angle: 0, fill: textLightColor },
+                      tickLabels: { fill: textLightColor },
+                      axis: { stroke: textDarkColor, strokeWidth: 5 },
+                      grid: { stroke: bordersColor }
+                    }}
+                  />
+                  <VictoryAxis
+                    label="HH:MM:SS"
+                    tickFormat={formatXAxis}
+                    style={{
+                      axisLabel: { padding: 10, fill: textDarkColor },
+                      tickLabels: { angle: -45, fill: textLightColor },
+                      axis: { stroke: textDarkColor, strokeWidth: 5 },
+                      grid: { stroke: bordersColor }
+                    }}
+                  />
+                  <VictoryLine
+                    data={liveChartData}
+                    style={{
+                      data: { stroke: textInverseColor, strokeWidth: 2 }
+                    }}
+                  />
+                </VictoryChart>
+              </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -710,6 +800,38 @@ const styles = StyleSheet.create({
     color: textLightColor,
     fontSize: 14,
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  /* Chart Modal Styles */
+  chartModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.75)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  chartModalContent: {
+    backgroundColor: BGColor1,
+    borderRadius: 10,
+    padding: 20,
+    width: '90%',
+    height: '90%',
+  },
+  chartHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  chartTitle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: textLightColor,
+  },
+  chartCloseButton: {
+    padding: 5,
+  },
+  chartCloseButtonText: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: textLightColor,
   },
 });
 
