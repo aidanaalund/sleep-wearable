@@ -1,6 +1,7 @@
 {
     "nrf-connect.applications": [
         "${workspaceFolder}\\sw\\snoozy",
-        "${workspaceFolder}\\sw\\m1_demo"
+        "${workspaceFolder}\\sw\\m1_demo",
+        "${workspaceFolder}\\sw\\peripheral_uart"
     ]
 }
