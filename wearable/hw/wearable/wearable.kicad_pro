@@ -48,7 +48,7 @@
         "silk_text_thickness": 0.1,
         "silk_text_upright": false,
         "zones": {
-          "min_clearance": 1e-06
+          "min_clearance": 1.0
         }
       },
       "diff_pair_dimensions": [
@@ -58,44 +58,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        [
-          "lib_footprint_mismatch|112000000|102200000|7e665f47-501f-4c77-be50-b38b516753a6|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
-          "silk_overlap|131677548|115740692|07516701-e0e8-4d9d-93ce-7bbb7e53fb71|7ba33935-ff6e-451c-ae90-98cd4283d6a4",
-          ""
-        ],
-        [
-          "silk_overlap|132394713|116366208|07516701-e0e8-4d9d-93ce-7bbb7e53fb71|63ddfba6-d16d-4a9d-9d37-04b19dfe2861",
-          ""
-        ],
-        [
-          "silk_overlap|167425052|118619681|47ddea39-e68c-434f-b0da-2b72d8cedbdf|bde5128d-c4d0-423d-990c-562eda43b0e8",
-          ""
-        ],
-        [
-          "silk_overlap|167432126|119045641|47ddea39-e68c-434f-b0da-2b72d8cedbdf|eee655da-45a4-4348-9ca2-acd942b3f916",
-          ""
-        ],
-        [
-          "silk_overlap|168210601|117826822|bde5128d-c4d0-423d-990c-562eda43b0e8|e63b2f1f-f117-4a2c-af29-46dcd6b83f10",
-          ""
-        ],
-        [
-          "silk_overlap|168637585|117830423|067a2b7c-e902-4d23-b413-6c64b61d9ee1|e63b2f1f-f117-4a2c-af29-46dcd6b83f10",
-          ""
-        ],
-        [
-          "silk_overlap|171333333|88880000|cc7d5238-1e1e-474e-b37c-c860cf442f6d|f5237f75-9535-40da-a6dc-2b750367b98c",
-          ""
-        ],
-        [
-          "silk_overlap|171690475|88919438|4fc21697-9889-4bfd-a3b3-68722116a245|cc7d5238-1e1e-474e-b37c-c860cf442f6d",
-          ""
-        ]
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -140,7 +103,7 @@
         "shorting_items": "error",
         "silk_edge_clearance": "warning",
         "silk_over_copper": "warning",
-        "silk_overlap": "warning",
+        "silk_overlap": "ignore",
         "skew_out_of_range": "error",
         "solder_mask_bridge": "error",
         "starved_thermal": "error",
@@ -571,7 +534,7 @@
   },
   "schematic": {
     "annotate_start_num": 0,
-    "bom_export_filename": "",
+    "bom_export_filename": "..\\..\\..\\documents\\wearable.csv",
     "bom_fmt_presets": [],
     "bom_fmt_settings": {
       "field_delimiter": ",",
@@ -602,7 +565,7 @@
           "group_by": false,
           "label": "Datasheet",
           "name": "Datasheet",
-          "show": true
+          "show": false
         },
         {
           "group_by": false,
@@ -620,7 +583,7 @@
           "group_by": true,
           "label": "DNP",
           "name": "${DNP}",
-          "show": true
+          "show": false
         },
         {
           "group_by": false,
@@ -735,14 +698,80 @@
           "label": "Description",
           "name": "Description",
           "show": false
+        },
+        {
+          "group_by": false,
+          "label": "PARTREV",
+          "name": "PARTREV",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Sim.Pins",
+          "name": "Sim.Pins",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Mouser Price/Stock",
+          "name": "Mouser Price/Stock",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Height",
+          "name": "Height",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "STANDARD",
+          "name": "STANDARD",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "MAXIMUM_PACKAGE_HEIGHT",
+          "name": "MAXIMUM_PACKAGE_HEIGHT",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Manufacturer_Name",
+          "name": "Manufacturer_Name",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Manufacturer_Part_Number",
+          "name": "Manufacturer_Part_Number",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Mouser Part Number",
+          "name": "Mouser Part Number",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "mouser#",
+          "name": "mouser#",
+          "show": true
+        },
+        {
+          "group_by": false,
+          "label": "Manufacturer Part Number",
+          "name": "Manufacturer Part Number",
+          "show": false
         }
       ],
       "filter_string": "",
       "group_symbols": true,
-      "include_excluded_from_bom": false,
+      "include_excluded_from_bom": true,
       "name": "",
       "sort_asc": true,
-      "sort_field": "Reference"
+      "sort_field": "${DNP}"
     },
     "connection_grid_size": 50.0,
     "drawing": {
