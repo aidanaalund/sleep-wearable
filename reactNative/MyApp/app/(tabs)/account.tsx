@@ -17,6 +17,7 @@ if (Platform.OS === 'web') {
 }
 
 const App = () => {
+  const [manager] = useState(Platform.OS !== 'web' ? new BleManager() : null);
   const [devices, setDevices] = useState([]);
   const [connectedDevice, setConnectedDevice] = useState(null);
   const [receivedData, setReceivedData] = useState('');
@@ -27,17 +28,6 @@ const App = () => {
   const [inMemoryData, setInMemoryData] = useState('');
   const [liveChartData, setLiveChartData] = useState([]);
   const [showChart, setShowChart] = useState(false);
-  const [manager] = useState(() => {
-    if (Platform.OS !== 'web') {
-      try {
-        return new BleManager();
-      } catch (error) {
-        console.error('Failed to create BleManager:', error);
-        return null;
-      }
-    }
-    return null;
-  });
   // Check if running in Electron
   const isElectron = typeof window !== 'undefined' && window.electronAPI;
   const isWeb = Platform.OS === 'web';
