@@ -2,7 +2,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 let VictoryChart, VictoryLine, VictoryAxis;
-
 if (Platform.OS === 'web') {
   const Victory = require('victory');
   VictoryChart = Victory.VictoryChart;
