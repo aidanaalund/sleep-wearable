@@ -14715,7 +14715,7 @@
 		(fields_autoplaced yes)
 		(uuid "0fdd2e79-6cab-41bb-b19a-dc002319b780")
 		(property "Reference" "SW1"
-			(at 36.195 280.0349 90)
+			(at 36.83 280.0349 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14723,8 +14723,8 @@
 				(justify right)
 			)
 		)
-		(property "Value" "SW_Toggle"
-			(at 36.195 282.5749 90)
+		(property "Value" "PWR_Toggle"
+			(at 36.83 282.5749 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14732,7 +14732,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_1.27mm:PinHeader_1x02_P1.27mm_Vertical"
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
 			(at 29.845 281.305 0)
 			(effects
 				(font
@@ -15598,7 +15598,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 64.135 20.955 0)
 			(effects
 				(font
@@ -17083,7 +17083,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 66.675 20.955 0)
 			(effects
 				(font
@@ -18324,7 +18324,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 84.455 20.955 0)
 			(effects
 				(font
@@ -19563,7 +19563,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 74.295 20.955 0)
 			(effects
 				(font
@@ -21185,7 +21185,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 59.055 20.955 0)
 			(effects
 				(font
@@ -22803,7 +22803,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 86.995 20.955 0)
 			(effects
 				(font
@@ -24799,7 +24799,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 79.375 20.955 0)
 			(effects
 				(font
@@ -28162,7 +28162,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 104.775 20.32 0)
 			(effects
 				(font
@@ -30695,7 +30695,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 69.215 20.955 0)
 			(effects
 				(font
@@ -32156,7 +32156,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 71.755 20.955 0)
 			(effects
 				(font
@@ -32376,7 +32376,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 81.915 20.955 0)
 			(effects
 				(font
@@ -34539,7 +34539,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 76.835 20.955 0)
 			(effects
 				(font
@@ -37932,7 +37932,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 61.595 20.955 0)
 			(effects
 				(font
