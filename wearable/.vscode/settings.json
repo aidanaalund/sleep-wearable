@@ -2,6 +2,8 @@
     "nrf-connect.applications": [
         "${workspaceFolder}\\sw\\snoozy",
         "${workspaceFolder}\\sw\\m1_demo",
-        "${workspaceFolder}\\sw\\peripheral_uart"
+        "${workspaceFolder}\\sw\\peripheral_uart",
+        "${workspaceFolder}\\sw\\snoozy_final",
+        "${workspaceFolder}\\sw\\shnoozy"
     ]
 }
