@@ -11,6 +11,7 @@ npx expo export --platform web
 npm run start:electron
 
 // for mobile //
+npm run android
 npx expo prebuild
 npx expo run:android
 */
