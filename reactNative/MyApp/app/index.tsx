@@ -11,15 +11,16 @@ npx expo export --platform web
 npm run start:electron
 
 // for mobile //
-npm run android
-npx expo prebuild
-npx expo run:android
+npx expo prebuild --clean
+npm run android               (emulator)
+npx expo run:android          (black screen)
+ npx react-native run-android (wired/apk)
 */
 
 import { Redirect, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 
-export default function Index() {
+export default function Index() { 
   const pathname = usePathname();
   
   useEffect(() => {
@@ -28,7 +29,3 @@ export default function Index() {
   
   return <Redirect href="/(tabs)/home" />;
 }
-
-/*
-
-*/
