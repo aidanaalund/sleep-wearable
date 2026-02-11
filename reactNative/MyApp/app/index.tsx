@@ -14,6 +14,9 @@ npm run start:electron
 npx expo prebuild --clean
 npm run android               (emulator)
 npx expo run:android          (black screen)
+
+adb reverse tcp:8081 tcp:8081 (wired/apk)
+npx react-native start        (wired/apk)
 npx react-native run-android  (wired/apk)
 */
 
