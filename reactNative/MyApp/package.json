@@ -58,6 +58,7 @@
     "webbluetooth": "^3.3.2"
   },
   "devDependencies": {
+    "@react-native-community/cli": "latest",
     "@types/react": "~19.1.0",
     "electron": "^39.2.4",
     "eslint": "^9.25.0",

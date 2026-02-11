@@ -14,7 +14,7 @@ npm run start:electron
 npx expo prebuild --clean
 npm run android               (emulator)
 npx expo run:android          (black screen)
- npx react-native run-android (wired/apk)
+npx react-native run-android  (wired/apk)
 */
 
 import { Redirect, usePathname } from 'expo-router';
