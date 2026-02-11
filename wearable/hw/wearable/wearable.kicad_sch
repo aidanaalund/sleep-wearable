@@ -33967,7 +33967,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0402_1005Metric_Pad0.77x0.64mm_HandSolder"
+		(property "Footprint" "Inductor_SMD:L_0805_2012Metric"
 			(at 147.32 237.49 0)
 			(effects
 				(font
@@ -34138,7 +34138,7 @@
 				(hide yes)
 			)
 		)
-		(property "mouser#" "710-74404020033"
+		(property "mouser#" "652-CE201210-6N8J"
 			(at 147.32 237.49 90)
 			(effects
 				(font
