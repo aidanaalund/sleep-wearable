@@ -6,6 +6,6 @@
 	path = wearable/sw/m1_demo
 	url = https://github.com/aidanaalund/m1_demo.git
 
-    [submodule "snoozy_final"]
+[submodule "snoozy_final"]
 	path = wearable/sw/m1_demo
 	url = https://github.com/kieenton/snoozy_final.git
