@@ -1,8 +1,10 @@
+import Base64 from 'base64-js';
 import * as FileSystem from 'expo-file-system';
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, Modal, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import { BGColor1, BGColor2, bordersColor, buttonColor, textDarkColor, textInverseColor, textLightColor } from './home';
+
 let VictoryChart, VictoryLine, VictoryAxis;
 if (Platform.OS === 'web') {
   const Victory = require('victory');
@@ -14,6 +16,13 @@ if (Platform.OS === 'web') {
   VictoryChart = VictoryNative.VictoryChart;
   VictoryLine = VictoryNative.VictoryLine;
   VictoryAxis = VictoryNative.VictoryAxis;
+}
+
+let RNFS: any = null;
+let SLEEP_DATA_DIR: string = '';
+if (Platform.OS === 'android') {
+  RNFS = require('react-native-fs');
+  SLEEP_DATA_DIR = `${RNFS.ExternalStorageDirectoryPath}/sleepData`;
 }
 
 const App = () => {
@@ -195,112 +204,140 @@ const App = () => {
   const connectWebBluetooth = async () => {
     try {
       const isElectronBluetooth = window.electronAPI && window.electronAPI.bluetooth;
-      
+
       if (isElectronBluetooth) {
+        // Electron path
         console.log('Using Electron native Bluetooth');
-        
-        // Clean up any existing listeners first
+
         if (window.electronAPI.bluetooth.removeAllListeners) {
           await window.electronAPI.bluetooth.removeAllListeners();
         }
-        
+
         const available = await window.electronAPI.bluetooth.available();
         if (!available) {
           alert('Bluetooth is not available');
           return;
         }
-        
+
         console.log('Scanning for Bluetooth devices...');
         const devices = await window.electronAPI.bluetooth.scan();
-        
-        //console.log('Found devices:', devices);
-        
-        // Filter for "Snoozy" device
+
         const snoozyDevice = devices.find(d => d.name === 'Snoozy');
-        
         if (!snoozyDevice) {
           alert('Snoozy device not found. Make sure it is powered on and nearby.');
-          //console.log('Available devices:', devices.map(d => d.name));
           return;
         }
-        
-        //console.log('Found Snoozy:', snoozyDevice);
-        //alert('Found Snoozy! Connecting...');
-        
-        // Connect to device
+
         const connectResult = await window.electronAPI.bluetooth.connect(snoozyDevice.id);
         console.log('Connected:', connectResult);
-        
-        // Nordic UART Service UUID
+
         const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
         const NUS_TX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
-        
-        // Subscribe to notifications
-        await window.electronAPI.bluetooth.subscribe(
-          NUS_SERVICE_UUID,
-          NUS_TX_CHARACTERISTIC_UUID
-        );
-        
-        // Listen for data
+
+        await window.electronAPI.bluetooth.subscribe(NUS_SERVICE_UUID, NUS_TX_CHARACTERISTIC_UUID);
+
         window.electronAPI.bluetooth.onData((data) => {
-          //console.log('Received from Snoozy:', data);
           handleReceivedData(data);
         });
-        
-        // Listen for disconnect
+
         window.electronAPI.bluetooth.onDisconnect(() => {
           console.log('Snoozy disconnected');
           alert('Snoozy disconnected');
           setWebBluetoothDevice(null);
           setIsConnected(false);
         });
-        
-        // Set connected state and device AFTER everything is set up
+
         setWebBluetoothDevice({ name: snoozyDevice.name, id: snoozyDevice.id });
         setIsConnected(true);
-        
-        //alert(`Connected to Snoozy!\nListening for data...`);
+
       } else {
-        // Web Bluetooth code for browsers...
-        const bluetoothAPI = navigator.bluetooth;
-        
-        if (!bluetoothAPI || typeof bluetoothAPI.requestDevice !== 'function') {
-          alert('Web Bluetooth is not available.\n\nPlease use Chrome, Edge, or Opera browser.');
-          return;
-        }
-        
+        // --- Android path using react-native-ble-plx ---
         const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
         const NUS_TX_CHARACTERISTIC_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
-        
-        const device = await bluetoothAPI.requestDevice({
-          filters: [{ services: [NUS_SERVICE_UUID] }],
-          optionalServices: [NUS_SERVICE_UUID]
+
+        // Request permissions on Android 12+
+        if (Platform.OS === 'android') {
+          const granted = await PermissionsAndroid.requestMultiple([
+            PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
+            PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          ]);
+          const allGranted = Object.values(granted).every(
+            val => val === PermissionsAndroid.RESULTS.GRANTED
+          );
+          if (!allGranted) {
+            alert('Bluetooth and storage permissions are required.');
+            return;
+          }
+
+          // Ensure the sleepData directory exists before any writes
+          await RNFS.mkdir(SLEEP_DATA_DIR);
+        }
+
+        console.log('Scanning for Snoozy...');
+        // Scan for the Snoozy device
+        const snoozyDevice = await new Promise((resolve, reject) => {
+          const timeout = setTimeout(() => {
+            bleManager.stopDeviceScan();
+            reject(new Error('Snoozy device not found. Make sure it is powered on and nearby.'));
+          }, 10000); // 10 second scan timeout
+
+          bleManager.startDeviceScan(null, null, (error, device) => {
+            if (error) {
+              clearTimeout(timeout);
+              bleManager.stopDeviceScan();
+              reject(error);
+              return;
+            }
+            if (device?.name === 'Snoozy') {
+              clearTimeout(timeout);
+              bleManager.stopDeviceScan();
+              resolve(device);
+            }
+          });
         });
-        
-        const server = await device.gatt.connect();
-        const service = await server.getPrimaryService(NUS_SERVICE_UUID);
-        const characteristic = await service.getCharacteristic(NUS_TX_CHARACTERISTIC_UUID);
-        
-        await characteristic.startNotifications();
-        
-        characteristic.addEventListener('characteristicvaluechanged', (event) => {
-          const value = new TextDecoder().decode(event.target.value);
-          handleReceivedData(value);
-        });
-        
-        // Add disconnect listener for web bluetooth
-        device.addEventListener('gattserverdisconnected', () => {
-          console.log('Device disconnected');
+
+        console.log('Found Snoozy, connecting...');
+
+        // Connect and discover services
+        const connectedDevice = await snoozyDevice.connect();
+        await connectedDevice.discoverAllServicesAndCharacteristics();
+
+        console.log('Connected to Snoozy');
+
+        // Subscribe to NUS TX notifications
+        connectedDevice.monitorCharacteristicForService(
+          NUS_SERVICE_UUID,
+          NUS_TX_CHARACTERISTIC_UUID,
+          (error, characteristic) => {
+            if (error) {
+              console.error('Notification error:', error);
+              return;
+            }
+            // Decode base64 value to string
+            const raw = characteristic?.value;
+            if (raw) {
+              const bytes = Base64.toByteArray(raw);
+              const decoded = new TextDecoder().decode(bytes);
+              handleReceivedData(decoded);
+            }
+          }
+        );
+
+        // Listen for disconnect
+        connectedDevice.onDisconnected((error, device) => {
+          console.log('Snoozy disconnected');
+          alert('Snoozy disconnected');
           setWebBluetoothDevice(null);
           setIsConnected(false);
         });
-        
-        setWebBluetoothDevice(device);
+
+        setWebBluetoothDevice({ name: connectedDevice.name, id: connectedDevice.id });
         setIsConnected(true);
-        
-        //alert(`Connected to ${device.name || 'Unknown Device'}\nListening for data...`);
       }
-      
+
     } catch (error) {
       console.error('Bluetooth error:', error);
       alert('Bluetooth connection failed: ' + error.message);
@@ -311,11 +348,10 @@ const App = () => {
 
   const disconnectWebBluetooth = async () => {
     const isElectronBluetooth = window.electronAPI && window.electronAPI.bluetooth;
-    
+
     if (isElectronBluetooth) {
-      // Disconnect Electron Bluetooth
+      // Electron path
       try {
-        // Remove listeners before disconnecting
         if (window.electronAPI.bluetooth.removeAllListeners) {
           await window.electronAPI.bluetooth.removeAllListeners();
         }
@@ -325,18 +361,24 @@ const App = () => {
         alert('Device disconnected');
       } catch (error) {
         console.error('Error disconnecting Electron Bluetooth:', error);
+        setWebBluetoothDevice(null);
+        setIsConnected(false);
+      }
+
+    } else if (webBluetoothDevice) {
+      // Android path using react-native-ble-plx
+      try {
+        await bleManager.cancelDeviceConnection(webBluetoothDevice.id);
+        setWebBluetoothDevice(null);
+        setIsConnected(false);
+        alert('Device disconnected');
+      } catch (error) {
+        console.error('Error disconnecting Android Bluetooth:', error);
         // Still update state even if disconnect fails
         setWebBluetoothDevice(null);
         setIsConnected(false);
       }
-    } else if (webBluetoothDevice) {
-      // Disconnect regular Web Bluetooth
-      if (webBluetoothDevice.gatt && webBluetoothDevice.gatt.connected) {
-        webBluetoothDevice.gatt.disconnect();
-      }
-      setWebBluetoothDevice(null);
-      setIsConnected(false);
-      alert('Device disconnected');
+
     } else {
       // No device connected, just update state
       setWebBluetoothDevice(null);
@@ -423,8 +465,7 @@ const App = () => {
 
   const handleReceivedData = async (data) => {
     setReceivedData(prev => prev + data);
-    
-    // Get local timestamp instead of UTC
+
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -433,19 +474,18 @@ const App = () => {
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
-    
+
     const timestamp = `${hours}:${minutes}:${seconds}.${milliseconds}Z`;
     const dataWithTimestamp = `${timestamp},${data}`;
-    
+
     const dateString = `${year}-${month}-${day}`;
-    
+
     if (isElectron) {
+      // Electron path
       try {
         const result = await window.electronAPI.appendToFile(dataWithTimestamp, dateString);
         if (result.success) {
           console.log('Data appended to:', result.path);
-          
-          // Parse the dataWithTimestamp once to add to live chart
           const values = dataWithTimestamp.split(',');
           const timeWithoutZ = values[0].replace('Z', '');
           const timestampMs = new Date(dateString + 'T' + timeWithoutZ).getTime();
@@ -456,26 +496,30 @@ const App = () => {
       } catch (error) {
         console.error('Error appending to file:', error);
       }
-    }
-    
-    if (isWeb) {
+
+    } else if (isWeb) {
+      // Web path
       saveWebData(dataWithTimestamp);
+
     } else {
+      // Android path using react-native-fs
       try {
-        const fileInfo = await FileSystem.getInfoAsync(filePath);
-        if (!fileInfo.exists) {
-          await FileSystem.writeAsStringAsync(filePath, dataWithTimestamp, {
-            encoding: FileSystem.EncodingType.UTF8,
-          });
+        const filePath = `${SLEEP_DATA_DIR}/${dateString}.csv`;
+
+        const fileExists = await RNFS.exists(filePath);
+        if (!fileExists) {
+          await RNFS.writeFile(filePath, dataWithTimestamp, 'utf8');
         } else {
-          const existingContent = await FileSystem.readAsStringAsync(filePath);
-          await FileSystem.writeAsStringAsync(
-            filePath, 
-            existingContent + dataWithTimestamp, 
-            { encoding: FileSystem.EncodingType.UTF8 }
-          );
+          await RNFS.appendFile(filePath, dataWithTimestamp, 'utf8');
         }
-        readFileContent();
+
+        // Update live chart
+        const values = dataWithTimestamp.split(',');
+          const timeWithoutZ = values[0].replace('Z', '');
+        const timestampMs = new Date(dateString + 'T' + timeWithoutZ).getTime();
+        setLiveChartData(prev => [...prev, { x: timestampMs, y: parseFloat(data) }]);
+
+        console.log('Data appended to:', filePath);
       } catch (error) {
         console.error('Error writing to file:', error);
       }

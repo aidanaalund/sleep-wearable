@@ -1,6 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+
 let VictoryChart, VictoryLine, VictoryAxis;
 if (Platform.OS === 'web') {
   const Victory = require('victory');
@@ -10,8 +11,15 @@ if (Platform.OS === 'web') {
 } else {
   const VictoryNative = require('victory-native');
   VictoryChart = VictoryNative.VictoryChart;
-  VictoryLine = VictoryNative.VictoryLine;
+  VictoryLine = VictoryNative.VictoryLine;  
   VictoryAxis = VictoryNative.VictoryAxis;
+}
+
+let RNFS: any = null;
+let SLEEP_DATA_DIR: string = '';
+if (Platform.OS === 'android') {
+  RNFS = require('react-native-fs');
+  SLEEP_DATA_DIR = `${RNFS.ExternalStorageDirectoryPath}/sleepData`;
 }
 
 function HexColorsMath(color1, op, color2) {
@@ -213,8 +221,9 @@ const TimeTable = () => {
       if (isElectron) {
         csvContent = await window.electronAPI.readFileContent(filePath);
       } else {
-        const response = await fetch(filePath);
-        csvContent = await response.text();
+        //const response = await fetch(filePath); // for webapp
+        //csvContent = await response.text();
+        csvContent = await RNFS.readFile(`${SLEEP_DATA_DIR}/${filePath}.csv`, 'utf8');
       }
       
       const parsedData = parseCSV(csvContent, filePath);
@@ -236,6 +245,8 @@ const TimeTable = () => {
     if (isElectron) {
       readCSVFile(subBox.day);
     } else {
+      readCSVFile(subBox.day);
+      /*
       const parsedData = [
         { x: new Date('2026-01-28T22:35:01.808').getTime(), y: 0 },
         { x: new Date('2026-01-28T22:35:02.808').getTime(), y: 1 },
@@ -301,6 +312,7 @@ const TimeTable = () => {
       setChartData(parsedData);
       setChartTitle("Web Test");
       setShowChart(true);
+      */
     }
   };
 
@@ -380,13 +392,12 @@ const TimeTable = () => {
     );
   };
 
-  // New function that takes the dates as parameters
   const updateBoxHoursForDates = async (prevDate, selDate, nxtDate) => {
-    if(isElectron) {
+    if (isElectron) {
       try {
         const dayHoursMap = {};
         const uniqueDays = [prevDate, selDate, nxtDate];
-        
+
         for (const day of uniqueDays) {
           try {
             const result = await window.electronAPI.readFile(day);
@@ -399,18 +410,43 @@ const TimeTable = () => {
             continue;
           }
         }
-        
+
         setBoxHours(dayHoursMap);
       } catch (error) {
         console.error('Error updating box hours:', error);
       }
     } else {
-      const dayHoursMap = {
-        [prevDate]: { firstHour: 0, lastHour: 8 },
-        [selDate]:  { firstHour: 0, lastHour: 8 },
-        [nxtDate]:  { firstHour: 0, lastHour: 8 }
-      };
-      setBoxHours(dayHoursMap);
+      // Android: read each day's file from local storage
+      try {
+        const dayHoursMap = {};
+        const uniqueDays = [prevDate, selDate, nxtDate];
+
+        for (const day of uniqueDays) {
+          try {
+            const filePath = `${SLEEP_DATA_DIR}/${day}.csv`;
+            const fileContent = await RNFS.readFile(filePath, 'utf8');
+
+            const lines = fileContent.trim().split('\n').filter(line => line.length > 0);
+
+            const firstTimestamp = lines[0].split(',')[0].replace('Z', '');
+            const lastTimestamp = lines[lines.length - 1].split(',')[0].replace('Z', '');
+
+            const firstHour = new Date(day + 'T' + firstTimestamp).getHours();
+            const lastHour = new Date(day + 'T' + lastTimestamp).getHours();
+
+            dayHoursMap[day] = {
+              firstHour: firstHour,
+              lastHour: lastHour + 1
+            };
+          } catch (fileError) {
+            console.warn(`SKIPPING ${day}`);
+            continue;
+          }
+        }
+        setBoxHours(dayHoursMap);
+      } catch (error) {
+        console.error('Error updating box hours:', error);
+      }
     }
   };
 

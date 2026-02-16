@@ -6,13 +6,13 @@ npx expo start --tunnel
 w
 ctrl + c (close webapp)
 
-// for actual app //
+// for pc //
 npx expo export --platform web
 npm run start:electron
 
 // for mobile //
 npx expo prebuild --clean
-npm run android               (emulator)
+npm run android               (error)
 npx expo run:android          (black screen)
 
 adb reverse tcp:8081 tcp:8081 (wired/apk)
