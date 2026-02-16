@@ -19,7 +19,7 @@ let RNFS: any = null;
 let SLEEP_DATA_DIR: string = '';
 if (Platform.OS === 'android') {
   RNFS = require('react-native-fs');
-  SLEEP_DATA_DIR = `${RNFS.ExternalStorageDirectoryPath}/sleepData`;
+  SLEEP_DATA_DIR = `${RNFS.ExternalDirectoryPath}/sleepData`;
 }
 
 function HexColorsMath(color1, op, color2) {

@@ -22,7 +22,7 @@ let RNFS: any = null;
 let SLEEP_DATA_DIR: string = '';
 if (Platform.OS === 'android') {
   RNFS = require('react-native-fs');
-  SLEEP_DATA_DIR = `${RNFS.ExternalStorageDirectoryPath}/sleepData`;
+  SLEEP_DATA_DIR = `${RNFS.ExternalDirectoryPath}/sleepData`;
 }
 
 const App = () => {
@@ -46,7 +46,8 @@ const App = () => {
   useEffect(() => {
     if (!isWeb) {
       requestPermissions();
-      createDirectory();
+      console.log('SLEEP_DATA_DIR:', SLEEP_DATA_DIR);
+      console.log('Platform:', Platform.OS);
     } else {
       // Load data from localStorage on web (but not Electron)
       if (!isElectron) {
@@ -77,30 +78,36 @@ const App = () => {
 
   const requestPermissions = async () => {
     if (Platform.OS === 'android') {
-      if (Platform.Version >= 31) {
-        const granted = await PermissionsAndroid.requestMultiple([
-          PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
-          PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        ]);
-        return Object.values(granted).every(
-          status => status === PermissionsAndroid.RESULTS.GRANTED
-        );
+      const granted = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      ]);
+
+      console.log('Permissions granted:', granted);
+
+      const allGranted = Object.values(granted).every(
+        val => val === PermissionsAndroid.RESULTS.GRANTED
+      );
+
+      if (allGranted) {
+        // Only create directory AFTER permissions are confirmed
+        await createDirectory();
       } else {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        );
-        return granted === PermissionsAndroid.RESULTS.GRANTED;
+        console.warn('Some permissions were denied');
       }
     }
-    return true;
-  };
+  };  
 
   const createDirectory = async () => {
     try {
-      const dirInfo = await FileSystem.getInfoAsync(sleepDataDir);
-      if (!dirInfo.exists) {
-        await FileSystem.makeDirectoryAsync(sleepDataDir, { intermediates: true });
+      const exists = await RNFS.exists(SLEEP_DATA_DIR);
+      console.log('Directory exists:', exists);
+      if (!exists) {
+        await RNFS.mkdir(SLEEP_DATA_DIR);
+        console.log('Directory created successfully');
+      } else {
+        console.log('Directory already exists, skipping mkdir');
       }
     } catch (error) {
       console.error('Error creating directory:', error);
