@@ -496,7 +496,10 @@ const App = () => {
           const values = dataWithTimestamp.split(',');
           const timeWithoutZ = values[0].replace('Z', '');
           const timestampMs = new Date(dateString + 'T' + timeWithoutZ).getTime();
-          setLiveChartData(prev => [...prev, { x: timestampMs, y: parseFloat(data) }]);
+          setLiveChartData(prev => {
+            const updated = [...prev, { x: timestampMs, y: parseFloat(data) }];
+            return updated.length > 100 ? updated.slice(-100) : updated;
+          });
         } else {
           console.error('Failed to append data:', result.error);
         }
@@ -522,9 +525,12 @@ const App = () => {
 
         // Update live chart
         const values = dataWithTimestamp.split(',');
-          const timeWithoutZ = values[0].replace('Z', '');
+        const timeWithoutZ = values[0].replace('Z', '');
         const timestampMs = new Date(dateString + 'T' + timeWithoutZ).getTime();
-        setLiveChartData(prev => [...prev, { x: timestampMs, y: parseFloat(data) }]);
+        setLiveChartData(prev => {
+          const updated = [...prev, { x: timestampMs, y: parseFloat(data) }];
+          return updated.length > 100 ? updated.slice(-100) : updated;
+        });
 
         console.log('Data appended to:', filePath);
       } catch (error) {
@@ -711,53 +717,44 @@ const App = () => {
                 <Text style={styles.chartCloseButtonText}>✕</Text>
               </TouchableOpacity>
             </View>
-              
-              <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={true}
-              contentContainerStyle={{
-                justifyContent: liveChartData.length <= 100 ? 'center' : 'flex-start',
-                alignItems: 'center',
-                minWidth: '100%',
+
+            <VictoryChart
+              width={1280}
+              height={720}
+              scale={{ x: 'time' }}
+              style={{
+                background: { fill: BGColor2 },
+                justifyContent: 'center',
               }}
-              >
-                <VictoryChart
-                  width={Math.max(1280, (liveChartData.length / 60) * 1280)}
-                  height={720}
-                  scale={{ x: 'time' }}
-                  style={{
-                    background: { fill: BGColor2 },
-                    justifyContent: 'center',
-                  }}
-                >
-                  <VictoryAxis
-                    dependentAxis
-                    label="Values"
-                    style={{
-                      axisLabel: { padding: 60, angle: 0, fill: textLightColor },
-                      tickLabels: { fill: textLightColor },
-                      axis: { stroke: textDarkColor, strokeWidth: 5 },
-                      grid: { stroke: bordersColor }
-                    }}
-                  />
-                  <VictoryAxis
-                    label="HH:MM:SS"
-                    tickFormat={formatXAxis}
-                    style={{
-                      axisLabel: { padding: 10, fill: textDarkColor },
-                      tickLabels: { angle: -45, fill: textLightColor },
-                      axis: { stroke: textDarkColor, strokeWidth: 5 },
-                      grid: { stroke: bordersColor }
-                    }}
-                  />
-                  <VictoryLine
-                    data={liveChartData}
-                    style={{
-                      data: { stroke: textInverseColor, strokeWidth: 2 }
-                    }}
-                  />
-                </VictoryChart>
-              </ScrollView>
+            >
+              <VictoryAxis
+                dependentAxis
+                label="Values"
+                style={{
+                  axisLabel: { padding: 60, angle: 0, fill: textLightColor },
+                  tickLabels: { fill: textLightColor },
+                  axis: { stroke: textDarkColor, strokeWidth: 5 },
+                  grid: { stroke: bordersColor }
+                }}
+              />
+              <VictoryAxis
+                label="HH:MM:SS"
+                tickFormat={formatXAxis}
+                style={{
+                  axisLabel: { padding: 10, fill: textDarkColor },
+                  tickLabels: { angle: -45, fill: textLightColor },
+                  axis: { stroke: textDarkColor, strokeWidth: 5 },
+                  grid: { stroke: bordersColor }
+                }}
+              />
+              <VictoryLine
+                data={liveChartData}
+                style={{
+                  data: { stroke: textInverseColor, strokeWidth: 2 }
+                }}
+              />
+            </VictoryChart>
+
           </View>
         </View>
       </Modal>

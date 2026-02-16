@@ -1,5 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 
 let VictoryChart, VictoryLine, VictoryAxis;
@@ -71,6 +71,7 @@ function fillTimeGaps(data, interval) {
 
 /* === Constants === */
 const isElectron = typeof window !== 'undefined' && window.electronAPI;
+const isWeb = Platform.OS === 'web';
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const screenBound = Math.min(screenWidth, screenHeight);
 const CalendarWH = screenBound * 0.9;
@@ -112,6 +113,23 @@ const TimeTable = () => {
   const [boxHours, setBoxHours] = useState({});
   const intervalInMs = 1000;
   const filledChartData = fillTimeGaps(chartData, intervalInMs);
+
+  const WINDOW_SIZE = 100;
+  const [windowStart, setWindowStart] = useState(0);
+
+  const visibleData = useMemo(() =>
+    filledChartData.slice(windowStart, windowStart + WINDOW_SIZE),
+    [filledChartData, windowStart]
+  );
+
+  const maxStart = Math.max(0, filledChartData.length - WINDOW_SIZE);
+
+  const handleChartScroll = (e) => {
+    const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
+    const scrollFraction = contentOffset.x / (contentSize.width - layoutMeasurement.width);
+    const newStart = Math.round(scrollFraction * maxStart);
+    setWindowStart(Math.min(Math.max(newStart, 0), maxStart));
+  };
 
   // useEffect(() => {
   //   // Calculate initial dates
@@ -229,6 +247,7 @@ const TimeTable = () => {
       const parsedData = parseCSV(csvContent, filePath);
       setChartData(parsedData);
       setChartTitle(filePath.split('/').pop());
+      setWindowStart(0);
       setShowChart(true);
     } catch (err) {
       console.error('Error reading CSV:', err);
@@ -242,11 +261,7 @@ const TimeTable = () => {
   };
 
   const handleBoxPress = (subBox) => {
-    if (isElectron) {
-      readCSVFile(subBox.day);
-    } else {
-      readCSVFile(subBox.day);
-      /*
+    if(isWeb) {
       const parsedData = [
         { x: new Date('2026-01-28T22:35:01.808').getTime(), y: 0 },
         { x: new Date('2026-01-28T22:35:02.808').getTime(), y: 1 },
@@ -312,7 +327,10 @@ const TimeTable = () => {
       setChartData(parsedData);
       setChartTitle("Web Test");
       setShowChart(true);
-      */
+    } if(isElectron) {
+      readCSVFile(subBox.day);
+    } else {
+      readCSVFile(subBox.day);
     }
   };
 
@@ -742,53 +760,108 @@ const TimeTable = () => {
                 <Text style={styles.chartCloseButtonText}>✕</Text>
               </TouchableOpacity>
             </View>
-              
-              <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={true}
-              contentContainerStyle={{
-                justifyContent: chartData.length <= 100 ? 'center' : 'flex-start',
-                alignItems: 'center',
-                minWidth: '100%',
-              }}
-              >
-                <VictoryChart
-                  width={Math.max(1280, (filledChartData.length / 60) * 1280)}
-                  height= {720}
-                  scale={{ x: 'time' }}
-                  style={{
-                    background: { fill: BGColor2 },
-                    justifyContent: 'center',
-                  }}
-                >
-                  <VictoryAxis
-                    dependentAxis
-                    label="Values"
+
+            {(() => {
+              const totalPoints = filledChartData.length;
+
+              return (
+                <>
+                    <VictoryChart
+                    width={1280}
+                    height={600}
+                    scale={{ x: 'time' }}
                     style={{
-                      axisLabel: { padding: 60, angle: 0, fill: textLightColor },
-                      tickLabels: { fill: textLightColor },
-                      axis: { stroke: textDarkColor, strokeWidth: 5 },
-                      grid: { stroke: bordersColor }
+                      background: { fill: BGColor2 },
+                      justifyContent: 'center',
                     }}
-                  />
-                  <VictoryAxis
-                    label="HH:MM:SS"
-                    tickFormat={formatXAxis}
-                    style={{
-                      axisLabel: { padding: 10, fill: textDarkColor },
-                      tickLabels: { angle: -45, fill: textLightColor },
-                      axis: { stroke: textDarkColor, strokeWidth: 5 },
-                      grid: { stroke: bordersColor }
-                    }}
-                  />
-                  <VictoryLine
-                    data={filledChartData}
-                    style={{
-                      data: { stroke: textInverseColor, strokeWidth: 2 }
-                    }}
-                  />
-                </VictoryChart>
-              </ScrollView>
+                  >
+                    <VictoryAxis
+                      dependentAxis
+                      label="Values"
+                      style={{
+                        axisLabel: { padding: 60, angle: 0, fill: textLightColor },
+                        tickLabels: { fill: textLightColor },
+                        axis: { stroke: textDarkColor, strokeWidth: 5 },
+                        grid: { stroke: bordersColor }
+                      }}
+                    />
+                    <VictoryAxis
+                      label="HH:MM:SS"
+                      tickFormat={formatXAxis}
+                      style={{
+                        axisLabel: { padding: 10, fill: textDarkColor },
+                        tickLabels: { angle: -45, fill: textLightColor },
+                        axis: { stroke: textDarkColor, strokeWidth: 5 },
+                        grid: { stroke: bordersColor }
+                      }}
+                    />
+                    <VictoryLine
+                      data={visibleData}
+                      style={{
+                        data: { stroke: textInverseColor, strokeWidth: 2 }
+                      }}
+                    />
+                  </VictoryChart>
+
+                  {/* Prev/Next buttons */}
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16 }}>
+                    <TouchableOpacity
+                      onPress={() => setWindowStart(w => Math.max(0, w - WINDOW_SIZE))}
+                      disabled={windowStart === 0}
+                      style={{ opacity: windowStart === 0 ? 0.3 : 1 }}
+                    >
+                      <Text style={{ color: textLightColor, fontSize: 16 }}>◀ Prev</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => setWindowStart(w => Math.min(maxStart, w + WINDOW_SIZE))}
+                      disabled={windowStart >= maxStart}
+                      style={{ opacity: windowStart >= maxStart ? 0.3 : 1 }}
+                    >
+                      <Text style={{ color: textLightColor, fontSize: 16 }}>Next ▶</Text>
+                    </TouchableOpacity>
+                  </View>
+
+                  {/* Progress indicator */}
+                  <Text style={{ color: textLightColor, textAlign: 'center' }}>
+                    {windowStart + 1}–{Math.min(windowStart + WINDOW_SIZE, filledChartData.length)} of {filledChartData.length} points
+                  </Text>
+
+                  {/* Electron: use a native range slider */}
+                  {(isElectron || isWeb) ? (
+                    <input
+                      type="range"
+                      min={0}
+                      max={maxStart}
+                      value={windowStart}
+                      onChange={(e) => setWindowStart(Number(e.target.value))}
+                      style={{ width: '100%', marginTop: 8, marginBottom: 8 }}
+                    />
+                  ) : (
+                    /* Android: use invisible ScrollView as scrubber */
+                    <ScrollView
+                      horizontal
+                      showsHorizontalScrollIndicator={true}
+                      onScroll={handleChartScroll}
+                      scrollEventThrottle={16}
+                      style={{ width: '100%' }}
+                    >
+                      <View style={{ width: Math.max(1280, filledChartData.length * 8), height: 1 }} />
+                    </ScrollView>
+                  )}
+
+                  {/* Scroll bar to navigate windows */}
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={true}
+                    onScroll={handleChartScroll}
+                    scrollEventThrottle={16}
+                    style={{ width: '100%' }}
+                  >
+                    <View style={{ width: Math.max(1280, filledChartData.length * 8), height: 1 }} />
+                  </ScrollView>
+                </>
+              );
+            })()}
           </View>
         </View>
       </Modal>

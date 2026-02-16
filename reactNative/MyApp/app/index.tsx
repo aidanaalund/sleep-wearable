@@ -16,7 +16,6 @@ npm run android               (error)
 npx expo run:android          (black screen)
 
 adb reverse tcp:8081 tcp:8081 (wired/apk)
-npx react-native start        (wired/apk)
 npx react-native run-android  (wired/apk)
 */
 
