@@ -71,6 +71,7 @@ function fillTimeGaps(data, interval) {
 
 /* === Constants === */
 const isElectron = typeof window !== 'undefined' && window.electronAPI;
+const isAndroid = Platform.OS === 'android';
 const isWeb = Platform.OS === 'web';
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const screenBound = Math.min(screenWidth, screenHeight);
@@ -131,22 +132,6 @@ const TimeTable = () => {
     setWindowStart(Math.min(Math.max(newStart, 0), maxStart));
   };
 
-  // useEffect(() => {
-  //   // Calculate initial dates
-  //   const previousDate = new Date(selectedDate);
-  //   previousDate.setDate(selectedDate.getDate() - 1);
-    
-  //   const nextDate = new Date(selectedDate);
-  //   nextDate.setDate(selectedDate.getDate() + 1);
-    
-  //   // Call update with initial dates
-  //   updateBoxHoursForDates(
-  //     formatDate(previousDate),
-  //     formatDate(selectedDate),
-  //     formatDate(nextDate)
-  //   );
-  // }, []);
-
   useFocusEffect(
     useCallback(() => {
       const previousDate = new Date(selectedDate);
@@ -176,9 +161,9 @@ const TimeTable = () => {
 
   // Define boxes based on current dates
   const boxes = [
-    { label: 'Sleep1', start: 0,  end: 0, color: '#DD4444', day: globalPreviousDate },
-    { label: 'Sleep2', start: 0,  end: 0, color: '#44DD44', day: globalSelectedDate },
-    { label: 'Sleep3', start: 0,  end: 0, color: '#4444DD', day: globalNextDate },
+    { label: 'Sleep1', start: 0, end: ((isAndroid || isElectron) ? 0 : 4), color: '#DD4444', day: globalPreviousDate },
+    { label: 'Sleep2', start: 0, end: ((isAndroid || isElectron) ? 0 : 4), color: '#44DD44', day: globalSelectedDate },
+    { label: 'Sleep3', start: 0, end: ((isAndroid || isElectron) ? 0 : 4), color: '#4444DD', day: globalNextDate },
   ];
 
   // Merge boxes with hours from state
@@ -261,7 +246,9 @@ const TimeTable = () => {
   };
 
   const handleBoxPress = (subBox) => {
-    if(isWeb) {
+    if(isElectron || isAndroid) {
+      readCSVFile(subBox.day);
+    } else {
       const parsedData = [
         { x: new Date('2026-01-28T22:35:01.808').getTime(), y: 0 },
         { x: new Date('2026-01-28T22:35:02.808').getTime(), y: 1 },
@@ -327,10 +314,6 @@ const TimeTable = () => {
       setChartData(parsedData);
       setChartTitle("Web Test");
       setShowChart(true);
-    } if(isElectron) {
-      readCSVFile(subBox.day);
-    } else {
-      readCSVFile(subBox.day);
     }
   };
 
