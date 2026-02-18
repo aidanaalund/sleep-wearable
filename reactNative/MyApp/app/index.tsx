@@ -1,7 +1,6 @@
 /*
 https://www.youtube.com/watch?v=1ETOnpmJloLK3Y
 // for web app //
-cd MyApp
 npx expo start --tunnel
 w
 ctrl + c (close webapp)
@@ -22,7 +21,7 @@ npx react-native run-android  (wired/apk)
 import { Redirect, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 
-export default function Index() { 
+export default function Index() {
   const pathname = usePathname();
   
   useEffect(() => {

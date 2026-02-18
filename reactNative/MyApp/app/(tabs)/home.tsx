@@ -114,6 +114,7 @@ const TimeTable = () => {
   const [boxHours, setBoxHours] = useState({});
   const intervalInMs = 1000;
   const filledChartData = fillTimeGaps(chartData, intervalInMs);
+  const [modalDims, setModalDims] = useState({ width: 0, height: 0 });
 
   const WINDOW_SIZE = 100;
   const [windowStart, setWindowStart] = useState(0);
@@ -735,29 +736,49 @@ const TimeTable = () => {
         animationType="slide"
         onRequestClose={() => setShowChart(false)}
       >
-        <View style={styles.chartModalOverlay}>
-          <View style={styles.chartModalContent}>
-            <View style={styles.chartHeader}>
+        <View
+          style={styles.chartModalOverlay}
+          onLayout={(e) => {
+            const { width, height } = e.nativeEvent.layout;
+            setModalDims({ width, height });
+          }}
+        >
+          <View
+            style={[
+              styles.chartModalContent,
+              isAndroid && {
+                width: modalDims.height,
+                height: modalDims.width,
+                transform: [{ rotate: '90deg' }],
+              }
+            ]}
+          >
+            <View style={[styles.chartHeader, { marginTop: -15 }]}>
               <Text style={styles.chartTitle}>{chartTitle}</Text>
-              <TouchableOpacity onPress={() => setShowChart(false)} style={styles.chartCloseButton}>
+              <TouchableOpacity
+                onPress={() => setShowChart(false)} 
+                style={[styles.chartCloseButton, { marginRight: 25 }]}
+              >
                 <Text style={styles.chartCloseButtonText}>✕</Text>
               </TouchableOpacity>
             </View>
 
             {(() => {
               const totalPoints = filledChartData.length;
-
+              const chartWidth  = (isAndroid) ? modalDims.height : modalDims.width;
+              const chartHeight = (isAndroid) ? modalDims.width : modalDims.height;
               return (
                 <>
-                    <VictoryChart
-                    width={1280}
-                    height={600}
+                  <VictoryChart
+                    width={chartWidth * 0.9}
+                    height={chartHeight * 0.7}
                     scale={{ x: 'time' }}
                     style={{
                       background: { fill: BGColor2 },
                       justifyContent: 'center',
                     }}
-                  >
+                    padding={{ top: 0 }}
+                  > 
                     <VictoryAxis
                       dependentAxis
                       label="Values"
@@ -795,31 +816,17 @@ const TimeTable = () => {
                     >
                       <Text style={{ color: textLightColor, fontSize: 16 }}>◀ Prev</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => setWindowStart(w => Math.min(maxStart, w + WINDOW_SIZE))}
-                      disabled={windowStart >= maxStart}
-                      style={{ opacity: windowStart >= maxStart ? 0.3 : 1 }}
-                    >
-                      <Text style={{ color: textLightColor, fontSize: 16 }}>Next ▶</Text>
-                    </TouchableOpacity>
-                  </View>
-
-                  {/* Progress indicator */}
-                  <Text style={{ color: textLightColor, textAlign: 'center' }}>
-                    {windowStart + 1}–{Math.min(windowStart + WINDOW_SIZE, filledChartData.length)} of {filledChartData.length} points
-                  </Text>
-
-                  {/* Electron: use a native range slider */}
-                  {(isElectron || isWeb) ? (
-                    <input
-                      type="range"
-                      min={0}
-                      max={maxStart}
-                      value={windowStart}
-                      onChange={(e) => setWindowStart(Number(e.target.value))}
-                      style={{ width: '100%', marginTop: 8, marginBottom: 8 }}
-                    />
-                  ) : (
+                    {/* Progress indicator */}
+                    {(!isAndroid) ? (
+                      <input
+                        type="range"
+                        min={0}
+                        max={maxStart}
+                        value={windowStart}
+                        onChange={(e) => setWindowStart(Number(e.target.value))}
+                        style={{ width: '90%', marginTop: 0, marginBottom: 0, display: 'block', margin: '0 auto' }}
+                      />
+                    ) : (
                     /* Android: use invisible ScrollView as scrubber */
                     <ScrollView
                       horizontal
@@ -831,6 +838,18 @@ const TimeTable = () => {
                       <View style={{ width: Math.max(1280, filledChartData.length * 8), height: 1 }} />
                     </ScrollView>
                   )}
+                    <TouchableOpacity
+                      onPress={() => setWindowStart(w => Math.min(maxStart, w + WINDOW_SIZE))}
+                      disabled={windowStart >= maxStart}
+                      style={{ opacity: windowStart >= maxStart ? 0.3 : 1 }}
+                    >
+                      <Text style={{ color: textLightColor, fontSize: 16 }}>Next ▶</Text>
+                    </TouchableOpacity>
+                  </View>
+
+                  <Text style={{ color: textLightColor, textAlign: 'center' }}>
+                    {windowStart + 1}–{Math.min(windowStart + WINDOW_SIZE, filledChartData.length)} of {filledChartData.length} points
+                  </Text>
 
                   {/* Scroll bar to navigate windows */}
                   <ScrollView
@@ -1020,7 +1039,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   chartTitle: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
     color: textLightColor,
   },

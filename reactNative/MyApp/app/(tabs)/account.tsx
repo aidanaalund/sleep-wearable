@@ -37,7 +37,9 @@ const App = () => {
   const [inMemoryData, setInMemoryData] = useState('');
   const [liveChartData, setLiveChartData] = useState([]);
   const [showChart, setShowChart] = useState(false);
+  const [modalDims, setModalDims] = useState({ width: 0, height: 0 });
   // Check if running in Electron
+  const isAndroid = Platform.OS === 'android';
   const isElectron = typeof window !== 'undefined' && window.electronAPI;
   const isWeb = Platform.OS === 'web';
   const sleepDataDir = isWeb ? null : `${FileSystem.documentDirectory}sleepData`;
@@ -709,52 +711,77 @@ const App = () => {
         animationType="slide"
         onRequestClose={() => setShowChart(false)}
       >
-        <View style={styles.chartModalOverlay}>
-          <View style={styles.chartModalContent}>
-            <View style={styles.chartHeader}>
-              <Text style={styles.chartTitle}>Live Data Chart</Text>
-              <TouchableOpacity onPress={() => setShowChart(false)} style={styles.chartCloseButton}>
+        <View
+          style={styles.chartModalOverlay}
+          onLayout={(e) => {
+            const { width, height } = e.nativeEvent.layout;
+            setModalDims({ width, height });
+          }}
+        >
+          <View
+            style={[
+              styles.chartModalContent,
+              isAndroid && {
+                width: modalDims.height,
+                height: modalDims.width,
+                transform: [{ rotate: '90deg' }],
+              }
+            ]}
+          >
+            <View style={[styles.chartHeader, { marginTop: -15 }]}>
+              <Text style={styles.chartTitle}>LIVE</Text>
+              <TouchableOpacity
+                onPress={() => setShowChart(false)} 
+                style={[styles.chartCloseButton, { marginRight: 25 }]}
+              >
                 <Text style={styles.chartCloseButtonText}>✕</Text>
               </TouchableOpacity>
             </View>
-
-            <VictoryChart
-              width={1280}
-              height={720}
-              scale={{ x: 'time' }}
-              style={{
-                background: { fill: BGColor2 },
-                justifyContent: 'center',
-              }}
-            >
-              <VictoryAxis
-                dependentAxis
-                label="Values"
-                style={{
-                  axisLabel: { padding: 60, angle: 0, fill: textLightColor },
-                  tickLabels: { fill: textLightColor },
-                  axis: { stroke: textDarkColor, strokeWidth: 5 },
-                  grid: { stroke: bordersColor }
-                }}
-              />
-              <VictoryAxis
-                label="HH:MM:SS"
-                tickFormat={formatXAxis}
-                style={{
-                  axisLabel: { padding: 10, fill: textDarkColor },
-                  tickLabels: { angle: -45, fill: textLightColor },
-                  axis: { stroke: textDarkColor, strokeWidth: 5 },
-                  grid: { stroke: bordersColor }
-                }}
-              />
-              <VictoryLine
-                data={liveChartData}
-                style={{
-                  data: { stroke: textInverseColor, strokeWidth: 2 }
-                }}
-              />
-            </VictoryChart>
-
+            
+            {(() => {
+              const chartWidth  = (isAndroid) ? modalDims.height : modalDims.width;
+              const chartHeight = (isAndroid) ? modalDims.width : modalDims.height;
+              return (
+                <>
+                <VictoryChart
+                  width={chartWidth * 0.9}
+                  height={chartHeight * 0.7}
+                  scale={{ x: 'time' }}
+                  style={{
+                    background: { fill: BGColor2 },
+                    justifyContent: 'center',
+                  }}
+                >
+                  <VictoryAxis
+                    dependentAxis
+                    label="Values"
+                    style={{
+                      axisLabel: { padding: 60, angle: 0, fill: textLightColor },
+                      tickLabels: { fill: textLightColor },
+                      axis: { stroke: textDarkColor, strokeWidth: 5 },
+                      grid: { stroke: bordersColor }
+                    }}
+                  />
+                  <VictoryAxis
+                    label="HH:MM:SS"
+                    tickFormat={formatXAxis}
+                    style={{
+                      //axisLabel: { padding: 10, fill: textDarkColor },
+                      //tickLabels: { angle: -45, fill: textLightColor },
+                      axis: { stroke: textDarkColor, strokeWidth: 5 },
+                      grid: { stroke: bordersColor }
+                    }}
+                  />
+                  <VictoryLine
+                    data={liveChartData}
+                    style={{
+                      data: { stroke: textInverseColor, strokeWidth: 2 }
+                    }}
+                  />
+                </VictoryChart>
+                </>
+              );
+            })()}
           </View>
         </View>
       </Modal>
