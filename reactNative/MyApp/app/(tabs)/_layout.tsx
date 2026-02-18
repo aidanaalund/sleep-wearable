@@ -10,8 +10,8 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveBackgroundColor: BGColor1,
         tabBarInactiveBackgroundColor: BGColor2,  
-        tabBarActiveTintColor: textDarkColor,
-        tabBarInactiveTintColor: textLightColor,
+        tabBarActiveTintColor: textLightColor,
+        tabBarInactiveTintColor: textDarkColor,
         headerShown: false,
         tabBarButton: HapticTab,
       }}>

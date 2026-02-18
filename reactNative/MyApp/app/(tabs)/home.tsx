@@ -79,12 +79,12 @@ const CalendarWH = screenBound * 0.9;
 const cellHeight = 50;
 const cellWidth  = 75;
 const diffColor  = '#111111';
-export const BGColor1           = '#24292b';
-export const BGColor2           = HexColorsMath(BGColor1,'+',diffColor);
+export const BGColor1           = '#161616';
+export const BGColor2           = HexColorsMath(BGColor1,'+',HexColorsMath(diffColor,'*','#000002'));
 export const bordersColor       = '#000000';
-export const buttonColor        = '#222f55';
+export const buttonColor        = '#306aa0';
 export const buttonChoiceColor  = HexColorsMath(buttonColor,'-',HexColorsMath(diffColor,'*','#000005'));
-export const textLightColor     = '#99cde6';
+export const textLightColor     = '#ffffff';
 export const textDarkColor      = HexColorsMath(textLightColor,'-',HexColorsMath(diffColor,'*','#000005'));
 export const textInverseColor   = HexColorsMath('#FFFFFF','-',textDarkColor);
 /* === Custom Reusable Button === */
@@ -526,7 +526,8 @@ const TimeTable = () => {
                           {
                             textAlign: 'center',
                             fontSize:  cellWidth/(subBox.label.length/1.6),
-                            color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
+                            //color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
+                            color: '#FFFFFF',
                           }, ]}
                           numberOfLines={1}
                           adjustsFontSizeToFit={Platform.OS !== 'web'}
@@ -536,7 +537,8 @@ const TimeTable = () => {
                           {
                             textAlign: 'center',
                             fontSize:  cellWidth/(subBox.label.length/1.6),
-                            color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
+                            //color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
+                            color: '#FFFFFF',
                           }, ]}
                           numberOfLines={1}
                           adjustsFontSizeToFit={Platform.OS !== 'web'}
@@ -600,7 +602,8 @@ const TimeTable = () => {
                           {
                             textAlign: 'center',
                             fontSize:  cellHeight/3,
-                            color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
+                            //color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
+                            color: '#FFFFFF',
                           }, ]}
                           numberOfLines={1}
                           adjustsFontSizeToFit={Platform.OS !== 'web'}
@@ -610,7 +613,8 @@ const TimeTable = () => {
                           {
                             textAlign: 'center',
                             fontSize:  cellHeight/3,
-                            color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
+                            //color: HexColorsMath('#FFFFFF','-',row[row.length-1-colIndex].color),
+                            color: '#FFFFFF',
                           }, ]}
                           numberOfLines={1}
                           adjustsFontSizeToFit={Platform.OS !== 'web'}
