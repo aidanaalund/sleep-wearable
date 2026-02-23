@@ -430,7 +430,7 @@ function createWindow() {
     }
   });
 
-  mainWindow.loadURL('app://./home');
+  mainWindow.loadURL('app://./info');
   
   mainWindow.webContents.once('did-finish-load', () => {
     mainWindow.show();
@@ -453,7 +453,7 @@ function createWindow() {
   
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
     console.error('Failed to load:', errorDescription, validatedURL);
-    if (validatedURL.includes('/home')) {
+    if (validatedURL.includes('/info')) {
       console.log('Retrying with root URL...');
       mainWindow.loadURL('app://./');
     }

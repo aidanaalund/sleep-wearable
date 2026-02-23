@@ -1,7 +1,6 @@
-import { Tabs } from 'expo-router';
-
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Tabs } from 'expo-router';
 
 function HexColorsMath(color1, op, color2) {
   // Convert hex strings to numbers
@@ -56,7 +55,7 @@ export default function TabLayout() {
         name="calendar"
         options={{
           title: 'Calendar',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="calendar-month.fill" color={color} />,
         }}
       />
       <Tabs.Screen
