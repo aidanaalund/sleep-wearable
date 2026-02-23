@@ -28,5 +28,5 @@ export default function Index() {
     console.log('Index pathname:', pathname);
   }, [pathname]);
   
-  return <Redirect href="/(tabs)/home" />;
+  return <Redirect href="/(tabs)/calendar" />;
 }

@@ -1,6 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { BGColor1, BGColor2, bordersColor, buttonChoiceColor, buttonColor, diffColor, textDarkColor, textInverseColor, textLightColor } from './_layout';
 
 let VictoryChart, VictoryLine, VictoryAxis;
 if (Platform.OS === 'web') {
@@ -78,15 +79,6 @@ const screenBound = Math.min(screenWidth, screenHeight);
 const CalendarWH = screenBound * 0.9;
 const cellHeight = 50;
 const cellWidth  = 75;
-const diffColor  = '#111111';
-export const BGColor1           = '#161616';
-export const BGColor2           = HexColorsMath(BGColor1,'+',HexColorsMath(diffColor,'*','#000002'));
-export const bordersColor       = '#000000';
-export const buttonColor        = '#306aa0';
-export const buttonChoiceColor  = HexColorsMath(buttonColor,'-',HexColorsMath(diffColor,'*','#000005'));
-export const textLightColor     = '#ffffff';
-export const textDarkColor      = HexColorsMath(textLightColor,'-',HexColorsMath(diffColor,'*','#000005'));
-export const textInverseColor   = HexColorsMath('#FFFFFF','-',textDarkColor);
 /* === Custom Reusable Button === */
 const CustomButton = ({ title, onPress, backgroundColor }) => (
   <TouchableOpacity
