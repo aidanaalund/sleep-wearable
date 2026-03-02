@@ -11,7 +11,7 @@ const BOX_TEMPLATES = [
   },
   {
     label: 'Summary',
-    body: 'Sleep Summary',
+    body: 'Sleep summary',
   },
   {
     label: 'How to Improve',

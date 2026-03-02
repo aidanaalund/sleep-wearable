@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "SnoozyApp",
-    "slug": "MyApp",
+    "slug": "SnoozyApp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -44,7 +44,7 @@
         "android.permission.BLUETOOTH_ADMIN",
         "android.permission.BLUETOOTH_CONNECT"
       ],
-      "package": "com.anonymous.MyApp"
+      "package": "com.anonymous.SnoozyApp"
     },
     "web": {
       "output": "static",

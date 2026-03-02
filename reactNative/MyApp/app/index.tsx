@@ -14,8 +14,12 @@ npx expo prebuild --clean
 npm run android               (error)
 npx expo run:android          (black screen)
 
-adb reverse tcp:8081 tcp:8081 (wired/apk)
-npx react-native run-android  (wired/apk)
+adb reverse tcp:8081 tcp:8081 (wired)
+npx react-native run-android
+
+cd android && gradlew assembleRelease (APK)
+cd ..
+adb install android/app/build/outputs/apk/release/app-release.apk
 */
 
 import { Redirect, usePathname } from 'expo-router';

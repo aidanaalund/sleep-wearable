@@ -1,5 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 import { BGColor1, BGColor2, bordersColor, buttonChoiceColor, buttonColor, diffColor, textDarkColor, textInverseColor, textLightColor } from './_layout';
 
@@ -71,7 +71,6 @@ function fillTimeGaps(data, interval) {
 }
 
 /* === Constants === */
-const isElectron = typeof window !== 'undefined' && window.electronAPI;
 const isAndroid = Platform.OS === 'android';
 const isWeb = Platform.OS === 'web';
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -107,7 +106,7 @@ const TimeTable = () => {
   const intervalInMs = 1000;
   const filledChartData = fillTimeGaps(chartData, intervalInMs);
   const [modalDims, setModalDims] = useState({ width: 0, height: 0 });
-
+  const [isElectron, setIsElectron] = useState(false);
   const WINDOW_SIZE = 100;
   const [windowStart, setWindowStart] = useState(0);
 
@@ -124,6 +123,12 @@ const TimeTable = () => {
     const newStart = Math.round(scrollFraction * maxStart);
     setWindowStart(Math.min(Math.max(newStart, 0), maxStart));
   };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.electronAPI) {
+      setIsElectron(true);
+    }
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -154,16 +159,90 @@ const TimeTable = () => {
 
   // Define boxes based on current dates
   const boxes = [
-    { label: 'Sleep1', start: 0, end: ((isAndroid || isElectron) ? 0 : 4), color: '#DD4444', day: globalPreviousDate },
-    { label: 'Sleep2', start: 0, end: ((isAndroid || isElectron) ? 0 : 4), color: '#44DD44', day: globalSelectedDate },
-    { label: 'Sleep3', start: 0, end: ((isAndroid || isElectron) ? 0 : 4), color: '#4444DD', day: globalNextDate },
+    // Previous Day (#DD4444)
+    { label: '', start: 0, end: ((isAndroid || isElectron) ? 0 : 1), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 1, end: ((isAndroid || isElectron) ? 1 : 2), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 2, end: ((isAndroid || isElectron) ? 2 : 3), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 3, end: ((isAndroid || isElectron) ? 3 : 4), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 4, end: ((isAndroid || isElectron) ? 4 : 5), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 5, end: ((isAndroid || isElectron) ? 5 : 6), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 6, end: ((isAndroid || isElectron) ? 6 : 7), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 7, end: ((isAndroid || isElectron) ? 7 : 8), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 8, end: ((isAndroid || isElectron) ? 8 : 9), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 9, end: ((isAndroid || isElectron) ? 9 : 10), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 10, end: ((isAndroid || isElectron) ? 10 : 11), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 11, end: ((isAndroid || isElectron) ? 11 : 12), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 12, end: ((isAndroid || isElectron) ? 12 : 13), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 13, end: ((isAndroid || isElectron) ? 13 : 14), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 14, end: ((isAndroid || isElectron) ? 14 : 15), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 15, end: ((isAndroid || isElectron) ? 15 : 16), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 16, end: ((isAndroid || isElectron) ? 16 : 17), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 17, end: ((isAndroid || isElectron) ? 17 : 18), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 18, end: ((isAndroid || isElectron) ? 18 : 19), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 19, end: ((isAndroid || isElectron) ? 19 : 20), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 20, end: ((isAndroid || isElectron) ? 20 : 21), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 21, end: ((isAndroid || isElectron) ? 21 : 22), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 22, end: ((isAndroid || isElectron) ? 22 : 23), color: '#DD4444', day: globalPreviousDate },
+    { label: '', start: 23, end: ((isAndroid || isElectron) ? 23 : 24), color: '#DD4444', day: globalPreviousDate },
+
+    // Selected Day (#44DD44)
+    { label: '', start: 0, end: ((isAndroid || isElectron) ? 0 : 1), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 1, end: ((isAndroid || isElectron) ? 1 : 2), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 2, end: ((isAndroid || isElectron) ? 2 : 3), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 3, end: ((isAndroid || isElectron) ? 3 : 4), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 4, end: ((isAndroid || isElectron) ? 4 : 5), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 5, end: ((isAndroid || isElectron) ? 5 : 6), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 6, end: ((isAndroid || isElectron) ? 6 : 7), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 7, end: ((isAndroid || isElectron) ? 7 : 8), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 8, end: ((isAndroid || isElectron) ? 8 : 9), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 9, end: ((isAndroid || isElectron) ? 9 : 10), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 10, end: ((isAndroid || isElectron) ? 10 : 11), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 11, end: ((isAndroid || isElectron) ? 11 : 12), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 12, end: ((isAndroid || isElectron) ? 12 : 13), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 13, end: ((isAndroid || isElectron) ? 13 : 14), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 14, end: ((isAndroid || isElectron) ? 14 : 15), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 15, end: ((isAndroid || isElectron) ? 15 : 16), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 16, end: ((isAndroid || isElectron) ? 16 : 17), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 17, end: ((isAndroid || isElectron) ? 17 : 18), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 18, end: ((isAndroid || isElectron) ? 18 : 19), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 19, end: ((isAndroid || isElectron) ? 19 : 20), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 20, end: ((isAndroid || isElectron) ? 20 : 21), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 21, end: ((isAndroid || isElectron) ? 21 : 22), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 22, end: ((isAndroid || isElectron) ? 22 : 23), color: '#44DD44', day: globalSelectedDate },
+    { label: '', start: 23, end: ((isAndroid || isElectron) ? 23 : 24), color: '#44DD44', day: globalSelectedDate },
+
+    // Next Day (#4444DD)
+    { label: '', start: 0, end: ((isAndroid || isElectron) ? 0 : 1), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 1, end: ((isAndroid || isElectron) ? 1 : 2), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 2, end: ((isAndroid || isElectron) ? 2 : 3), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 3, end: ((isAndroid || isElectron) ? 3 : 4), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 4, end: ((isAndroid || isElectron) ? 4 : 5), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 5, end: ((isAndroid || isElectron) ? 5 : 6), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 6, end: ((isAndroid || isElectron) ? 6 : 7), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 7, end: ((isAndroid || isElectron) ? 7 : 8), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 8, end: ((isAndroid || isElectron) ? 8 : 9), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 9, end: ((isAndroid || isElectron) ? 9 : 10), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 10, end: ((isAndroid || isElectron) ? 10 : 11), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 11, end: ((isAndroid || isElectron) ? 11 : 12), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 12, end: ((isAndroid || isElectron) ? 12 : 13), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 13, end: ((isAndroid || isElectron) ? 13 : 14), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 14, end: ((isAndroid || isElectron) ? 14 : 15), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 15, end: ((isAndroid || isElectron) ? 15 : 16), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 16, end: ((isAndroid || isElectron) ? 16 : 17), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 17, end: ((isAndroid || isElectron) ? 17 : 18), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 18, end: ((isAndroid || isElectron) ? 18 : 19), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 19, end: ((isAndroid || isElectron) ? 19 : 20), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 20, end: ((isAndroid || isElectron) ? 20 : 21), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 21, end: ((isAndroid || isElectron) ? 21 : 22), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 22, end: ((isAndroid || isElectron) ? 22 : 23), color: '#4444DD', day: globalNextDate },
+    { label: '', start: 23, end: ((isAndroid || isElectron) ? 23 : 24), color: '#4444DD', day: globalNextDate },
   ];
 
   // Merge boxes with hours from state
-  const boxesWithHours = boxes.map(box => ({
+  const boxesWithHours = boxes.map((box, index) => ({
     ...box,
-    start: boxHours[box.day]?.firstHour ?? box.start,
-    end: boxHours[box.day]?.lastHour ?? box.end
+    start: boxHours[index]?.firstHour ?? box.start,
+    end: boxHours[index]?.lastHour ?? box.end
   }));
 
   /* === Generate timestamps for 72 hours === */
@@ -210,16 +289,16 @@ const TimeTable = () => {
     return data;
   };
 
-  const readCSVFile = async (filePath) => {
+  const readCSVFile = async (filePath, boxHour) => {
     try {
       let csvContent;
       
       if (isElectron) {
-        csvContent = await window.electronAPI.readFileContent(filePath);
+        csvContent = await window.electronAPI.readFileContent(filePath + '(' + boxHour + ')');
       } else {
         //const response = await fetch(filePath); // for webapp
         //csvContent = await response.text();
-        csvContent = await RNFS.readFile(`${SLEEP_DATA_DIR}/${filePath}.csv`, 'utf8');
+        csvContent = await RNFS.readFile(`${SLEEP_DATA_DIR}/${filePath}(${boxHour}).csv`, 'utf8');
       }
       
       const parsedData = parseCSV(csvContent, filePath);
@@ -240,7 +319,7 @@ const TimeTable = () => {
 
   const handleBoxPress = (subBox) => {
     if(isElectron || isAndroid) {
-      readCSVFile(subBox.day);
+      readCSVFile(subBox.day, subBox.start);
     } else {
       const parsedData = [
         { x: new Date('2026-01-28T22:35:01.808').getTime(), y: 0 },
@@ -391,20 +470,26 @@ const TimeTable = () => {
       try {
         const dayHoursMap = {};
         const uniqueDays = [prevDate, selDate, nxtDate];
-
-        for (const day of uniqueDays) {
-          try {
-            const result = await window.electronAPI.readFile(day);
-            dayHoursMap[day] = {
-              firstHour: result.firstHour,
-              lastHour: result.lastHour + 1
-            };
-          } catch (fileError) {
-            console.warn(`SKIPPING ${day}`);
-            continue;
+        
+        for (let d=0; d<3; d++) {
+          for(let h=0; h<24; h++) {
+            try {
+              const firstHour = await window.electronAPI.readFile(`${uniqueDays[d]}(${h})`);
+              if (firstHour !== null) {
+                dayHoursMap[d*24+h] = {
+                  firstHour: h,
+                  lastHour: h + 1
+                };
+              } else {
+                console.warn(`SKIPPING ${uniqueDays[d]}(${h})`);
+              }
+            } catch (fileError) {
+              console.warn(`Unexpected error reading files`);
+              continue;
+            }
           }
         }
-
+        //console.log(JSON.stringify(dayHoursMap, null, 2));
         setBoxHours(dayHoursMap);
       } catch (error) {
         console.error('Error updating box hours:', error);
@@ -415,26 +500,23 @@ const TimeTable = () => {
         const dayHoursMap = {};
         const uniqueDays = [prevDate, selDate, nxtDate];
 
-        for (const day of uniqueDays) {
-          try {
-            const filePath = `${SLEEP_DATA_DIR}/${day}.csv`;
-            const fileContent = await RNFS.readFile(filePath, 'utf8');
-
-            const lines = fileContent.trim().split('\n').filter(line => line.length > 0);
-
-            const firstTimestamp = lines[0].split(',')[0].replace('Z', '');
-            const lastTimestamp = lines[lines.length - 1].split(',')[0].replace('Z', '');
-
-            const firstHour = new Date(day + 'T' + firstTimestamp).getHours();
-            const lastHour = new Date(day + 'T' + lastTimestamp).getHours();
-
-            dayHoursMap[day] = {
-              firstHour: firstHour,
-              lastHour: lastHour + 1
-            };
-          } catch (fileError) {
-            console.warn(`SKIPPING ${day}`);
-            continue;
+        for (let d=0; d<3; d++) {
+          for(let h=0; h<24; h++) {
+            try {
+              const filePath = `${SLEEP_DATA_DIR}/${uniqueDays[d]}(${h}).csv`;
+              const fileExists = await RNFS.exists(filePath);
+              if (fileExists) {
+                dayHoursMap[(d*24)+h] = {
+                  firstHour: h,
+                  lastHour: h + 1
+                };
+              } else {
+                console.warn(`SKIPPING ${uniqueDays[d]}(${h})`);
+              }
+            } catch (fileError) {
+              console.warn(`Unexpected error reading files`);
+              continue;
+            }
           }
         }
         setBoxHours(dayHoursMap);

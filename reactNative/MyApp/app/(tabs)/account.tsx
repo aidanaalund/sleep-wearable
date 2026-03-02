@@ -492,7 +492,7 @@ const App = () => {
     if (isElectron) {
       // Electron path
       try {
-        const result = await window.electronAPI.appendToFile(dataWithTimestamp, dateString);
+        const result = await window.electronAPI.appendToFile(dataWithTimestamp, dateString + '(' + hours + ')');
         if (result.success) {
           console.log('Data appended to:', result.path);
           const values = dataWithTimestamp.split(',');
@@ -516,7 +516,7 @@ const App = () => {
     } else {
       // Android path using react-native-fs
       try {
-        const filePath = `${SLEEP_DATA_DIR}/${dateString}.csv`;
+        const filePath = `${SLEEP_DATA_DIR}/${dateString}(${hours}).csv`;
 
         const fileExists = await RNFS.exists(filePath);
         if (!fileExists) {
@@ -695,7 +695,7 @@ const App = () => {
         <Text style={styles.sectionTitle}>
           {isWeb 
             ? (isElectron ? 'Stored Data (In Memory)' : 'Stored Data (localStorage)')
-            : 'File Contents (data.txt)'}
+            : 'Data'}
         </Text>
         <ScrollView style={styles.dataContainer}>
           <Text style={styles.dataText}>

@@ -330,22 +330,19 @@ ipcMain.handle('append-to-file', async (event, { data, todaysDate }) => {
 ipcMain.handle('read-file', async (event, filePath) => {
   try {
     const fullPath = path.join(__dirname, '../app/(tabs)/sleepData/', filePath + '.csv');
-    //console.log('Trying to read:', fullPath);
+
+    if (!fs.existsSync(fullPath)) return null;
+
     const content = fs.readFileSync(fullPath, 'utf8');
     const lines = content.trim().split('\n').filter(line => line.length > 0);
     
     const firstTimestamp = lines[0].split(',')[0].replace('Z', '');
-    const lastTimestamp = lines[lines.length - 1].split(',')[0].replace('Z', '');
     
     const firstHour = new Date(filePath + 'T' + firstTimestamp).getHours();
-    const lastHour  = new Date(filePath + 'T' + lastTimestamp).getHours();
     
-    return {
-      firstHour,
-      lastHour,
-    };
+    return firstHour;
   } catch (error) {
-    //throw error;
+    return null;
   }
 });
 
@@ -444,8 +441,8 @@ function createWindow() {
     }
   }, 3000);
   
-  // Open DevTools for debugging
-  // mainWindow.webContents.openDevTools();
+  // Open DevTools for debugging (CONSOLE DEVELOPER)
+  //mainWindow.webContents.openDevTools();
   
   mainWindow.webContents.on('console-message', (event, level, message) => {
     console.log(`[Renderer] ${message}`);
