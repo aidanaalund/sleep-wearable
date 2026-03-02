@@ -461,14 +461,14 @@ const TimeTable = () => {
 
   return (
     <View style={styles.container}>
-      {/* Toggle Scroll Button */}
+      {/* Toggle Scroll Button
       <View style={styles.buttonContainer}>
         <CustomButton
           title={`Switch to ${isHorizontal ? 'Vertical' : 'Horizontal'} Scroll`}
           onPress={toggleScrollDirection}
           backgroundColor={buttonColor}
         />
-      </View>
+      </View> */}
 
       {/* Scrollable Timeline */}
       <ScrollView

@@ -6,36 +6,16 @@ const BOX_COUNT = 3;
 
 const BOX_TEMPLATES = [
   {
-    label: 'Overview',
-    body: 'This section provides a high-level summary of the project. Key milestones have been reached and the team is aligned on next steps moving into the upcoming quarter.',
+    label: 'Sleep Score',
+    body: '0/10',
   },
   {
-    label: 'Progress',
-    body: 'Development is currently at 74% completion. Three major features have shipped successfully, and two remain in active review. Velocity has increased week-over-week.',
+    label: 'Summary',
+    body: 'Sleep Summary',
   },
   {
-    label: 'Next Steps',
-    body: 'The team will focus on final QA, performance profiling, and preparing the release build. A stakeholder demo is scheduled for the end of the sprint.',
-  },
-  {
-    label: 'Resources',
-    body: 'Budget utilization sits at 61%. Two additional contractors have been onboarded this month. Tool subscriptions are up for renewal at the end of the quarter.',
-  },
-  {
-    label: 'Risks',
-    body: 'A dependency on a third-party API introduces moderate schedule risk. Mitigation plans are documented and a fallback implementation is scoped and ready.',
-  },
-  {
-    label: 'Team',
-    body: 'The core team consists of six engineers, one designer, and a product lead. Morale is high and sprint ceremonies are running smoothly across time zones.',
-  },
-  {
-    label: 'Metrics',
-    body: 'Weekly active users are up 12% month-over-month. Error rates have dropped below 0.3% following the latest hotfix. Load times average under 800ms.',
-  },
-  {
-    label: 'Feedback',
-    body: 'Recent user interviews surfaced strong demand for offline support and improved search. Both items have been added to the backlog and prioritized for Q3.',
+    label: 'How to Improve',
+    body: 'List of improvements',
   },
 ];
 
