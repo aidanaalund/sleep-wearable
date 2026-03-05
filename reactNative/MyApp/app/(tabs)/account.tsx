@@ -1,6 +1,6 @@
 import Base64 from 'base64-js';
 import * as FileSystem from 'expo-file-system';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Alert, FlatList, Modal, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import { BGColor1, BGColor2, bordersColor, buttonColor, textDarkColor, textInverseColor, textLightColor } from './_layout';
@@ -38,6 +38,9 @@ const App = () => {
   const [liveChartData, setLiveChartData] = useState([]);
   const [showChart, setShowChart] = useState(false);
   const [modalDims, setModalDims] = useState({ width: 0, height: 0 });
+  const [monitorSubscription, setMonitorSubscription] = useState(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const isDisconnectingRef = useRef(false);
   // Check if running in Electron
   const isAndroid = Platform.OS === 'android';
   const isElectron = typeof window !== 'undefined' && window.electronAPI;
@@ -65,12 +68,6 @@ const App = () => {
       console.log('window.bluetooth available:', !!(typeof window !== 'undefined' && window.bluetooth));
       console.log('Is Electron:', isElectron);
     }
-    
-    return () => {
-      if (manager) {
-        manager.destroy();
-      }
-    };
   }, []);
 
   const formatXAxis = (timestamp) => {
@@ -399,7 +396,6 @@ const App = () => {
   const scanDevices = () => {
     setDevices([]);
     setIsScanning(true);
-    
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
         console.error('Scan error:', error);
@@ -430,49 +426,90 @@ const App = () => {
       manager.stopDeviceScan();
       setIsScanning(false);
 
+      // Disconnect old device if one exists
+      if (connectedDevice) {
+        try {
+          console.log('Disconnecting old device before reconnecting...');
+          await manager.cancelDeviceConnection(connectedDevice.id);
+          console.log('Old device disconnected');
+          // Small delay to let it fully disconnect
+          await new Promise(resolve => setTimeout(resolve, 500));
+        } catch (disconnectError) {
+          console.warn('Failed to disconnect old device (continuing anyway):', disconnectError);
+        }
+      }
+
+      // Reset disconnecting flag from previous session
+      isDisconnectingRef.current = false;
+
       console.log('Connecting to device:', device.name);
       const connected = await manager.connectToDevice(device.id);
       setConnectedDevice(connected);
-      
+
       console.log('Discovering services...');
       await connected.discoverAllServicesAndCharacteristics();
-      
+
       // Nordic UART Service (NUS) UUIDs
       const NUS_SERVICE_UUID = '6E400001-B5A3-F393-E0A9-E50E24DCCA9E';
       const NUS_TX_CHARACTERISTIC_UUID = '6E400003-B5A3-F393-E0A9-E50E24DCCA9E';
-      
+
       console.log('Setting up NUS monitoring...');
-      
-      // Monitor the NUS TX characteristic (device sends data to app)
-      connected.monitorCharacteristicForService(
+
+      // Remove old subscription if it exists
+      if (monitorSubscription) {
+        try {
+          monitorSubscription.remove();
+        } catch (e) {
+          console.warn('Failed to remove old subscription:', e);
+        }
+      }
+
+      // Monitor the NUS TX characteristic
+      const subscription = connected.monitorCharacteristicForService(
         NUS_SERVICE_UUID,
         NUS_TX_CHARACTERISTIC_UUID,
         (error, characteristic) => {
+          if (isDisconnectingRef.current) {
+            return;
+          }
+
           if (error) {
+            if (error.errorCode === 2 || error.reason === 'DeviceDisconnected') {
+              return;
+            }
             console.error('Monitor error:', error);
             return;
           }
-          
+
           if (characteristic?.value) {
-            const data = Buffer.from(characteristic.value, 'base64').toString('utf-8');
-            //console.log('Received data:', data);
+            const bytes = Base64.toByteArray(characteristic.value);
+            const data = new TextDecoder().decode(bytes);
             handleReceivedData(data);
           }
         }
       );
-      
+
+      setMonitorSubscription(subscription);
       setIsConnected(true);
-      //Alert.alert('Success', `Connected to ${device.name}\nListening for data...`);
-      //console.log('Successfully connected and monitoring');
+      console.log('Successfully connected and monitoring');
     } catch (error) {
       console.error('Connection error:', error);
       Alert.alert('Error', `Failed to connect: ${error.message}`);
       setConnectedDevice(null);
       setIsConnected(false);
+      isDisconnectingRef.current = false;
     }
   };
 
   const handleReceivedData = async (data) => {
+    if (isDisconnectingRef.current) {
+      //console.log('Ignoring data during disconnect');
+      return;
+    }
+    
+    // Check again before each state update
+    if (isDisconnectingRef.current) return;
+    setReceivedData(prev => prev + data);
     setReceivedData(prev => prev + data);
 
     const now = new Date();
@@ -587,15 +624,20 @@ const App = () => {
     }
   };
 
-  const disconnectDevice = async () => {
-    if (isWeb) {
-      disconnectWebBluetooth();
-    } else if (connectedDevice) {
-      await manager.cancelDeviceConnection(connectedDevice.id);
-      setConnectedDevice(null);
-      Alert.alert('Disconnected', 'Device disconnected');
+  const toggleDataListening = () => {
+    if (isDisconnectingRef.current) {
+      // Resume
+      console.log('Resuming data listening...');
+      isDisconnectingRef.current = false;
+      setIsPaused(false);
+      Alert.alert('Resumed', 'Data listening resumed');
+    } else {
+      // Pause
+      console.log('Pausing data listening...');
+      isDisconnectingRef.current = true;
+      setIsPaused(true);
+      Alert.alert('Paused', 'Data listening paused');
     }
-    setIsConnected(false);
   };
 
   const handleConnect = () => {
@@ -603,6 +645,23 @@ const App = () => {
       connectWebBluetooth();
     } else {
       scanDevices();
+    }
+  };
+
+  const disconnectDevice = async () => {
+    try {
+      if (isWeb) {
+        disconnectWebBluetooth();
+      } else {
+        // For Android, just tell user to close the app
+        Alert.alert(
+          'Disconnect', 
+          'To fully disconnect Bluetooth, please close the app.',
+          [{ text: 'OK' }]
+        );
+      }
+    } catch (error) {
+      console.error('Disconnect error:', error);
     }
   };
 
@@ -627,7 +686,15 @@ const App = () => {
       
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>
-          {isConnected ? `Connected: ${deviceName}` : 'Not Connected'}
+          {isConnected && (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={toggleDataListening}>
+              <Text style={styles.buttonText}>
+                {isPaused ? 'Resume Data' : 'Pause Data'}
+              </Text>
+            </TouchableOpacity>
+          )}
         </Text>
         
         <View style={styles.buttonRow}>
