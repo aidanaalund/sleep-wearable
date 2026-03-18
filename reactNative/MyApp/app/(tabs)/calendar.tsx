@@ -1,6 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Dimensions, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { useDateContext } from '../DateContext';
 import { BGColor1, BGColor2, bordersColor, buttonChoiceColor, buttonColor, diffColor, textDarkColor, textInverseColor, textLightColor } from './_layout';
 
 let VictoryChart, VictoryLine, VictoryAxis;
@@ -109,6 +110,7 @@ const TimeTable = () => {
   const [isElectron, setIsElectron] = useState(false);
   const WINDOW_SIZE = 100;
   const [windowStart, setWindowStart] = useState(0);
+  const { setGlobalSelectedDate, setGlobalPreviousDate, setGlobalNextDate } = useDateContext();
 
   const visibleData = useMemo(() =>
     filledChartData.slice(windowStart, windowStart + WINDOW_SIZE),
@@ -466,6 +468,9 @@ const TimeTable = () => {
   };
 
   const updateBoxHoursForDates = async (prevDate, selDate, nxtDate) => {
+    setGlobalPreviousDate(prevDate);
+    setGlobalSelectedDate(selDate);
+    setGlobalNextDate(nxtDate);
     if (isElectron) {
       try {
         const dayHoursMap = {};
