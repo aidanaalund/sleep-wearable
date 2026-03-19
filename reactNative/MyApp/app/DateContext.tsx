@@ -12,9 +12,12 @@ interface DateContextType {
 const DateContext = createContext<DateContextType | undefined>(undefined);
 
 export const DateProvider = ({ children }: { children: React.ReactNode }) => {
-  const [globalSelectedDate, setGlobalSelectedDate] = useState('');
-  const [globalPreviousDate, setGlobalPreviousDate] = useState('');
-  const [globalNextDate, setGlobalNextDate] = useState('');
+  const today = new Date();
+  const fmt = (d: Date) => d.toISOString().split('T')[0]; // produces 'YYYY-MM-DD'
+
+  const [globalSelectedDate, setGlobalSelectedDate] = useState(fmt(today));
+  const [globalPreviousDate, setGlobalPreviousDate] = useState(fmt(new Date(today.getTime() - 86400000)));
+  const [globalNextDate,     setGlobalNextDate]     = useState(fmt(new Date(today.getTime() + 86400000)));
 
   return (
     <DateContext.Provider value={{

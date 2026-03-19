@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, } from 'react';
 import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, ViewStyle, } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { useDateContext } from '../DateContext';
-import { BGColor1, BGColor2, buttonColor, textDarkColor, textLightColor } from './_layout';
+import { BGColor1, BGColor2, buttonColor, buttonWrongColor, textDarkColor, textLightColor } from './_layout';
 
 // ─── Ring Chart Types ─────────────────────────────────────────────────────────
 
@@ -161,6 +161,40 @@ const TIME_OPTIONS = Array.from({ length: 24 }, (_, i) => {
 
 // ─── Dropdown Component ───────────────────────────────────────────────────────
 
+interface DateDropdownProps {
+  selected: string;
+  onSelect: (date: string) => void;
+  isOpen: boolean;
+  onToggle: () => void;
+  options: string[];
+}
+
+const DateDropdown: React.FC<DateDropdownProps> = ({ selected, onSelect, isOpen, onToggle, options }) => (
+  <View style={dropdownStyles.dateWrapper}>
+    <TouchableOpacity style={dropdownStyles.dateTrigger} onPress={onToggle} activeOpacity={0.8}>
+      <Text style={dropdownStyles.triggerText}>{selected}</Text>
+      <Text style={dropdownStyles.arrow}>{isOpen ? '▲' : '▼'}</Text>
+    </TouchableOpacity>
+
+    {isOpen && (
+      <View style={dropdownStyles.dateOptionsList}>
+        {options.map((date) => (
+          <TouchableOpacity
+            key={date}
+            style={[dropdownStyles.option, selected === date && dropdownStyles.optionSelected]}
+            onPress={() => { onSelect(date); onToggle(); }}
+            activeOpacity={0.7}
+          >
+            <Text style={[dropdownStyles.optionText, selected === date && dropdownStyles.optionTextSelected]}>
+              {date}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    )}
+  </View>
+);
+
 interface TimeDropdownProps {
   selected: string;
   onSelect: (time: string) => void;
@@ -198,23 +232,12 @@ const TimeDropdown: React.FC<TimeDropdownProps> = ({ selected, onSelect, isOpen,
 
 const dropdownStyles = StyleSheet.create({
   wrapper: {
-    marginBottom: 16,
-    zIndex: 10,
     width: 100,
+    zIndex: 10,
   },
-  dateLabel: {
-    fontSize: 11,
-    fontWeight: '700',
-    color: textDarkColor,
-    letterSpacing: 2,
-    textTransform: 'uppercase',
-    marginBottom: 2,
-  },
-  dateValue: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: textLightColor,
-    marginBottom: 8,
+  dateWrapper: {
+    width: 110,
+    zIndex: 10,
   },
   trigger: {
     flexDirection: 'row',
@@ -228,21 +251,32 @@ const dropdownStyles = StyleSheet.create({
     paddingVertical: 10,
     width: 100,
   },
+  dateTrigger: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: BGColor2,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: buttonColor,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    width: 110,
+  },
   arrow: {
     color: textDarkColor,
     fontSize: 11,
   },
   optionsList: {
     position: 'absolute',
-    top: '100%',
+    top: 40,
     left: 0,
-    right: 0,
     backgroundColor: BGColor2,
     borderRadius: 6,
     borderWidth: 1,
     borderColor: buttonColor,
     marginTop: 4,
-    zIndex: 100,
+    zIndex: 999,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
@@ -250,8 +284,25 @@ const dropdownStyles = StyleSheet.create({
     elevation: 10,
     width: 100,
   },
+  dateOptionsList: {
+    position: 'absolute',
+    top: 40,
+    left: 0,
+    backgroundColor: BGColor2,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: buttonColor,
+    marginTop: 4,
+    zIndex: 999,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 10,
+    width: 110,
+  },
   option: {
-    paddingHorizontal: 14,
+    paddingHorizontal: 10,
     paddingVertical: 10,
   },
   optionSelected: {
@@ -265,65 +316,8 @@ const dropdownStyles = StyleSheet.create({
     color: textLightColor,
     fontSize: 13,
   },
-});
-
-// ─── Range Selector ───────────────────────────────────────────────────────────
-
-type RangeSelection = 'previous-selected' | 'selected-next';
-
-interface RangeSelectorProps {
-  value: RangeSelection;
-  onChange: (value: RangeSelection) => void;
-}
-
-const RangeSelector: React.FC<RangeSelectorProps> = ({ value, onChange }) => (
-  <View style={rangeStyles.container}>
-    <TouchableOpacity
-      style={[rangeStyles.option, value === 'previous-selected' && rangeStyles.optionActive]}
-      onPress={() => onChange('previous-selected')}
-      activeOpacity={0.8}
-    >
-      <Text style={[rangeStyles.optionText, value === 'previous-selected' && rangeStyles.optionTextActive]}>
-        Previous → Selected
-      </Text>
-    </TouchableOpacity>
-
-    <TouchableOpacity
-      style={[rangeStyles.option, value === 'selected-next' && rangeStyles.optionActive]}
-      onPress={() => onChange('selected-next')}
-      activeOpacity={0.8}
-    >
-      <Text style={[rangeStyles.optionText, value === 'selected-next' && rangeStyles.optionTextActive]}>
-        Selected → Next
-      </Text>
-    </TouchableOpacity>
-  </View>
-);
-
-const rangeStyles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: buttonColor,
-    overflow: 'hidden',
-    alignSelf: 'center',
-  },
-  option: {
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-    backgroundColor: BGColor2,
-  },
-  optionActive: {
-    backgroundColor: buttonColor,
-  },
-  optionText: {
-    color: textDarkColor,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  optionTextActive: {
-    color: textLightColor,
+  optionTextSelected: {
+    fontWeight: '700',
   },
 });
 
@@ -374,20 +368,37 @@ const boxes = Array.from({ length: BOX_COUNT }, (_, i) => ({
 
 export default function InfoScreen() {
   const { globalSelectedDate, globalPreviousDate, globalNextDate } = useDateContext();
-  const [times, setTimes] = useState({
-    previous: '12:00 AM',
-    selected: '12:00 AM',
-    next:     '12:00 AM',
-  });
+  const [times, setTimes] = useState({ start: '12:00 AM', end: '12:00 AM' });
+  const [selectedDates, setSelectedDates] = useState({ start: globalPreviousDate, end: globalSelectedDate });
+  const [openDropdown, setOpenDropdown] = useState<'startDate' | 'startTime' | 'endDate' | 'endTime' | null>(null);
 
-  const [openDropdown, setOpenDropdown] = useState<'previous' | 'selected' | 'next' | null>(null);
-  const [range, setRange] = useState<RangeSelection>('previous-selected');
+  useEffect(() => {
+    if (globalPreviousDate && globalSelectedDate) {
+      setSelectedDates({ start: globalPreviousDate, end: globalSelectedDate });
+    }
+  }, [globalPreviousDate, globalSelectedDate]);
 
-  const toggle = (key: 'previous' | 'selected' | 'next') =>
+  const dateOptions = [globalPreviousDate, globalSelectedDate, globalNextDate].filter(Boolean);
+
+  const toggle = (key: 'startDate' | 'startTime' | 'endDate' | 'endTime') =>
     setOpenDropdown((prev) => (prev === key ? null : key));
 
-  const setTime = (key: 'previous' | 'selected' | 'next', time: string) =>
+  const setTime = (key: 'start' | 'end', time: string) =>
     setTimes((prev) => ({ ...prev, [key]: time }));
+
+  const setSelectedDate = (key: 'start' | 'end', date: string) =>
+    setSelectedDates((prev) => ({ ...prev, [key]: date }));
+
+  const isViable = (() => {
+    const startHour = parseTime(times.start);
+    const endHour   = parseTime(times.end);
+    const startDate = selectedDates.start;
+    const endDate   = selectedDates.end;
+
+    if (startDate > endDate) return false;
+    if (startDate === endDate) return endHour >= startHour;
+    return true; // startDate < endDate, any time combo is fine
+  })();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -411,82 +422,72 @@ export default function InfoScreen() {
         </View>
         
         {/* Inline date + time dropdowns */}
-        <View style={{ marginBottom: 5, zIndex: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
-          
-          {/* Previous */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, zIndex: 30 }}>
-            <Text style={{ color: textLightColor }}>Previous: {globalPreviousDate}</Text>
+        <View style={{ marginBottom: 10, zIndex: 30, overflow: 'visible', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
+          {/* Start */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, zIndex: 999, overflow: 'visible' }}>
+            <Text style={{ color: textLightColor }}>Start:</Text>
+            <DateDropdown
+              selected={selectedDates.start}
+              onSelect={(d) => setSelectedDate('start', d)}
+              isOpen={openDropdown === 'startDate'}
+              onToggle={() => toggle('startDate')}
+              options={dateOptions}
+            />
             <TimeDropdown
-              selected={times.previous}
-              onSelect={(t) => setTime('previous', t)}
-              isOpen={openDropdown === 'previous'}
-              onToggle={() => toggle('previous')}
+              selected={times.start}
+              onSelect={(t) => setTime('start', t)}
+              isOpen={openDropdown === 'startTime'}
+              onToggle={() => toggle('startTime')}
             />
           </View>
-
-          {/* Selected */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, zIndex: 20 }}>
-            <Text style={{ color: textLightColor }}>Selected: {globalSelectedDate}</Text>
-            <TimeDropdown
-              selected={times.selected}
-              onSelect={(t) => setTime('selected', t)}
-              isOpen={openDropdown === 'selected'}
-              onToggle={() => toggle('selected')}
-            />
-          </View>
-
-          {/* Next */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, zIndex: 10 }}>
-            <Text style={{ color: textLightColor }}>Next: {globalNextDate}</Text>
-            <TimeDropdown
-              selected={times.next}
-              onSelect={(t) => setTime('next', t)}
-              isOpen={openDropdown === 'next'}
-              onToggle={() => toggle('next')}
-            />
-          </View>
-
         </View>
-
-        {/* Range selector + print button */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 20 }}>
-          <RangeSelector value={range} onChange={setRange} />
-
+        <View style={{ marginBottom: 10, zIndex: 20, overflow: 'visible', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
+          {/* End */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, zIndex: 998, overflow: 'visible' }}>
+            <Text style={{ color: textLightColor }}>End:</Text>
+            <DateDropdown
+              selected={selectedDates.end}
+              onSelect={(d) => setSelectedDate('end', d)}
+              isOpen={openDropdown === 'endDate'}
+              onToggle={() => toggle('endDate')}
+              options={dateOptions}
+            />
+            <TimeDropdown
+              selected={times.end}
+              onSelect={(t) => setTime('end', t)}
+              isOpen={openDropdown === 'endTime'}
+              onToggle={() => toggle('endTime')}
+            />
+          </View>
+        </View>
+        <View style={{ marginBottom: 10, zIndex: 10, overflow: 'visible', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
           <TouchableOpacity
-            style={{
-              backgroundColor: buttonColor,
-              borderRadius: 8,
-              paddingHorizontal: 14,
-              paddingVertical: 10,
-            }}
+            style={{ backgroundColor: isViable ? buttonColor : buttonWrongColor, borderRadius: 8, paddingHorizontal: 14, paddingVertical: 10 }}
             onPress={() => {
-              const startDate = range === 'previous-selected' ? globalPreviousDate : globalSelectedDate;
-              const endDate   = range === 'previous-selected' ? globalSelectedDate : globalNextDate;
-              const startTime = range === 'previous-selected' ? times.previous : times.selected;
-              const endTime   = range === 'previous-selected' ? times.selected : times.next;
-
-              const startHour = parseTime(startTime);
-              const endHour   = parseTime(endTime);
-
-              if (startDate === endDate) {
+              if (!isViable) return;
+              const startHour = parseTime(times.start);
+              const endHour   = parseTime(times.end);
+              if (selectedDates.start === selectedDates.end) {
                 for (let h = startHour; h <= endHour; h++) {
-                  console.log(`${startDate}(${h})`);
+                  console.log(`${selectedDates.start}(${h})`);
                 }
               } else {
                 for (let h = startHour; h <= 23; h++) {
-                  console.log(`${startDate}(${h})`);
+                  console.log(`${selectedDates.start}(${h})`);
                 }
                 for (let h = 0; h <= endHour; h++) {
-                  console.log(`${endDate}(${h})`);
+                  console.log(`${selectedDates.end}(${h})`);
                 }
               }
             }}
             activeOpacity={0.8}
           >
-            <Text style={{ color: textLightColor, fontWeight: '700', fontSize: 13 }}>Print</Text>
+            <Text style={{ color: textLightColor, fontWeight: '700', fontSize: 13 }}>
+              {isViable ? 'Print' : 'Select Viable Times'}
+            </Text>
           </TouchableOpacity>
         </View>
-
+        
         {/* Info boxes */}
         <View style={styles.container}>
           {boxes.map((box) => (

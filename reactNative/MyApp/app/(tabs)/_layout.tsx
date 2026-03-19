@@ -30,7 +30,8 @@ export const BGColor2          = HexColorsMath(BGColor1,'+',HexColorsMath(diffCo
 export const bordersColor      = '#000000';
 export const buttonColor       = '#306aa0';
 export const buttonChoiceColor = HexColorsMath(buttonColor,'-',HexColorsMath(diffColor,'*','#000005'));
-export const textLightColor    = '#ffffff';
+export const buttonWrongColor  = HexColorsMath('#DD4444','-',HexColorsMath(diffColor,'*','#000004'));
+export const textLightColor    = '#FFFFFF';
 export const textDarkColor     = HexColorsMath(textLightColor,'-',HexColorsMath(diffColor,'*','#000005'));
 export const textInverseColor  = HexColorsMath('#FFFFFF','-',textDarkColor);
 
