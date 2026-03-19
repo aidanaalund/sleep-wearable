@@ -4,6 +4,13 @@ import Svg, { Path } from 'react-native-svg';
 import { useDateContext } from '../DateContext';
 import { BGColor1, BGColor2, buttonColor, buttonWrongColor, textDarkColor, textLightColor } from './_layout';
 
+let RNFS: any = null;
+let SLEEP_DATA_DIR: string = '';
+if (Platform.OS === 'android') {
+  RNFS = require('react-native-fs');
+  SLEEP_DATA_DIR = `${RNFS.ExternalDirectoryPath}/sleepData`;
+}
+
 // ─── Ring Chart Types ─────────────────────────────────────────────────────────
 
 export interface RingSegment {
@@ -371,10 +378,14 @@ export default function InfoScreen() {
   const [times, setTimes] = useState({ start: '12:00 AM', end: '12:00 AM' });
   const [selectedDates, setSelectedDates] = useState({ start: globalPreviousDate, end: globalSelectedDate });
   const [openDropdown, setOpenDropdown] = useState<'startDate' | 'startTime' | 'endDate' | 'endTime' | null>(null);
+  const [isElectron, setIsElectron] = useState(false);
 
   useEffect(() => {
     if (globalPreviousDate && globalSelectedDate) {
       setSelectedDates({ start: globalPreviousDate, end: globalSelectedDate });
+    }
+    if (typeof window !== 'undefined' && window.electronAPI) {
+      setIsElectron(true);
     }
   }, [globalPreviousDate, globalSelectedDate]);
 
@@ -399,6 +410,33 @@ export default function InfoScreen() {
     if (startDate === endDate) return endHour >= startHour;
     return true; // startDate < endDate, any time combo is fine
   })();
+
+  const readManyCSVData = async (fileName: string) => {
+    if (isElectron) {
+      try {
+        const result = await window.electronAPI.readFile(fileName);
+        if (result !== null) {
+          console.warn(`FOUND ${fileName}`);
+        } else {
+          console.warn(`SKIPPING ${fileName}`);
+        }
+      } catch (fileError) {
+        console.warn(`Unexpected error reading file: ${fileName}`);
+      }
+    } else {
+      try {
+        const filePath = `${SLEEP_DATA_DIR}/${fileName}.csv`;
+        const fileExists = await RNFS.exists(filePath);
+        if (fileExists) {
+          console.warn(`FOUND ${fileName}`);
+        } else {
+          console.warn(`SKIPPING ${fileName}`);
+        }
+      } catch (fileError) {
+        console.warn(`Unexpected error reading file: ${fileName}`);
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -463,20 +501,23 @@ export default function InfoScreen() {
         <View style={{ marginBottom: 10, zIndex: 10, overflow: 'visible', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
           <TouchableOpacity
             style={{ backgroundColor: isViable ? buttonColor : buttonWrongColor, borderRadius: 8, paddingHorizontal: 14, paddingVertical: 10 }}
-            onPress={() => {
+            onPress={async () => {
               if (!isViable) return;
               const startHour = parseTime(times.start);
               const endHour   = parseTime(times.end);
               if (selectedDates.start === selectedDates.end) {
                 for (let h = startHour; h <= endHour; h++) {
-                  console.log(`${selectedDates.start}(${h})`);
+                  //console.log(`${selectedDates.start}(${h})`);
+                  await readManyCSVData(`${selectedDates.start}(${h})`);
                 }
               } else {
                 for (let h = startHour; h <= 23; h++) {
-                  console.log(`${selectedDates.start}(${h})`);
+                  //console.log(`${selectedDates.start}(${h})`);
+                  await readManyCSVData(`${selectedDates.start}(${h})`);
                 }
                 for (let h = 0; h <= endHour; h++) {
-                  console.log(`${selectedDates.end}(${h})`);
+                  //console.log(`${selectedDates.end}(${h})`);
+                  await readManyCSVData(`${selectedDates.start}(${h})`);
                 }
               }
             }}
