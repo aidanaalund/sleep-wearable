@@ -1,3 +1,5 @@
+import { Asset } from 'expo-asset';
+import { InferenceSession, Tensor } from 'onnxruntime-react-native';
 import React, { useEffect, useState, } from 'react';
 import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, ViewStyle, } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
@@ -10,6 +12,13 @@ if (Platform.OS === 'android') {
   RNFS = require('react-native-fs');
   SLEEP_DATA_DIR = `${RNFS.ExternalDirectoryPath}/sleepData`;
 }
+
+const loadModel = async () => {
+  const asset = await Asset.loadAsync(require('./assets/model.onnx'));
+  const modelUri = asset[0].localUri;
+  const session = await InferenceSession.create(modelUri);
+  return session;
+};
 
 // ─── Ring Chart Types ─────────────────────────────────────────────────────────
 
@@ -350,7 +359,7 @@ const SLEEP_SEGMENTS: RingSegment[] = [
   { value: 1, color: '#DD4444', label: 'Awake' },
   { value: 1, color: '#DDDD44', label: 'Light Sleep (N1)' },
   { value: 1, color: '#44DD44', label: 'Light Sleep (N2)' },
-  { value: 1, color: '#44DDDD', label: 'Depp Sleep (N3)' },
+  { value: 1, color: '#44DDDD', label: 'Deep Sleep (N3)' },
   { value: 1, color: '#4444DD', label: 'REM' },
   { value: 1, color: '#DD44DD', label: 'Awake' },
 ];
@@ -416,9 +425,9 @@ export default function InfoScreen() {
       try {
         const result = await window.electronAPI.readFile(fileName);
         if (result !== null) {
-          console.warn(`FOUND ${fileName}`);
+          console.log(`FOUND ${fileName}`);
         } else {
-          console.warn(`SKIPPING ${fileName}`);
+          console.log(`SKIPPING ${fileName}`);
         }
       } catch (fileError) {
         console.warn(`Unexpected error reading file: ${fileName}`);
@@ -428,9 +437,11 @@ export default function InfoScreen() {
         const filePath = `${SLEEP_DATA_DIR}/${fileName}.csv`;
         const fileExists = await RNFS.exists(filePath);
         if (fileExists) {
-          console.warn(`FOUND ${fileName}`);
+          console.log(`FOUND ${fileName}`);
+          const csvContent = await RNFS.readFile(filePath, 'utf8');
+          // parse data
         } else {
-          console.warn(`SKIPPING ${fileName}`);
+          console.log(`SKIPPING ${fileName}`);
         }
       } catch (fileError) {
         console.warn(`Unexpected error reading file: ${fileName}`);
@@ -520,6 +531,12 @@ export default function InfoScreen() {
                   await readManyCSVData(`${selectedDates.start}(${h})`);
                 }
               }
+              const session = await loadModel();
+              console.log('Model loaded:', session);
+              const inputData = new Float32Array([5.1, 3.5, 1.4, 0.2]); // example input
+              const tensor = new Tensor('float32', inputData, [1, 4]);
+              const results = await session.run({ float_input: tensor });
+              console.log('Inference result:', JSON.stringify(results));
             }}
             activeOpacity={0.8}
           >
