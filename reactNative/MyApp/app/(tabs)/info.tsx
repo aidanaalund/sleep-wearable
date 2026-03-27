@@ -13,11 +13,14 @@ if (Platform.OS === 'android') {
   SLEEP_DATA_DIR = `${RNFS.ExternalDirectoryPath}/sleepData`;
 }
 
+let globalInputData: Float32Array = new Float32Array([]);
 const loadModel = async () => {
-  const asset = await Asset.loadAsync(require('./assets/model.onnx'));
-  const modelUri = asset[0].localUri;
-  const session = await InferenceSession.create(modelUri);
-  return session;
+  try {
+    const asset = await Asset.loadAsync(require('./assets/model.onnx'));
+    const modelUri = asset[0].localUri;
+    const session = await InferenceSession.create(modelUri);
+    return session;
+  } catch {console.warn("onnx error"); }
 };
 
 // ─── Ring Chart Types ─────────────────────────────────────────────────────────
@@ -439,7 +442,14 @@ export default function InfoScreen() {
         if (fileExists) {
           console.log(`FOUND ${fileName}`);
           const csvContent = await RNFS.readFile(filePath, 'utf8');
-          // parse data
+          const newValues = csvContent
+            .split('\n')
+            .filter(line => line.trim() !== '')
+            .map(line => parseFloat(line.split(',')[1]));
+          const merged = new Float32Array(globalInputData.length + newValues.length);
+          merged.set(globalInputData);
+          merged.set(newValues, globalInputData.length);
+          globalInputData = merged;
         } else {
           console.log(`SKIPPING ${fileName}`);
         }
@@ -514,6 +524,7 @@ export default function InfoScreen() {
             style={{ backgroundColor: isViable ? buttonColor : buttonWrongColor, borderRadius: 8, paddingHorizontal: 14, paddingVertical: 10 }}
             onPress={async () => {
               if (!isViable) return;
+              globalInputData = new Float32Array([]);
               const startHour = parseTime(times.start);
               const endHour   = parseTime(times.end);
               if (selectedDates.start === selectedDates.end) {
@@ -531,12 +542,14 @@ export default function InfoScreen() {
                   await readManyCSVData(`${selectedDates.start}(${h})`);
                 }
               }
-              const session = await loadModel();
-              console.log('Model loaded:', session);
-              const inputData = new Float32Array([5.1, 3.5, 1.4, 0.2]); // example input
-              const tensor = new Tensor('float32', inputData, [1, 4]);
-              const results = await session.run({ float_input: tensor });
-              console.log('Inference result:', JSON.stringify(results));
+              console.log(globalInputData);
+              try {
+                const session = await loadModel();
+                console.log('Model loaded:', session);
+                const tensor = new Tensor('float32', globalInputData);
+                const results = await session.run({ float_input: tensor });
+                console.log('Inference result:', JSON.stringify(results));
+              } catch { console.warn("ML error") }
             }}
             activeOpacity={0.8}
           >
