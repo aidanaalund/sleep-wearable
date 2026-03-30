@@ -818,6 +818,7 @@ const App = () => {
                     background: { fill: BGColor2 },
                     justifyContent: 'center',
                   }}
+                  padding={{ top: 10, bottom: 40, left: 50, right: 10 }} 
                 >
                   <VictoryAxis
                     dependentAxis

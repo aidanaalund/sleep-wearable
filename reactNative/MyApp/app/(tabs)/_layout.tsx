@@ -65,7 +65,7 @@ export default function TabLayout() {
           name="account"
           options={{
             title: 'Bluetooth',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.fill" color={color} />,
+            tabBarIcon: ({ color }) => <IconSymbol size={28} name="bluetooth.fill" color={color} />,
           }}
         />
       </Tabs>

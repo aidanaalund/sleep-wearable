@@ -269,11 +269,12 @@ const TimeTable = () => {
       const baseLabel = box.label;
       const baseColor = box.color;
       return [
-        { ...box, label: `${baseLabel}Alpha`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000000')) },
-        { ...box, label: `${baseLabel}beta `, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000001')) },
-        { ...box, label: `${baseLabel}Delta`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000002')) },
-        { ...box, label: `${baseLabel}Theta`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000003')) }, 
-        { ...box, label: `${baseLabel}Gamma`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000004')) },
+        { ...box, label: `${baseLabel}`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000000')) },
+        // { ...box, label: `${baseLabel}Alpha`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000000')) },
+        // { ...box, label: `${baseLabel}beta `, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000001')) },
+        // { ...box, label: `${baseLabel}Delta`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000002')) },
+        // { ...box, label: `${baseLabel}Theta`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000003')) }, 
+        // { ...box, label: `${baseLabel}Gamma`, color: HexColorsMath(baseColor,'-',HexColorsMath(diffColor,'*','#000004')) },
       ];
     });
   }
@@ -415,7 +416,10 @@ const TimeTable = () => {
 
   const incrementYear = (dir) => {
     const newYear = selectedDate.getFullYear() + dir;
-    const newDate = new Date(newYear, selectedDate.getMonth(), selectedDate.getDate());
+    const currentDay = selectedDate.getDate();
+    const maxDay = new Date(newYear, selectedDate.getMonth() + 1, 0).getDate();
+    const safeDay = Math.min(currentDay, maxDay);
+    const newDate = new Date(newYear, selectedDate.getMonth(), safeDay);
     setSelectedDate(newDate);
     
     // Calculate the new dates
@@ -434,7 +438,10 @@ const TimeTable = () => {
   };
 
   const handleMonthChange = (monthIndex) => {
-    const newDate = new Date(selectedDate.getFullYear(), monthIndex, selectedDate.getDate());
+    const currentDay = selectedDate.getDate();
+    const maxDay = new Date(selectedDate.getFullYear(), monthIndex + 1, 0).getDate();
+    const safeDay = Math.min(currentDay, maxDay);
+    const newDate = new Date(selectedDate.getFullYear(), monthIndex, safeDay);
     setSelectedDate(newDate);
     
     const previousDate = new Date(newDate);
@@ -677,7 +684,7 @@ const TimeTable = () => {
                         ]}
                         onPress={() => handleBoxPress(subBox)}
                       >
-                        <Text style={[styles.boxText,
+                        {/* <Text style={[styles.boxText,
                           {
                             textAlign: 'center',
                             fontSize:  cellHeight/3,
@@ -687,7 +694,7 @@ const TimeTable = () => {
                           numberOfLines={1}
                           adjustsFontSizeToFit={Platform.OS !== 'web'}
                           >{ subBox.label }
-                        </Text>
+                        </Text> */}
                         <Text style={[styles.dayLabel,
                           {
                             textAlign: 'center',
@@ -856,15 +863,16 @@ const TimeTable = () => {
                     width={chartWidth * 0.9}
                     height={chartHeight * 0.7}
                     scale={{ x: 'time' }}
+                    domain={{ y: [0, Math.max(...visibleData.map(d => d.y)) * 1.1] }}
                     style={{
                       background: { fill: BGColor2 },
                       justifyContent: 'center',
                     }}
-                    padding={{ top: 0 }}
+                    padding={{ top: 10, bottom: 40, left: 50, right: 10 }} 
                   > 
                     <VictoryAxis
                       dependentAxis
-                      label="Values"
+                      label=""
                       style={{
                         axisLabel: { padding: 60, angle: 0, fill: textLightColor },
                         tickLabels: { fill: textLightColor },
@@ -891,7 +899,7 @@ const TimeTable = () => {
                   </VictoryChart>
 
                   {/* Prev/Next buttons */}
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16 }}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 50 }}>
                     <TouchableOpacity
                       onPress={() => setWindowStart(w => Math.max(0, w - WINDOW_SIZE))}
                       disabled={windowStart === 0}
@@ -914,11 +922,17 @@ const TimeTable = () => {
                     <ScrollView
                       horizontal
                       showsHorizontalScrollIndicator={true}
-                      onScroll={handleChartScroll}
+                      //persistentScrollbar={true}
+                      onScroll={(e) => {
+                        const x = e.nativeEvent.contentOffset.x;
+                        const scrollWidth = Math.max(1280, filledChartData.length * 8);
+                        const ratio = x / (scrollWidth - chartWidth);
+                        setWindowStart(Math.round(ratio * maxStart));
+                      }}
                       scrollEventThrottle={16}
-                      style={{ width: '100%' }}
+                      style={{ width: '100%', height: 15 }}
                     >
-                      <View style={{ width: Math.max(1280, filledChartData.length * 8), height: 1 }} />
+                      <View style={{ width: Math.max(1280, filledChartData.length * 8), height: 0 }} />
                     </ScrollView>
                   )}
                     <TouchableOpacity
@@ -933,17 +947,6 @@ const TimeTable = () => {
                   <Text style={{ color: textLightColor, textAlign: 'center' }}>
                     {windowStart + 1}–{Math.min(windowStart + WINDOW_SIZE, filledChartData.length)} of {filledChartData.length} points
                   </Text>
-
-                  {/* Scroll bar to navigate windows */}
-                  <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={true}
-                    onScroll={handleChartScroll}
-                    scrollEventThrottle={16}
-                    style={{ width: '100%' }}
-                  >
-                    <View style={{ width: Math.max(1280, filledChartData.length * 8), height: 1 }} />
-                  </ScrollView>
                 </>
               );
             })()}
