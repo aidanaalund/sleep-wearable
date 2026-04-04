@@ -22065,7 +22065,7 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text "ECE 464K: Aidan Aalund, Justin Bahn, Alex Ho, Kien Ton"
+	(gr_text "ECE 464K: Aidan Aalund, Justin Banh, Alex Ho, Kien Ton"
 		(at 167.5 120 0)
 		(layer "B.SilkS")
 		(uuid "45aa4dfd-48a0-4792-a380-32ac7b51862b")
