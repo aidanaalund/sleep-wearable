@@ -1,3 +1,6 @@
+//import { Asset } from 'expo-asset';
+//import { InferenceSession, Tensor } from 'onnxruntime-react-native';
+import Slider from '@react-native-community/slider';
 import Base64 from 'base64-js';
 import * as FileSystem from 'expo-file-system';
 import React, { useEffect, useRef, useState } from 'react';
@@ -25,6 +28,16 @@ if (Platform.OS === 'android') {
   SLEEP_DATA_DIR = `${RNFS.ExternalDirectoryPath}/sleepData`;
 }
 
+let globalInputData: Float32Array = new Float32Array([]);
+const loadModel = async () => {
+  // try {
+  //   const asset = await Asset.loadAsync(require('./assets/model.onnx'));
+  //   const modelUri = asset[0].localUri;
+  //   const session = await InferenceSession.create(modelUri);
+  //   return session;
+  // } catch { console.warn("onnx error"); }
+};
+
 const App = () => {
   const [manager] = useState(Platform.OS !== 'web' ? new BleManager() : null);
   const [devices, setDevices] = useState([]);
@@ -47,6 +60,8 @@ const App = () => {
   const isWeb = Platform.OS === 'web';
   const sleepDataDir = isWeb ? null : `${FileSystem.documentDirectory}sleepData`;
   const filePath = isWeb ? null : `${sleepDataDir}/data.txt`;
+  const [size, setSize] = useState(120);
+  const [isSleepMode, setIsSleepMode] = useState(true);
 
   useEffect(() => {
     if (!isWeb) {
@@ -552,28 +567,38 @@ const App = () => {
 
     } else {
       // Android path using react-native-fs
-      try {
-        const filePath = `${SLEEP_DATA_DIR}/${dateString}(${hours}).csv`;
+      if(isSleepMode) {
+        try {
+          const filePath = `${SLEEP_DATA_DIR}/${dateString}(${hours}).csv`;
 
-        const fileExists = await RNFS.exists(filePath);
-        if (!fileExists) {
-          await RNFS.writeFile(filePath, dataWithTimestamp, 'utf8');
-        } else {
-          await RNFS.appendFile(filePath, dataWithTimestamp, 'utf8');
+          const fileExists = await RNFS.exists(filePath);
+          if (!fileExists) {
+            await RNFS.writeFile(filePath, dataWithTimestamp, 'utf8');
+          } else {
+            await RNFS.appendFile(filePath, dataWithTimestamp, 'utf8');
+          }
+
+          // Update live chart
+          const values = dataWithTimestamp.split(',');
+          const timeWithoutZ = values[0].replace('Z', '');
+          const timestampMs = new Date(dateString + 'T' + timeWithoutZ).getTime();
+          setLiveChartData(prev => {
+            const updated = [...prev, { x: timestampMs, y: parseFloat(data) }];
+            return updated.length > 100 ? updated.slice(-100) : updated;
+          });
+
+          console.log('Data appended to:', filePath);
+        } catch (error) {
+          console.error('Error writing to file:', error);
         }
-
-        // Update live chart
-        const values = dataWithTimestamp.split(',');
-        const timeWithoutZ = values[0].replace('Z', '');
-        const timestampMs = new Date(dateString + 'T' + timeWithoutZ).getTime();
-        setLiveChartData(prev => {
-          const updated = [...prev, { x: timestampMs, y: parseFloat(data) }];
-          return updated.length > 100 ? updated.slice(-100) : updated;
-        });
-
-        console.log('Data appended to:', filePath);
-      } catch (error) {
-        console.error('Error writing to file:', error);
+      } else {
+        try {
+          const session = await loadModel();
+          console.log('Model loaded:', session);
+          const tensor = new Tensor('float32', globalInputData);
+          const results = await session.run({ float_input: tensor });
+          console.log('Inference result:', JSON.stringify(results));
+        } catch(error) { console.error('Meditation ML error'); }
       }
     }
   };
@@ -853,6 +878,49 @@ const App = () => {
           </View>
         </View>
       </Modal>
+
+      <View style={styles.circleContainer}>
+        <View
+          style={[
+            styles.circle,
+            {
+              width: size,
+              height: size,
+              borderRadius: size / 2,
+              backgroundColor: isSleepMode ? buttonColor : '#30a06a',
+            },
+          ]}
+        />
+      </View>
+
+      <View style={styles.sliderContainer}>
+        <Text style={styles.label}>Size: {Math.round(size)}px</Text>
+        <Slider
+          style={styles.slider}
+          minimumValue={16}
+          maximumValue={128}
+          value={size}
+          onValueChange={setSize}
+          minimumTrackTintColor={buttonColor}
+          maximumTrackTintColor={BGColor2}
+          thumbTintColor={buttonColor}
+        />
+      </View>
+
+      <TouchableOpacity
+        style={[
+          styles.button,
+          { backgroundColor: isSleepMode ? buttonColor : '#30a06a',
+            justifyContent: 'center',
+          },
+        ]}
+        onPress={() => setIsSleepMode(prev => !prev)}
+      >
+        <Text style={styles.buttonText}>
+          {isSleepMode ? 'Sleep Mode' : 'Meditation Mode'}
+        </Text>
+      </TouchableOpacity>
+
     </View>
   );
 };
@@ -975,6 +1043,27 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     color: textLightColor,
+  },
+  circleContainer: {
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  circle: {
+    // width, height, borderRadius, backgroundColor applied dynamically
+  },
+  sliderContainer: {
+    width: '100%',
+    gap: 8,
+  },
+  label: {
+    textAlign: 'center',
+    fontSize: 14,
+    color: '#666',
+  },
+  slider: {
+    width: '100%',
+    height: 40,
   },
 });
 
