@@ -11,5 +11,5 @@
 	url = https://github.com/kieenton/snoozy_final.git
 
 [submodule "npm13xx_one_button"]
-	path = npm13xx_one_button
+	path = wearable/sw/npm13xx_one_button
 	url = https://github.com/kieenton/npm13xx_one_button.git
