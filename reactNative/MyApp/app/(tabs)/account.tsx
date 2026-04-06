@@ -1,8 +1,8 @@
-//import { Asset } from 'expo-asset';
-//import { InferenceSession, Tensor } from 'onnxruntime-react-native';
 import Slider from '@react-native-community/slider';
 import Base64 from 'base64-js';
+import { Asset } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
+import { InferenceSession, Tensor } from 'onnxruntime-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, FlatList, Modal, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
@@ -30,12 +30,12 @@ if (Platform.OS === 'android') {
 
 let globalInputData: Float32Array = new Float32Array([]);
 const loadModel = async () => {
-  // try {
-  //   const asset = await Asset.loadAsync(require('./assets/model.onnx'));
-  //   const modelUri = asset[0].localUri;
-  //   const session = await InferenceSession.create(modelUri);
-  //   return session;
-  // } catch { console.warn("onnx error"); }
+  try {
+    const asset = await Asset.loadAsync(require('./assets/model.onnx'));
+    const modelUri = asset[0].localUri;
+    const session = await InferenceSession.create(modelUri);
+    return session;
+  } catch { console.warn("onnx error"); }
 };
 
 const App = () => {
@@ -898,7 +898,7 @@ const App = () => {
         <Slider
           style={styles.slider}
           minimumValue={16}
-          maximumValue={128}
+          maximumValue={200}
           value={size}
           onValueChange={setSize}
           minimumTrackTintColor={buttonColor}
@@ -977,6 +977,7 @@ const styles = StyleSheet.create({
     color: textLightColor,
     textAlign: 'center',
     fontWeight: '600',
+    includeFontPadding: false,
   },
   deviceList: {
     maxHeight: 200,
@@ -1054,12 +1055,12 @@ const styles = StyleSheet.create({
   },
   sliderContainer: {
     width: '100%',
-    gap: 8,
   },
   label: {
+    paddingTop: 10,
     textAlign: 'center',
     fontSize: 14,
-    color: '#666',
+    color: textDarkColor,
   },
   slider: {
     width: '100%',

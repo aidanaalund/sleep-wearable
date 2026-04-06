@@ -1,5 +1,5 @@
-//import { Asset } from 'expo-asset';
-//import { InferenceSession, Tensor } from 'onnxruntime-react-native';
+import { Asset } from 'expo-asset';
+import { InferenceSession, Tensor } from 'onnxruntime-react-native';
 import React, { useEffect, useState, } from 'react';
 import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, ViewStyle, } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
@@ -15,12 +15,12 @@ if (Platform.OS === 'android') {
 
 let globalInputData: Float32Array = new Float32Array([]);
 const loadModel = async () => {
-  // try {
-  //   const asset = await Asset.loadAsync(require('./assets/model.onnx'));
-  //   const modelUri = asset[0].localUri;
-  //   const session = await InferenceSession.create(modelUri);
-  //   return session;
-  // } catch { console.warn("onnx error"); }
+  try {
+    const asset = await Asset.loadAsync(require('./assets/model.onnx'));
+    const modelUri = asset[0].localUri;
+    const session = await InferenceSession.create(modelUri);
+    return session;
+  } catch { console.warn("onnx error"); }
 };
 
 // ─── Ring Chart Types ─────────────────────────────────────────────────────────
