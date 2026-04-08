@@ -1,10 +1,12 @@
 {
     "nrf-connect.applications": [
-        "${workspaceFolder}\\wearable\\sw\\peripheral_uart"
+        "${workspaceFolder}\\wearable\\sw\\peripheral_uart",
+        "${workspaceFolder}\\wearable\\sw\\snoozy_final"
     ],
     "files.associations": {
         "uart.h": "c"
     }
+
 } // {
 //     "nrf-connect.applications": [
 //         "${workspaceFolder}\\wearable\\sw\\peripheral_uart"
