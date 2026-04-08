@@ -62,6 +62,7 @@ const App = () => {
   const filePath = isWeb ? null : `${sleepDataDir}/data.txt`;
   const [size, setSize] = useState(120);
   const [isSleepMode, setIsSleepMode] = useState(true);
+  const meditationColor = (size == 200) ? '#30a06a' : '#7b41b1';
 
   useEffect(() => {
     if (!isWeb) {
@@ -881,13 +882,23 @@ const App = () => {
 
       <View style={styles.circleContainer}>
         <View
+          style={{
+            width: 200 + 16,
+            height: 200 + 16,
+            borderRadius: (200 + 16) / 2,
+            borderWidth: 8,
+            borderColor: textLightColor,
+            position: 'absolute',
+          }}
+        />
+        <View
           style={[
             styles.circle,
             {
               width: size,
               height: size,
               borderRadius: size / 2,
-              backgroundColor: isSleepMode ? buttonColor : '#30a06a',
+              backgroundColor: isSleepMode ? buttonColor : meditationColor,
             },
           ]}
         />
@@ -910,8 +921,9 @@ const App = () => {
       <TouchableOpacity
         style={[
           styles.button,
-          { backgroundColor: isSleepMode ? buttonColor : '#30a06a',
+          { backgroundColor: isSleepMode ? buttonColor : meditationColor,
             justifyContent: 'center',
+            marginTop: 20,
           },
         ]}
         onPress={() => setIsSleepMode(prev => !prev)}
