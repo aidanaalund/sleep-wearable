@@ -1,0 +1,133 @@
+/*
+ * Copyright (c) 2024 Nordic Semiconductor ASA
+ * Copyright (c) 2025 Ezurio LLC
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include "snoozy_nrf54l_10_15-pinctrl.dtsi"
+
+/ {
+    aliases {
+        ads1299 = &ads1299;
+        bno086 = &bno086;
+        // npm1304 = &npm1304; // TODO: add back
+    };
+};
+
+&spi00 {
+    status = "okay";
+    cs-gpios =  <&gpio2 5 GPIO_ACTIVE_LOW>, // TODO: do these map to ads and bno respectively? 
+                <&gpio2 10 GPIO_ACTIVE_LOW>;
+
+    ads1299: ads1299@0 {
+        compatible = "ti,ads1299";          /* custom binding you'll define */
+        reg = <0>;                           /* index into cs-gpios */
+        spi-max-frequency = <4000000>;       /* ADS1299 max 4 MHz */
+        label = "ADS1299";
+        start-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
+        rst-gpios = <&gpio1 5 GPIO_ACTIVE_LOW>;
+        pwdwn-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
+
+    };
+
+    bno086: bno086@1 {
+        compatible = "ceva,bno086";          /* custom binding you'll define */
+        reg = <1>;                           /* index into cs-gpios */
+        spi-max-frequency = <3000000>;       /* BNO086 max 3 MHz */
+        label = "BNO086";
+        int-gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
+        rst-gpios = <&gpio1 2 GPIO_ACTIVE_LOW>;
+        boot-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
+    };
+};
+
+&spi00_default {
+    group1 {
+        psels = <NRF_PSEL(SPIM_SCK, 2, 1)>,
+                <NRF_PSEL(SPIM_MISO, 2, 2)>,
+                <NRF_PSEL(SPIM_MOSI, 2, 4)>;
+    };
+};
+/delete-node/ &{/pin-controller/uart20_default/group1/};
+/delete-node/ &{/pin-controller/uart20_default/group2/};
+
+&i2c22 {
+    status = "okay";    /* enable the I2C bus */
+    pinctrl-0 = <&i2c22_default>;
+    pinctrl-names = "default";
+    pmic: npm1304@6b {
+        compatible = "nordic,npm1304";
+        reg = <0x6b>;
+
+        regulators {
+            ldo2: LDO2 {
+                regulator-init-microvolt = <3000000>;
+                regulator-boot-on;
+            };
+
+            pvss2: PVSS2 {
+                regulator-boot-on;
+            };
+        };
+    };
+
+    clock-frequency = <I2C_BITRATE_STANDARD>;
+};
+
+/ {
+    pmic_gpio0: pmic-gpio0 {
+        compatible = "gpio-nordic,nrf-gpio";
+        gpios = <&gpio2 3 GPIO_ACTIVE_HIGH>;
+        //flags = <GPIO_OUTPUT>;
+    };
+
+    pmic_gpio1: pmic-gpio1 {
+        compatible = "gpio-nordic,nrf-gpio";
+        gpios = <&gpio2 9 GPIO_ACTIVE_HIGH>;
+        //flags = <GPIO_OUTPUT>;
+    };
+
+    pmic_gpio2: pmic-gpio2 {
+        compatible = "gpio-nordic,nrf-gpio";
+        gpios = <&gpio2 6 GPIO_ACTIVE_HIGH>;
+        //flags = <GPIO_OUTPUT>;
+    };
+
+    pmic_gpio3: pmic-gpio3 {
+        compatible = "gpio-nordic,nrf-gpio";
+        gpios = <&gpio2 7 GPIO_ACTIVE_HIGH>;
+        //flags = <GPIO_OUTPUT>;
+    };
+
+    pmic_gpio4: pmic-gpio4 {
+        compatible = "gpio-nordic,nrf-gpio";
+        gpios = <&gpio2 8 GPIO_ACTIVE_HIGH>;
+        //flags = <GPIO_OUTPUT>;
+    };
+
+    zephyr,user {
+        pmic-gpios = <&gpio2 3 0>, <&gpio2 9 0>, <&gpio2 7 0>, <&gpio2 6 0>, <&gpio2 8 0>;
+        ads_reset_gpios = <&gpio1 5 GPIO_ACTIVE_LOW>;
+        ads_start_gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
+        ads_drdy_gpios  = <&gpio0 1 GPIO_ACTIVE_LOW>;  /* replace X with your DRDY pin */
+    };
+};
+
+
+&pinctrl {
+    i2c22_default: i2c22_default {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SCL, 0, 3)>, <NRF_PSEL(TWIM_SDA, 0, 0)>;
+        };
+    };
+};
+
+/* BLE things. May not work outside of NUS example. */
+
+&uart20 {
+	current-speed = <115200>;
+	pinctrl-0 = <&uart20_default>;
+	pinctrl-1 = <&uart20_sleep>;
+	pinctrl-names = "default", "sleep";
+};

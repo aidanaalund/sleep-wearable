@@ -1,3 +1,7 @@
+# west workspace files
+nrf/
+zephyr/
+
 # Prerequisites
 *.d
 

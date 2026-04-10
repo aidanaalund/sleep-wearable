@@ -1,0 +1,8 @@
+{
+    "nrf-connect.applications": [
+        "${workspaceFolder}\\peripheral_uart",
+        "${workspaceFolder}\\npm13xx_one_button",
+        "${workspaceFolder}\\snoozy",
+        "${workspaceFolder}\\snoozy_final"
+    ],
+}
