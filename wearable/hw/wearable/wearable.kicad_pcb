@@ -7097,7 +7097,7 @@
 				)
 			)
 		)
-		(property "Value" "250k"
+		(property "Value" "330k"
 			(at 0 1.17 0)
 			(layer "F.Fab")
 			(uuid "4b524d98-9e7c-4458-bc45-70892f4b14df")
@@ -31567,7 +31567,7 @@
 			(size 0.6 0.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
-			(net 18 "SWDCLK")
+			(net 16 "SWDIO")
 			(pinfunction "SWDIO")
 			(pintype "bidirectional")
 			(thermal_bridge_angle 45)
@@ -31578,7 +31578,7 @@
 			(size 0.6 0.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
-			(net 16 "SWDIO")
+			(net 18 "SWDCLK")
 			(pinfunction "SWDCLK")
 			(pintype "input")
 			(thermal_bridge_angle 45)
