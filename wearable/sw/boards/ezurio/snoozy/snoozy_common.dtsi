@@ -11,7 +11,7 @@
     aliases {
         ads1299 = &ads1299;
         bno086 = &bno086;
-        // npm1304 = &npm1304; // TODO: add back
+        npm1304 = &npm1304;
     };
 };
 
@@ -56,7 +56,9 @@
     status = "okay";    /* enable the I2C bus */
     pinctrl-0 = <&i2c22_default>;
     pinctrl-names = "default";
-    pmic: npm1304@6b {
+    npm1304: pmic@6b {
+        label = "npm1304";
+        gpio-controller;
         compatible = "nordic,npm1304";
         reg = <0x6b>;
 
@@ -70,44 +72,15 @@
                 regulator-boot-on;
             };
         };
+        #gpio-cells = <2>;
     };
 
     clock-frequency = <I2C_BITRATE_STANDARD>;
 };
 
 / {
-    pmic_gpio0: pmic-gpio0 {
-        compatible = "gpio-nordic,nrf-gpio";
-        gpios = <&gpio2 3 GPIO_ACTIVE_HIGH>;
-        //flags = <GPIO_OUTPUT>;
-    };
-
-    pmic_gpio1: pmic-gpio1 {
-        compatible = "gpio-nordic,nrf-gpio";
-        gpios = <&gpio2 9 GPIO_ACTIVE_HIGH>;
-        //flags = <GPIO_OUTPUT>;
-    };
-
-    pmic_gpio2: pmic-gpio2 {
-        compatible = "gpio-nordic,nrf-gpio";
-        gpios = <&gpio2 6 GPIO_ACTIVE_HIGH>;
-        //flags = <GPIO_OUTPUT>;
-    };
-
-    pmic_gpio3: pmic-gpio3 {
-        compatible = "gpio-nordic,nrf-gpio";
-        gpios = <&gpio2 7 GPIO_ACTIVE_HIGH>;
-        //flags = <GPIO_OUTPUT>;
-    };
-
-    pmic_gpio4: pmic-gpio4 {
-        compatible = "gpio-nordic,nrf-gpio";
-        gpios = <&gpio2 8 GPIO_ACTIVE_HIGH>;
-        //flags = <GPIO_OUTPUT>;
-    };
-
     zephyr,user {
-        pmic-gpios = <&gpio2 3 0>, <&gpio2 9 0>, <&gpio2 7 0>, <&gpio2 6 0>, <&gpio2 8 0>;
+        // pmic-gpios = <&pmic 0 0>; // TODO: if we need to use pmic gpio in app, instantiate them here.
         ads_reset_gpios = <&gpio1 5 GPIO_ACTIVE_LOW>;
         ads_start_gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
         ads_drdy_gpios  = <&gpio0 1 GPIO_ACTIVE_LOW>;  /* replace X with your DRDY pin */
