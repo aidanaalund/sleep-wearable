@@ -1,0 +1,274 @@
+{
+  "dataset": "OpenNeuro ds001787",
+  "task": "binary meditation vs mind_wandering",
+  "window_sec": 5.0,
+  "n_samples": 804,
+  "n_subjects": 24,
+  "class_counts": {
+    "meditation": 503,
+    "mind_wandering": 301
+  },
+  "subjects": [
+    "sub-001",
+    "sub-002",
+    "sub-003",
+    "sub-004",
+    "sub-005",
+    "sub-006",
+    "sub-007",
+    "sub-008",
+    "sub-009",
+    "sub-010",
+    "sub-011",
+    "sub-012",
+    "sub-013",
+    "sub-014",
+    "sub-015",
+    "sub-016",
+    "sub-017",
+    "sub-018",
+    "sub-019",
+    "sub-020",
+    "sub-021",
+    "sub-022",
+    "sub-023",
+    "sub-024"
+  ],
+  "labeling": {
+    "probe_anchor": "trial_type=stimulus,value=128",
+    "target_question": "Q2 mind wandering",
+    "response_to_label": {
+      "2": "meditation",
+      "4": "mind_wandering",
+      "8": "mind_wandering"
+    },
+    "warning": "The event sidecar documents response button codes but not the natural-language answer text. Verify this response mapping against the paper/task materials before treating results as final."
+  },
+  "cross_validation": {
+    "cv_scheme": "LeaveOneGroupOut",
+    "group_name": "subject_id",
+    "n_subjects": 24,
+    "n_samples": 804,
+    "folds": [
+      {
+        "fold": 1,
+        "held_out_subject": "sub-001",
+        "n_train": 751,
+        "n_test": 53,
+        "accuracy": 0.660377358490566
+      },
+      {
+        "fold": 2,
+        "held_out_subject": "sub-002",
+        "n_train": 750,
+        "n_test": 54,
+        "accuracy": 0.5
+      },
+      {
+        "fold": 3,
+        "held_out_subject": "sub-003",
+        "n_train": 776,
+        "n_test": 28,
+        "accuracy": 0.6428571428571429
+      },
+      {
+        "fold": 4,
+        "held_out_subject": "sub-004",
+        "n_train": 791,
+        "n_test": 13,
+        "accuracy": 0.6923076923076923
+      },
+      {
+        "fold": 5,
+        "held_out_subject": "sub-005",
+        "n_train": 768,
+        "n_test": 36,
+        "accuracy": 0.3611111111111111
+      },
+      {
+        "fold": 6,
+        "held_out_subject": "sub-006",
+        "n_train": 758,
+        "n_test": 46,
+        "accuracy": 0.34782608695652173
+      },
+      {
+        "fold": 7,
+        "held_out_subject": "sub-007",
+        "n_train": 764,
+        "n_test": 40,
+        "accuracy": 0.75
+      },
+      {
+        "fold": 8,
+        "held_out_subject": "sub-008",
+        "n_train": 780,
+        "n_test": 24,
+        "accuracy": 0.5833333333333334
+      },
+      {
+        "fold": 9,
+        "held_out_subject": "sub-009",
+        "n_train": 772,
+        "n_test": 32,
+        "accuracy": 0.3125
+      },
+      {
+        "fold": 10,
+        "held_out_subject": "sub-010",
+        "n_train": 756,
+        "n_test": 48,
+        "accuracy": 0.4791666666666667
+      },
+      {
+        "fold": 11,
+        "held_out_subject": "sub-011",
+        "n_train": 752,
+        "n_test": 52,
+        "accuracy": 0.7115384615384616
+      },
+      {
+        "fold": 12,
+        "held_out_subject": "sub-012",
+        "n_train": 776,
+        "n_test": 28,
+        "accuracy": 0.8928571428571429
+      },
+      {
+        "fold": 13,
+        "held_out_subject": "sub-013",
+        "n_train": 785,
+        "n_test": 19,
+        "accuracy": 0.7894736842105263
+      },
+      {
+        "fold": 14,
+        "held_out_subject": "sub-014",
+        "n_train": 792,
+        "n_test": 12,
+        "accuracy": 1.0
+      },
+      {
+        "fold": 15,
+        "held_out_subject": "sub-015",
+        "n_train": 779,
+        "n_test": 25,
+        "accuracy": 0.48
+      },
+      {
+        "fold": 16,
+        "held_out_subject": "sub-016",
+        "n_train": 781,
+        "n_test": 23,
+        "accuracy": 0.8260869565217391
+      },
+      {
+        "fold": 17,
+        "held_out_subject": "sub-017",
+        "n_train": 774,
+        "n_test": 30,
+        "accuracy": 0.8666666666666667
+      },
+      {
+        "fold": 18,
+        "held_out_subject": "sub-018",
+        "n_train": 749,
+        "n_test": 55,
+        "accuracy": 0.6
+      },
+      {
+        "fold": 19,
+        "held_out_subject": "sub-019",
+        "n_train": 775,
+        "n_test": 29,
+        "accuracy": 0.5517241379310345
+      },
+      {
+        "fold": 20,
+        "held_out_subject": "sub-020",
+        "n_train": 779,
+        "n_test": 25,
+        "accuracy": 0.52
+      },
+      {
+        "fold": 21,
+        "held_out_subject": "sub-021",
+        "n_train": 771,
+        "n_test": 33,
+        "accuracy": 0.5757575757575758
+      },
+      {
+        "fold": 22,
+        "held_out_subject": "sub-022",
+        "n_train": 782,
+        "n_test": 22,
+        "accuracy": 0.5454545454545454
+      },
+      {
+        "fold": 23,
+        "held_out_subject": "sub-023",
+        "n_train": 769,
+        "n_test": 35,
+        "accuracy": 0.37142857142857144
+      },
+      {
+        "fold": 24,
+        "held_out_subject": "sub-024",
+        "n_train": 762,
+        "n_test": 42,
+        "accuracy": 0.6904761904761905
+      }
+    ],
+    "mean_accuracy": 0.614622638523562,
+    "std_accuracy": 0.17830481775476142,
+    "classification_report": {
+      "meditation": {
+        "precision": 0.6782077393075356,
+        "recall": 0.6620278330019881,
+        "f1-score": 0.670020120724346,
+        "support": 503.0
+      },
+      "mind_wandering": {
+        "precision": 0.45686900958466453,
+        "recall": 0.4750830564784053,
+        "f1-score": 0.46579804560260585,
+        "support": 301.0
+      },
+      "accuracy": 0.5920398009950248,
+      "macro avg": {
+        "precision": 0.5675383744461001,
+        "recall": 0.5685554447401967,
+        "f1-score": 0.5679090831634759,
+        "support": 804.0
+      },
+      "weighted avg": {
+        "precision": 0.5953433641252169,
+        "recall": 0.5920398009950248,
+        "f1-score": 0.5935638463317543,
+        "support": 804.0
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "meditation",
+        "mind_wandering"
+      ],
+      "matrix": [
+        [
+          333,
+          170
+        ],
+        [
+          158,
+          143
+        ]
+      ]
+    }
+  },
+  "artifacts": [
+    "meditation_model.joblib",
+    "meditation_model.onnx",
+    "feature_schema.json",
+    "training_summary.json"
+  ]
+}

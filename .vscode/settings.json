@@ -4,7 +4,8 @@
     ],
     "files.associations": {
         "uart.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "/Users/justinbanh/Documents/Github/sleep-wearable/wearable/sw/peripheral_uart"
 } // {
 //     "nrf-connect.applications": [
 //         "${workspaceFolder}\\wearable\\sw\\peripheral_uart"
