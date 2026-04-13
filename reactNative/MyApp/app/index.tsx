@@ -10,9 +10,14 @@ npx expo export --platform web
 npm run start:electron
 
 // for mobile //
+.\android\gradlew.bat --stop
+taskkill /F /IM java.exe
 npx expo prebuild --clean
 npm run android               (error)
-npx expo run:android          (black screen)
+
+npx expo start --clear
+npx expo run:android
+a
 
 adb reverse tcp:8081 tcp:8081 (wired)
 npx react-native run-android

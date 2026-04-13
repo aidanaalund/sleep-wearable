@@ -2,11 +2,48 @@ import Slider from '@react-native-community/slider';
 import Base64 from 'base64-js';
 import { Asset } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
+import { readAsStringAsync, writeAsStringAsync } from 'expo-file-system/legacy';
 import { InferenceSession, Tensor } from 'onnxruntime-react-native';
+// import { File, Paths } from 'expo-file-system';
+// import * as ort from 'onnxruntime-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, FlatList, Modal, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import { BGColor1, BGColor2, bordersColor, buttonColor, textDarkColor, textInverseColor, textLightColor } from './_layout';
+
+let RNFS: any = null;
+let SLEEP_DATA_DIR: string = '';
+if (Platform.OS === 'android') {
+  RNFS = require('react-native-fs');
+  SLEEP_DATA_DIR = `${RNFS.ExternalDirectoryPath}/sleepData`;
+}
+
+let globalInputData: Float32Array = new Float32Array([]);
+const loadModel = async () => {
+  try {
+    const asset = await Asset.loadAsync(require('../../assets/meditation_model.onnx'));
+    const sourceUri = asset[0].localUri!;
+    const destPath = `${FileSystem.Paths.cache.uri}meditation_model.onnx`;
+    const base64 = await readAsStringAsync(sourceUri, { encoding: 'base64' });
+    await writeAsStringAsync(destPath, base64, { encoding: 'base64' });
+    const filePath = destPath;
+    const session = await InferenceSession.create(filePath);
+    return session;
+    
+    // const asset = Asset.fromModule(require('../../assets/meditation_model.onnx'));
+    // await asset.downloadAsync();
+    // const sourceFile = new File(asset.localUri);
+    // const destinationFile = new File(Paths.document, 'meditation_model.onnx');
+    // const fileInfo = await destinationFile.info();
+    // if (fileInfo.exists) {
+    //   await destinationFile.delete();
+    // }
+    // await sourceFile.copy(destinationFile); 
+    // return await ort.InferenceSession.create(destinationFile.uri);
+  } catch(err) {
+    console.warn("onnx error:", err);
+  }
+};
 
 let VictoryChart, VictoryLine, VictoryAxis;
 if (Platform.OS === 'web') {
@@ -20,23 +57,6 @@ if (Platform.OS === 'web') {
   VictoryLine = VictoryNative.VictoryLine;
   VictoryAxis = VictoryNative.VictoryAxis;
 }
-
-let RNFS: any = null;
-let SLEEP_DATA_DIR: string = '';
-if (Platform.OS === 'android') {
-  RNFS = require('react-native-fs');
-  SLEEP_DATA_DIR = `${RNFS.ExternalDirectoryPath}/sleepData`;
-}
-
-let globalInputData: Float32Array = new Float32Array([]);
-const loadModel = async () => {
-  try {
-    const asset = await Asset.loadAsync(require('./assets/model.onnx'));
-    const modelUri = asset[0].localUri;
-    const session = await InferenceSession.create(modelUri);
-    return session;
-  } catch { console.warn("onnx error"); }
-};
 
 const App = () => {
   const [manager] = useState(Platform.OS !== 'web' ? new BleManager() : null);
@@ -918,7 +938,7 @@ const App = () => {
         />
       </View>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[
           styles.button,
           { backgroundColor: isSleepMode ? buttonColor : meditationColor,
@@ -927,6 +947,46 @@ const App = () => {
           },
         ]}
         onPress={() => setIsSleepMode(prev => !prev)}
+      >
+        <Text style={styles.buttonText}>
+          {isSleepMode ? 'Sleep Mode' : 'Meditation Mode'}
+        </Text>
+      </TouchableOpacity> */}
+      <TouchableOpacity
+        style={[
+          styles.button,
+          {
+            backgroundColor: isSleepMode ? buttonColor : meditationColor,
+            justifyContent: 'center',
+            marginTop: 20,
+          },
+        ]}
+        onPress={async () => {
+          setIsSleepMode(prev => !prev);
+          try {
+            const rawVector = new Float32Array([
+              0.52,0.12,0.34,0.08,0.28,0.07,0.19,0.05,0.11,0.03,1.45,0.72,0.66,0.01,0.23,0.11,
+              0.49,0.13,0.31,0.09,0.27,0.06,0.20,0.05,0.10,0.02,1.38,0.69,0.62,0.02,0.21,0.10,
+              0.50,0.11,0.33,0.07,0.29,0.08,0.18,0.04,0.12,0.03,1.40,0.70,0.64,0.01,0.22,0.12,
+              0.53,0.10,0.35,0.06,0.30,0.09,0.17,0.05,0.13,0.04,1.50,0.75,0.68,0.02,0.25,0.13,
+              0.51,0.12,0.32,0.08,0.27,0.07,0.19,0.06,0.11,0.03,1.42,0.71,0.63,0.01,0.24,0.11,
+              0.48,0.14,0.30,0.10,0.26,0.06,0.21,0.05,0.09,0.02,1.35,0.68,0.60,0.02,0.20,0.09,
+              0.54,0.11,0.36,0.07,0.31,0.08,0.18,0.04,0.14,0.03,1.52,0.76,0.69,0.01,0.26,0.12,
+              0.47,0.13,0.29,0.09,0.25,0.06,0.22,0.05,0.08,0.02,1.30,0.65,0.58,0.02,0.19,0.08,
+              0.50,0.12,0.33,0.08,0.28,0.07,0.19,0.05,0.11,0.03,1.41,0.70,0.64,0.01,0.23,0.11
+            ]);
+            const featureVector = new Float32Array(1358);
+            featureVector.set(rawVector);
+            const session = await loadModel();
+            if (!session) return;
+            console.log('ML Step 1: session created');
+            const tensor = new Tensor('float32', featureVector, [1, 1358]);
+            const results = await session.run({ input: tensor });
+            console.log('Inference result:', JSON.stringify(results));
+          } catch (err) {
+            console.warn("Meditation ML error:", err);
+          }
+        }}
       >
         <Text style={styles.buttonText}>
           {isSleepMode ? 'Sleep Mode' : 'Meditation Mode'}

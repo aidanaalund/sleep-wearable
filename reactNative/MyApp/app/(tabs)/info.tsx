@@ -6,6 +6,8 @@ import Svg, { Path } from 'react-native-svg';
 import { useDateContext } from '../DateContext';
 import { BGColor1, BGColor2, buttonColor, buttonWrongColor, textDarkColor, textLightColor } from './_layout';
 
+
+
 let RNFS: any = null;
 let SLEEP_DATA_DIR: string = '';
 if (Platform.OS === 'android') {
@@ -16,8 +18,12 @@ if (Platform.OS === 'android') {
 let globalInputData: Float32Array = new Float32Array([]);
 const loadModel = async () => {
   try {
-    const asset = await Asset.loadAsync(require('./assets/model.onnx'));
+    const asset = await Asset.loadAsync(require('../../assets/sleep_model.onnx'));
     const modelUri = asset[0].localUri;
+    if (!modelUri) {
+      console.warn("Asset localUri is null — asset may not have downloaded");
+      return;
+    }
     const session = await InferenceSession.create(modelUri);
     return session;
   } catch { console.warn("onnx error"); }
