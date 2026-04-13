@@ -18,30 +18,35 @@ if (Platform.OS === 'android') {
   SLEEP_DATA_DIR = `${RNFS.ExternalDirectoryPath}/sleepData`;
 }
 
+const rawVector = new Float32Array([
+  0.52,0.12,0.34,0.08,0.28,0.07,0.19,0.05,0.11,0.03,1.45,0.72,0.66,0.01,0.23,0.11,0.49,0.13,0.31,0.09,0.27,0.06,0.20,0.05,0.10,0.02,1.38,0.69,0.62,0.02,0.21,0.10,
+  0.50,0.11,0.33,0.07,0.29,0.08,0.18,0.04,0.12,0.03,1.40,0.70,0.64,0.01,0.22,0.12,0.53,0.10,0.35,0.06,0.30,0.09,0.17,0.05,0.13,0.04,1.50,0.75,0.68,0.02,0.25,0.13,
+  0.51,0.12,0.32,0.08,0.27,0.07,0.19,0.06,0.11,0.03,1.42,0.71,0.63,0.01,0.24,0.11,0.48,0.14,0.30,0.10,0.26,0.06,0.21,0.05,0.09,0.02,1.35,0.68,0.60,0.02,0.20,0.09,
+  0.54,0.11,0.36,0.07,0.31,0.08,0.18,0.04,0.14,0.03,1.52,0.76,0.69,0.01,0.26,0.12,0.47,0.13,0.29,0.09,0.25,0.06,0.22,0.05,0.08,0.02,1.30,0.65,0.58,0.02,0.19,0.08,
+  0.50,0.12,0.33,0.08,0.28,0.07,0.19,0.05,0.11,0.03,1.41,0.70,0.64,0.01,0.23,0.11]);
+const featureVector = new Float32Array(1358);
+featureVector.set(rawVector);
 let globalInputData: Float32Array = new Float32Array([]);
-const loadModel = async () => {
+let cachedSession: InferenceSession | null = null;
+let isLoadingModel = false;
+const getSession = async (): Promise<InferenceSession | null> => {
+  if (cachedSession) return cachedSession;
+  if (isLoadingModel) return null;
+  isLoadingModel = true;
   try {
     const asset = await Asset.loadAsync(require('../../assets/meditation_model.onnx'));
     const sourceUri = asset[0].localUri!;
     const destPath = `${FileSystem.Paths.cache.uri}meditation_model.onnx`;
     const base64 = await readAsStringAsync(sourceUri, { encoding: 'base64' });
     await writeAsStringAsync(destPath, base64, { encoding: 'base64' });
-    const filePath = destPath;
-    const session = await InferenceSession.create(filePath);
-    return session;
-    
-    // const asset = Asset.fromModule(require('../../assets/meditation_model.onnx'));
-    // await asset.downloadAsync();
-    // const sourceFile = new File(asset.localUri);
-    // const destinationFile = new File(Paths.document, 'meditation_model.onnx');
-    // const fileInfo = await destinationFile.info();
-    // if (fileInfo.exists) {
-    //   await destinationFile.delete();
-    // }
-    // await sourceFile.copy(destinationFile); 
-    // return await ort.InferenceSession.create(destinationFile.uri);
-  } catch(err) {
+    cachedSession = await InferenceSession.create(destPath);
+    console.log('Model loaded successfully');
+    return cachedSession;
+  } catch (err) {
     console.warn("onnx error:", err);
+    return null;
+  } finally {
+    isLoadingModel = false;
   }
 };
 
@@ -73,15 +78,15 @@ const App = () => {
   const [modalDims, setModalDims] = useState({ width: 0, height: 0 });
   const [monitorSubscription, setMonitorSubscription] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [size, setSize] = useState(120);
+  const [isSleepMode, setIsSleepMode] = useState(true);
   const isDisconnectingRef = useRef(false);
-  // Check if running in Electron
+
   const isAndroid = Platform.OS === 'android';
   const isElectron = typeof window !== 'undefined' && window.electronAPI;
   const isWeb = Platform.OS === 'web';
   const sleepDataDir = isWeb ? null : `${FileSystem.documentDirectory}sleepData`;
   const filePath = isWeb ? null : `${sleepDataDir}/data.txt`;
-  const [size, setSize] = useState(120);
-  const [isSleepMode, setIsSleepMode] = useState(true);
   const meditationColor = (size == 200) ? '#30a06a' : '#7b41b1';
 
   useEffect(() => {
@@ -964,25 +969,14 @@ const App = () => {
         onPress={async () => {
           setIsSleepMode(prev => !prev);
           try {
-            const rawVector = new Float32Array([
-              0.52,0.12,0.34,0.08,0.28,0.07,0.19,0.05,0.11,0.03,1.45,0.72,0.66,0.01,0.23,0.11,
-              0.49,0.13,0.31,0.09,0.27,0.06,0.20,0.05,0.10,0.02,1.38,0.69,0.62,0.02,0.21,0.10,
-              0.50,0.11,0.33,0.07,0.29,0.08,0.18,0.04,0.12,0.03,1.40,0.70,0.64,0.01,0.22,0.12,
-              0.53,0.10,0.35,0.06,0.30,0.09,0.17,0.05,0.13,0.04,1.50,0.75,0.68,0.02,0.25,0.13,
-              0.51,0.12,0.32,0.08,0.27,0.07,0.19,0.06,0.11,0.03,1.42,0.71,0.63,0.01,0.24,0.11,
-              0.48,0.14,0.30,0.10,0.26,0.06,0.21,0.05,0.09,0.02,1.35,0.68,0.60,0.02,0.20,0.09,
-              0.54,0.11,0.36,0.07,0.31,0.08,0.18,0.04,0.14,0.03,1.52,0.76,0.69,0.01,0.26,0.12,
-              0.47,0.13,0.29,0.09,0.25,0.06,0.22,0.05,0.08,0.02,1.30,0.65,0.58,0.02,0.19,0.08,
-              0.50,0.12,0.33,0.08,0.28,0.07,0.19,0.05,0.11,0.03,1.41,0.70,0.64,0.01,0.23,0.11
-            ]);
-            const featureVector = new Float32Array(1358);
-            featureVector.set(rawVector);
-            const session = await loadModel();
-            if (!session) return;
-            console.log('ML Step 1: session created');
+            console.log('ML Step 1: copying session');
+            const session = await getSession();
+            if (!session) return
+            console.log('ML Step 2: session copied; converting to tensor');
             const tensor = new Tensor('float32', featureVector, [1, 1358]);
+            console.log('ML Step 3: converted to tensor; inputting data');
             const results = await session.run({ input: tensor });
-            console.log('Inference result:', JSON.stringify(results));
+            console.log('ML Step 4: Inference result:', JSON.stringify(results));
           } catch (err) {
             console.warn("Meditation ML error:", err);
           }

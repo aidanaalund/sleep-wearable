@@ -16,7 +16,8 @@ npx expo prebuild --clean
 npm run android               (error)
 
 npx expo start --clear
-npx expo run:android
+npx expo run:android (debugger)
+npx expo run:android --variant release (actual release)
 a
 
 adb reverse tcp:8081 tcp:8081 (wired)
