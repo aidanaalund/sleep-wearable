@@ -4,10 +4,8 @@ import { Asset } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
 import { readAsStringAsync, writeAsStringAsync } from 'expo-file-system/legacy';
 import { InferenceSession, Tensor } from 'onnxruntime-react-native';
-// import { File, Paths } from 'expo-file-system';
-// import * as ort from 'onnxruntime-react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, FlatList, Modal, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, Modal, PermissionsAndroid, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import { BGColor1, BGColor2, bordersColor, buttonColor, textDarkColor, textInverseColor, textLightColor } from './_layout';
 
@@ -721,277 +719,289 @@ const App = () => {
     : (connectedDevice ? connectedDevice.name : '');
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Bluetooth Data Logger</Text>
-      
-      {isWeb && (
-        <View style={styles.webNotice}>
-          <Text style={styles.webNoticeText}>
-            {isElectron 
-              ? 'Electron version - Data stored in memory. Use "Save As..." to save to disk.'
-              : 'Web version uses localStorage for data storage and Web Bluetooth API.'}
-            {'\n'}For best Bluetooth support, use Chrome, Edge, or Opera browser.
-          </Text>
-        </View>
-      )}
-      
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>
-          {isConnected && (
-            <TouchableOpacity
-              style={styles.button}
-              onPress={toggleDataListening}>
-              <Text style={styles.buttonText}>
-                {isPaused ? 'Resume Data' : 'Pause Data'}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </Text>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <Text style={styles.title}>Bluetooth Data Logger</Text>
         
-        <View style={styles.buttonRow}>
-          {!isConnected ? (
-            <TouchableOpacity 
-              style={[styles.button, isScanning && styles.buttonDisabled]} 
-              onPress={handleConnect}
-              disabled={isScanning}
-            >
-              <Text style={styles.buttonText}>
-                {isScanning ? 'Scanning...' : (isWeb ? 'Connect to Device' : 'Scan Devices')}
-              </Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={styles.button}
-              onPress={disconnectDevice}>
-              <Text style={styles.buttonText}>Disconnect</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      </View>
-
-      {!isWeb && devices.length > 0 && !connectedDevice && (
+        {isWeb && (
+          <View style={styles.webNotice}>
+            <Text style={styles.webNoticeText}>
+              {isElectron 
+                ? 'Electron version - Data stored in memory. Use "Save As..." to save to disk.'
+                : 'Web version uses localStorage for data storage and Web Bluetooth API.'}
+              {'\n'}For best Bluetooth support, use Chrome, Edge, or Opera browser.
+            </Text>
+          </View>
+        )}
+        
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Available Devices</Text>
-          <FlatList
-            data={devices}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
+          <Text style={styles.sectionTitle}>
+            {isConnected && (
               <TouchableOpacity
-                style={styles.deviceItem}
-                onPress={() => connectToDevice(item)}
-              >
-                <Text style={styles.deviceName}>{item.name}</Text>
-                <Text style={styles.deviceId}>{item.id}</Text>
+                style={styles.button}
+                onPress={toggleDataListening}>
+                <Text style={styles.buttonText}>
+                  {isPaused ? 'Resume Data' : 'Pause Data'}
+                </Text>
               </TouchableOpacity>
             )}
-            style={styles.deviceList}
-          />
-        </View>
-      )}
-
-      <View style={styles.section}>
-        <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.button} onPress={() => setShowChart(true)}>
-            <Text style={styles.buttonText}>Live Data</Text>
-          </TouchableOpacity>
-          {isWeb && (
-            <TouchableOpacity style={styles.button} onPress={downloadWebData}>
-              <Text style={styles.buttonText}>
-                {isElectron ? 'Save As...' : 'Download .txt'}
-              </Text>
-            </TouchableOpacity>
-          )}
-          <TouchableOpacity style={styles.button} onPress={() => {
-            setLiveChartData([]);
-          }}>
-            <Text style={styles.buttonText}>Clear Data</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>
-          {isWeb 
-            ? (isElectron ? 'Stored Data (In Memory)' : 'Stored Data (localStorage)')
-            : 'Data'}
-        </Text>
-        <ScrollView style={styles.dataContainer}>
-          <Text style={styles.dataText}>
-            {fileContent || 'No data yet. Connect to a device to receive data.'}
           </Text>
-        </ScrollView>
-      </View>
-
-      {/* Chart Modal */}
-      <Modal
-        visible={showChart}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setShowChart(false)}
-      >
-        <View
-          style={styles.chartModalOverlay}
-          onLayout={(e) => {
-            const { width, height } = e.nativeEvent.layout;
-            setModalDims({ width, height });
-          }}
-        >
-          <View
-            style={[
-              styles.chartModalContent,
-              isAndroid && {
-                width: modalDims.height,
-                height: modalDims.width,
-                transform: [{ rotate: '90deg' }],
-              }
-            ]}
-          >
-            <View style={[styles.chartHeader, { marginTop: -15 }]}>
-              <Text style={styles.chartTitle}>LIVE</Text>
-              <TouchableOpacity
-                onPress={() => setShowChart(false)} 
-                style={[styles.chartCloseButton, { marginRight: 25 }]}
+          
+          <View style={styles.buttonRow}>
+            {!isConnected ? (
+              <TouchableOpacity 
+                style={[styles.button, isScanning && styles.buttonDisabled]} 
+                onPress={handleConnect}
+                disabled={isScanning}
               >
-                <Text style={styles.chartCloseButtonText}>✕</Text>
+                <Text style={styles.buttonText}>
+                  {isScanning ? 'Scanning...' : (isWeb ? 'Connect to Device' : 'Scan Devices')}
+                </Text>
               </TouchableOpacity>
-            </View>
-            
-            {(() => {
-              const chartWidth  = (isAndroid) ? modalDims.height : modalDims.width;
-              const chartHeight = (isAndroid) ? modalDims.width : modalDims.height;
-              return (
-                <>
-                <VictoryChart
-                  width={chartWidth * 0.9}
-                  height={chartHeight * 0.7}
-                  scale={{ x: 'time' }}
-                  style={{
-                    background: { fill: BGColor2 },
-                    justifyContent: 'center',
-                  }}
-                  padding={{ top: 10, bottom: 40, left: 50, right: 10 }} 
-                >
-                  <VictoryAxis
-                    dependentAxis
-                    label="Values"
-                    style={{
-                      axisLabel: { padding: 60, angle: 0, fill: textLightColor },
-                      tickLabels: { fill: textLightColor },
-                      axis: { stroke: textDarkColor, strokeWidth: 5 },
-                      grid: { stroke: bordersColor }
-                    }}
-                  />
-                  <VictoryAxis
-                    label="HH:MM:SS"
-                    tickFormat={formatXAxis}
-                    style={{
-                      //axisLabel: { padding: 10, fill: textDarkColor },
-                      //tickLabels: { angle: -45, fill: textLightColor },
-                      axis: { stroke: textDarkColor, strokeWidth: 5 },
-                      grid: { stroke: bordersColor }
-                    }}
-                  />
-                  <VictoryLine
-                    data={liveChartData}
-                    style={{
-                      data: { stroke: textInverseColor, strokeWidth: 2 }
-                    }}
-                  />
-                </VictoryChart>
-                </>
-              );
-            })()}
+            ) : (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={disconnectDevice}>
+                <Text style={styles.buttonText}>Disconnect</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
-      </Modal>
 
-      <View style={styles.circleContainer}>
-        <View
-          style={{
-            width: 200 + 16,
-            height: 200 + 16,
-            borderRadius: (200 + 16) / 2,
-            borderWidth: 8,
-            borderColor: textLightColor,
-            position: 'absolute',
-          }}
-        />
-        <View
+        {!isWeb && devices.length > 0 && !connectedDevice && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Available Devices</Text>
+            <FlatList
+              data={devices}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.deviceItem}
+                  onPress={() => connectToDevice(item)}
+                >
+                  <Text style={styles.deviceName}>{item.name}</Text>
+                  <Text style={styles.deviceId}>{item.id}</Text>
+                </TouchableOpacity>
+              )}
+              style={styles.deviceList}
+            />
+          </View>
+        )}
+
+        <View style={styles.section}>
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={styles.button} onPress={() => setShowChart(true)}>
+              <Text style={styles.buttonText}>Live Data</Text>
+            </TouchableOpacity>
+            {isWeb && (
+              <TouchableOpacity style={styles.button} onPress={downloadWebData}>
+                <Text style={styles.buttonText}>
+                  {isElectron ? 'Save As...' : 'Download .txt'}
+                </Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.button} onPress={() => {
+              setLiveChartData([]);
+            }}>
+              <Text style={styles.buttonText}>Clear Data</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>
+            {isWeb 
+              ? (isElectron ? 'Stored Data (In Memory)' : 'Stored Data (localStorage)')
+              : 'Data'}
+          </Text>
+          <ScrollView style={styles.dataContainer}>
+            <Text style={styles.dataText}>
+              {fileContent || 'No data yet. Connect to a device to receive data.'}
+            </Text>
+          </ScrollView>
+        </View>
+
+        {/* Chart Modal */}
+        <Modal
+          visible={showChart}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setShowChart(false)}
+        >
+          <View
+            style={styles.chartModalOverlay}
+            onLayout={(e) => {
+              const { width, height } = e.nativeEvent.layout;
+              setModalDims({ width, height });
+            }}
+          >
+            <View
+              style={[
+                styles.chartModalContent,
+                isAndroid && {
+                  width: modalDims.height,
+                  height: modalDims.width,
+                  transform: [{ rotate: '90deg' }],
+                }
+              ]}
+            >
+              <View style={[styles.chartHeader, { marginTop: -15 }]}>
+                <Text style={styles.chartTitle}>LIVE</Text>
+                <TouchableOpacity
+                  onPress={() => setShowChart(false)} 
+                  style={[styles.chartCloseButton, { marginRight: 25 }]}
+                >
+                  <Text style={styles.chartCloseButtonText}>✕</Text>
+                </TouchableOpacity>
+              </View>
+              
+              {(() => {
+                const chartWidth  = (isAndroid) ? modalDims.height : modalDims.width;
+                const chartHeight = (isAndroid) ? modalDims.width : modalDims.height;
+                return (
+                  <>
+                  <VictoryChart
+                    width={chartWidth * 0.9}
+                    height={chartHeight * 0.7}
+                    scale={{ x: 'time' }}
+                    style={{
+                      background: { fill: BGColor2 },
+                      justifyContent: 'center',
+                    }}
+                    padding={{ top: 10, bottom: 40, left: 50, right: 10 }} 
+                  >
+                    <VictoryAxis
+                      dependentAxis
+                      label="Values"
+                      style={{
+                        axisLabel: { padding: 60, angle: 0, fill: textLightColor },
+                        tickLabels: { fill: textLightColor },
+                        axis: { stroke: textDarkColor, strokeWidth: 5 },
+                        grid: { stroke: bordersColor }
+                      }}
+                    />
+                    <VictoryAxis
+                      label="HH:MM:SS"
+                      tickFormat={formatXAxis}
+                      style={{
+                        //axisLabel: { padding: 10, fill: textDarkColor },
+                        //tickLabels: { angle: -45, fill: textLightColor },
+                        axis: { stroke: textDarkColor, strokeWidth: 5 },
+                        grid: { stroke: bordersColor }
+                      }}
+                    />
+                    <VictoryLine
+                      data={liveChartData}
+                      style={{
+                        data: { stroke: textInverseColor, strokeWidth: 2 }
+                      }}
+                    />
+                  </VictoryChart>
+                  </>
+                );
+              })()}
+            </View>
+          </View>
+        </Modal>
+
+        <View style={styles.circleContainer}>
+          <View
+            style={{
+              width: 200 + 16,
+              height: 200 + 16,
+              borderRadius: (200 + 16) / 2,
+              borderWidth: 8,
+              borderColor: textLightColor,
+              position: 'absolute',
+            }}
+          />
+          <View
+            style={[
+              styles.circle,
+              {
+                width: size,
+                height: size,
+                borderRadius: size / 2,
+                backgroundColor: isSleepMode ? buttonColor : meditationColor,
+              },
+            ]}
+          />
+        </View>
+
+        <View style={styles.sliderContainer}>
+          <Text style={[styles.label, {
+            marginTop: 5
+          }]}>Size: {Math.round(size)}px</Text>
+          <Slider
+            style={styles.slider}
+            minimumValue={16}
+            maximumValue={200}
+            value={size}
+            onValueChange={setSize}
+            minimumTrackTintColor={isSleepMode ? buttonColor : meditationColor}
+            maximumTrackTintColor={BGColor2}
+            thumbTintColor={isSleepMode ? buttonColor : meditationColor}
+          />
+        </View>
+
+        {/* <TouchableOpacity
           style={[
-            styles.circle,
-            {
-              width: size,
-              height: size,
-              borderRadius: size / 2,
-              backgroundColor: isSleepMode ? buttonColor : meditationColor,
+            styles.button,
+            { backgroundColor: isSleepMode ? buttonColor : meditationColor,
+              justifyContent: 'center',
+              marginTop: 10,
             },
           ]}
-        />
-      </View>
-
-      <View style={styles.sliderContainer}>
-        <Text style={styles.label}>Size: {Math.round(size)}px</Text>
-        <Slider
-          style={styles.slider}
-          minimumValue={16}
-          maximumValue={200}
-          value={size}
-          onValueChange={setSize}
-          minimumTrackTintColor={buttonColor}
-          maximumTrackTintColor={BGColor2}
-          thumbTintColor={buttonColor}
-        />
-      </View>
-
-      {/* <TouchableOpacity
-        style={[
-          styles.button,
-          { backgroundColor: isSleepMode ? buttonColor : meditationColor,
-            justifyContent: 'center',
-            marginTop: 20,
-          },
-        ]}
-        onPress={() => setIsSleepMode(prev => !prev)}
-      >
-        <Text style={styles.buttonText}>
-          {isSleepMode ? 'Sleep Mode' : 'Meditation Mode'}
-        </Text>
-      </TouchableOpacity> */}
-      <TouchableOpacity
-        style={[
-          styles.button,
-          {
-            backgroundColor: isSleepMode ? buttonColor : meditationColor,
-            justifyContent: 'center',
-            marginTop: 20,
-          },
-        ]}
-        onPress={async () => {
-          setIsSleepMode(prev => !prev);
-          try {
-            console.log('ML Step 1: copying session');
-            const session = await getSession();
-            if (!session) return
-            console.log('ML Step 2: session copied; converting to tensor');
-            const tensor = new Tensor('float32', featureVector, [1, 1358]);
-            console.log('ML Step 3: converted to tensor; inputting data');
-            const results = await session.run({ input: tensor });
-            console.log('ML Step 4: Inference result:', JSON.stringify(results));
-          } catch (err) {
-            console.warn("Meditation ML error:", err);
-          }
-        }}
-      >
-        <Text style={styles.buttonText}>
-          {isSleepMode ? 'Sleep Mode' : 'Meditation Mode'}
-        </Text>
-      </TouchableOpacity>
-
-    </View>
+          onPress={() => setIsSleepMode(prev => !prev)}
+        >
+          <Text style={styles.buttonText}>
+            {isSleepMode ? 'Sleep Mode' : 'Meditation Mode'}
+          </Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          style={[
+            styles.button,
+            {
+              backgroundColor: isSleepMode ? buttonColor : meditationColor,
+              justifyContent: 'center',
+              marginTop: 5,
+            },
+          ]}
+          onPress={async () => {
+            setIsSleepMode(prev => !prev);
+            try {
+              console.log('ML Step 1: copying session');
+              const session = await getSession();
+              if (!session) return
+              console.log('ML Step 2: session copied; converting to tensor');
+              const tensor = new Tensor('float32', featureVector, [1, 1358]);
+              console.log('ML Step 3: converted to tensor; inputting data');
+              const results = await session.run({ input: tensor });
+              console.log('ML Step 4: Inference result:', JSON.stringify(results));
+            } catch (err) {
+              console.warn("Meditation ML error:", err);
+            }
+          }}
+        >
+          <Text style={styles.buttonText}>
+            {isSleepMode ? 'Sleep Mode' : 'Meditation Mode'}
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: BGColor1,
+  },
+  scroll: {
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 32,
+  },
   container: {
     flex: 1,
     padding: 20,
