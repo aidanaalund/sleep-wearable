@@ -1,0 +1,39 @@
+board:
+  name: snoozy
+  vendor: ezurio
+  socs:
+  - name: nrf54l15 # not bl54l15 since that's the module, not the SoC.
+    variants:
+    - name: ns # we don't need other variants at this time.
+      cpucluster: cpuapp
+runners:
+  run_once:
+    '--recover':
+      - runners:
+          - nrfjprog
+          - nrfutil
+        run: first
+        groups:
+          - boards:
+              - snoozy/nrf54l15/cpuapp
+              - snoozy/nrf54l15/cpuapp/ns
+    '--erase':
+      - runners:
+          - nrfjprog
+          - jlink
+          - nrfutil
+        run: first
+        groups:
+          - boards:
+              - snoozy/nrf54l15/cpuapp
+              - snoozy/nrf54l15/cpuapp/ns
+    '--reset':
+      - runners:
+          - nrfjprog
+          - jlink
+          - nrfutil
+        run: last
+        groups:
+          - boards:
+              - snoozy/nrf54l15/cpuapp
+              - snoozy/nrf54l15/cpuapp/ns

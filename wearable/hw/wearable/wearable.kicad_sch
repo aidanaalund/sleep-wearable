@@ -12962,6 +12962,28 @@
 			)
 		)
 	)
+	(global_label "SWDCLK"
+		(shape input)
+		(at 125.095 172.085 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "29de53e0-5783-40f3-86ac-df4a44c99e47")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 135.5792 172.085 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "INT_BNO085"
 		(shape input)
 		(at 69.215 20.955 270)
@@ -13160,28 +13182,6 @@
 			)
 		)
 	)
-	(global_label "SWDIO"
-		(shape input)
-		(at 125.095 172.085 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "59143392-f8bc-4512-9a6d-df7aa25267db")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 133.9464 172.085 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "START_ADS1299"
 		(shape input)
 		(at 59.055 20.955 270)
@@ -13354,28 +13354,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "SWDCLK"
-		(shape input)
-		(at 125.095 174.625 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "78cd3793-bdc8-49df-85a0-5bb5df4a82a7")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 135.5792 174.625 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
 				(hide yes)
 			)
 		)
@@ -14097,6 +14075,28 @@
 		(uuid "ea6846b7-df88-4e3c-a411-446756991749")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 305.8197 71.755 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SWDIO"
+		(shape input)
+		(at 125.095 174.625 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "edf5d3c1-ef71-48bd-ad6f-b459d8674b3d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 133.9464 174.625 0)
 			(effects
 				(font
 					(size 1.27 1.27)
