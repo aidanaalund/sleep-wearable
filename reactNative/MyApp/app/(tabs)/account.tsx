@@ -5,7 +5,7 @@ import * as FileSystem from 'expo-file-system';
 import { readAsStringAsync, writeAsStringAsync } from 'expo-file-system/legacy';
 import { InferenceSession, Tensor } from 'onnxruntime-react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, FlatList, Modal, PermissionsAndroid, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Animated, FlatList, Modal, PermissionsAndroid, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import { BGColor1, BGColor2, bordersColor, buttonColor, textDarkColor, textInverseColor, textLightColor } from './_layout';
 
@@ -79,6 +79,7 @@ const App = () => {
   const [size, setSize] = useState(120);
   const [isSleepMode, setIsSleepMode] = useState(true);
   const isDisconnectingRef = useRef(false);
+  const sizeAnim = useRef(new Animated.Value(120)).current;
 
   const isAndroid = Platform.OS === 'android';
   const isElectron = typeof window !== 'undefined' && window.electronAPI;
@@ -718,6 +719,26 @@ const App = () => {
     ? (webBluetoothDevice ? webBluetoothDevice.name || 'Unknown Device' : '')
     : (connectedDevice ? connectedDevice.name : '');
 
+  const decreaseSize = () => {
+    const newSize = Math.max(16, size - 50);
+    Animated.timing(sizeAnim, {
+      toValue: newSize,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+    setSize(newSize);
+  };
+
+  const increaseSize = () => {
+    const newSize = Math.min(200, size + 10);
+    Animated.timing(sizeAnim, {
+      toValue: newSize,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+    setSize(newSize);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scroll}>
@@ -915,13 +936,16 @@ const App = () => {
               position: 'absolute',
             }}
           />
-          <View
+          <Animated.View
             style={[
               styles.circle,
               {
-                width: size,
-                height: size,
-                borderRadius: size / 2,
+                width: sizeAnim,
+                height: sizeAnim,
+                borderRadius: sizeAnim.interpolate({
+                  inputRange: [16, 200],
+                  outputRange: [8, 100],
+                }),
                 backgroundColor: isSleepMode ? buttonColor : meditationColor,
               },
             ]}
@@ -987,6 +1011,18 @@ const App = () => {
             {isSleepMode ? 'Sleep Mode' : 'Meditation Mode'}
           </Text>
         </TouchableOpacity>
+
+        <View style={[styles.section, { paddingTop: 20 }]}>
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={styles.button} onPress={decreaseSize}>
+              <Text style={styles.buttonText}>-50</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={increaseSize}>
+              <Text style={styles.buttonText}>+10</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
       </ScrollView>
     </SafeAreaView>
   );
