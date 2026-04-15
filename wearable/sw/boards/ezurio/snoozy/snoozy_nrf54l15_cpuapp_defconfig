@@ -12,11 +12,17 @@ CONFIG_UART_CONSOLE=y
 # Enable GPIO
 CONFIG_GPIO=y
 
+# Enable SPI
+CONFIG_SPI=y
+
+# Enable I2C
+CONFIG_I2C=y
+
 # Enable MPU
 CONFIG_ARM_MPU=y
 
 # Enable hardware stack protection
 CONFIG_HW_STACK_PROTECTION=y
 
-# NEW: Enable bluetooth?
+# Enable bluetooth
 CONFIG_BT=y

@@ -1,0 +1,30 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage{forest}
+\usepackage[dvipsnames]{xcolor}
+\usetikzlibrary{fit}
+
+\tikzset{
+  tree box/.style={draw, rounded corners, inner sep=0.5em, dashed, gray},
+}
+
+\begin{document}
+\begin{forest}
+  for tree={l sep=1.5em, s sep=1em, circle, fill=Bittersweet!50, draw, inner sep=1.5pt},
+  fit=tree,
+  before drawing tree={
+    tikz+={
+      \node [tree box, fit to=tree, label=above:Tree $n$] {};
+    }
+  }
+  [ , fill=Bittersweet
+    [ , fill=Bittersweet
+      []
+      [ , fill=Bittersweet
+      ]
+    ]
+    [
+      []
+    ]
+  ]
+\end{forest}
+\end{document}
