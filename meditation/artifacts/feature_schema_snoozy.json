@@ -1,0 +1,20 @@
+{
+  "input_name": "input",
+  "dtype": "float32",
+  "window_sec": 5.0,
+  "sampling_rate_hz": 256.0,
+  "channel_names": [
+    "Ch1",
+    "Ch2",
+    "Ch3",
+    "Ch4"
+  ],
+  "feature_names": [
+
+  ],
+  "outputs": [
+    "meditation",
+    "mind_wandering"
+  ],
+  "notes": "Binary EEG-only meditation classifier. Input to ONNX is the engineered feature vector, not raw EEG. Features are computed from the 5-second EEG window immediately preceding each probe onset."
+}
