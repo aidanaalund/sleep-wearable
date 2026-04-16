@@ -46,6 +46,7 @@ zephyr/
 
 # datasets
 tests/ds005555
+meditation/dataset
 
 # build/board files
 **/build/
