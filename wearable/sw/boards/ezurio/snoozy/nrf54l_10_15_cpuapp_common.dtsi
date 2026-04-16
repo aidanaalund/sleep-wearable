@@ -52,9 +52,9 @@
 	status = "okay";
 };
 
-&uart20 {
-	status = "okay";
-};
+// &uart20 {
+// 	status = "okay";
+// };
 
 &gpio0 {
 	status = "okay";
@@ -92,12 +92,12 @@
 	status = "okay";
 };
 
-&spi00 {
+&spi20 {
 	status = "okay";
 	//cs-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
-	pinctrl-0 = <&spi00_default>;
-	pinctrl-1 = <&spi00_sleep>;
-	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&spi20_default>;
+	//pinctrl-1 = <&spi20_sleep>;
+	pinctrl-names = "default";//, "sleep";
 
 	mx25r64: mx25r6435f@0 {
 		compatible = "jedec,spi-nor";
