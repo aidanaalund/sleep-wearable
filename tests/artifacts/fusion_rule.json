@@ -1,5 +1,0 @@
-{
-  "rule": "If EEG stage model is uncertain mainly between Wake and N1, use the IMU sleep gate to decide.",
-  "wake_n1_margin": 0.1,
-  "sleep_threshold": 0.5
-}
