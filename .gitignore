@@ -1,3 +1,6 @@
+# Python / Data Science files
+*.npz
+
 # Prerequisites
 *.d
 
@@ -41,7 +44,8 @@
 *.dwo
 
 # datasets
-tests/ds005555
+datasets
+meditation/dataset
 
 # build/board files
 **/build/

@@ -1,6 +1,0 @@
-EPOCH_SEC = 30
-EEG_CHANNELS = 5
-EEG_FS = 100
-IMU_FS = 30
-
-STAGES = ["Wake", "N1", "N2", "N3", "REM"]
