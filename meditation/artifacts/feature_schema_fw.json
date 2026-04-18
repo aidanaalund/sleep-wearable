@@ -7,12 +7,7 @@
     "A1",
     "B2"
   ],
-  "channel_mapping": {
-    "A1": "Fp1",
-    "B2": "Fp2"
-  },
-  "hardware_referencing": "Each ADS1299 channel is wired differentially: FpX(+) vs AFz(-). AFz (midline forehead) is the common reference for both channels. Do NOT collapse to a single Fp1-Fp2 bipolar \u2014 asymmetry features require both channels separately.",
-  "n_features": 64,
+  "n_features": 61,
   "feature_names": [
     "A1_delta_abs",
     "A1_theta_abs",
@@ -70,69 +65,20 @@
     "B2_alpha2_abs",
     "B2_theta_peak_hz",
     "B2_alpha_peak_hz",
-    "coh_theta",
-    "coh_alpha",
-    "coh_beta",
     "corr_broadband",
     "asym_alpha_B2_A1",
     "asym_theta_B2_A1",
     "asym_delta_B2_A1",
     "asym_beta_B2_A1"
   ],
-  "bands_hz": {
-    "delta": [
-      0.5,
-      4.0
-    ],
-    "theta": [
-      4.0,
-      8.0
-    ],
-    "alpha": [
-      8.0,
-      12.0
-    ],
-    "sigma": [
-      12.0,
-      16.0
-    ],
-    "beta": [
-      16.0,
-      30.0
-    ]
-  },
-  "sub_bands_hz": {
-    "theta1": [
-      4.0,
-      6.0
-    ],
-    "theta2": [
-      6.0,
-      8.0
-    ],
-    "alpha1": [
-      8.0,
-      10.0
-    ],
-    "alpha2": [
-      10.0,
-      12.0
-    ]
-  },
-  "bandpass_hz": [
-    0.5,
-    40.0
+  "excluded_vs_full": [
+    "coh_alpha",
+    "coh_beta",
+    "coh_theta"
   ],
+  "zephyr_note": "All features computable with CONFIG_CMSIS_DSP=y. Use arm_rfft_fast_f32(256) for Welch PSD segments, then scalar band summation. Coherence dropped \u2014 lateralization captured by log-asymmetry features instead.",
   "outputs": [
     "meditation",
     "mind_wandering"
-  ],
-  "lopo_cv": {
-    "mean_accuracy": 0.5443040963324033,
-    "std_accuracy": 0.19738910407171037,
-    "mean_balanced_acc": 0.5364459433266807,
-    "mean_f1_macro": 0.4258229157499102,
-    "n_subjects": 23
-  },
-  "notes": "Binary meditation vs. mind_wandering classifier for Snoozy (nRF54L15 + ADS1299-4). Input to ONNX is the engineered feature vector, not raw EEG. Features are extracted from the 5-second EEG window. Trained on OpenNeuro ds001787 with LOPO CV."
+  ]
 }
