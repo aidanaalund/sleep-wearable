@@ -45,6 +45,7 @@ zephyr/
 *.dwo
 
 # datasets
+datasets
 tests/ds005555
 meditation/dataset
 
