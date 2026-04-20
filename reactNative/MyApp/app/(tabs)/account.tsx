@@ -16,14 +16,8 @@ if (Platform.OS === 'android') {
   SLEEP_DATA_DIR = `${RNFS.ExternalDirectoryPath}/sleepData`;
 }
 
-const rawVector = new Float32Array([
-  0.52,0.12,0.34,0.08,0.28,0.07,0.19,0.05,0.11,0.03,1.45,0.72,0.66,0.01,0.23,0.11,0.49,0.13,0.31,0.09,0.27,0.06,0.20,0.05,0.10,0.02,1.38,0.69,0.62,0.02,0.21,0.10,
-  0.50,0.11,0.33,0.07,0.29,0.08,0.18,0.04,0.12,0.03,1.40,0.70,0.64,0.01,0.22,0.12,0.53,0.10,0.35,0.06,0.30,0.09,0.17,0.05,0.13,0.04,1.50,0.75,0.68,0.02,0.25,0.13,
-  0.51,0.12,0.32,0.08,0.27,0.07,0.19,0.06,0.11,0.03,1.42,0.71,0.63,0.01,0.24,0.11,0.48,0.14,0.30,0.10,0.26,0.06,0.21,0.05,0.09,0.02,1.35,0.68,0.60,0.02,0.20,0.09,
-  0.54,0.11,0.36,0.07,0.31,0.08,0.18,0.04,0.14,0.03,1.52,0.76,0.69,0.01,0.26,0.12,0.47,0.13,0.29,0.09,0.25,0.06,0.22,0.05,0.08,0.02,1.30,0.65,0.58,0.02,0.19,0.08,
-  0.50,0.12,0.33,0.08,0.28,0.07,0.19,0.05,0.11,0.03,1.41,0.70,0.64,0.01,0.23,0.11]);
-const featureVector = new Float32Array(1358);
-featureVector.set(rawVector);
+const feature0 = new Float32Array([-0.000000, 0.000000, -0.000000, -0.000000, -0.000000, 0.268293, 1.009342, -0.513426, -0.610884, -0.450934, 0.105735, 0.098442, -0.374693, 1.344193, 0.000000, -1.072327, 0.836155, 0.271439, -1.107389, -1.544308, 0.350379, 0.387613, 0.000000, -0.000000, -0.000000, -0.000000, -1.264191, -0.655057, -0.395945, 0.350382, -0.000000, 0.000000, -0.000000, -0.000000, -0.000000, -0.376902, 1.394608, 0.132936, -0.488181, -0.006909, -0.064611, -0.435982, 0.031217, 0.976959, -0.000000, -0.563263, 0.215492, 0.788426, -1.086738, -1.257279, 0.051815, 0.068541, 0.000000, 0.000000, 0.000000, -0.000000, -1.124774, -0.556678, -0.080035, 0.143367, 1.240536, 2.438614, -0.033927, -0.703012, 0.624846, -0.000000, -0.000000, -0.000000, 0.000000, 0.000000, -0.000000, 0.000000, -0.000000, 0.000000, -0.000000, 0.000000, -0.000000, -0.000000, 0.000000]);
+const feature1 = new Float32Array([0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.040312, 1.496309, -0.901509, -0.163483, -1.278023, 1.452520, 0.474856, 0.348183, 2.034660, 0.000000, 0.136098, -0.502058, 0.768680, 1.156073, -0.304473, 0.582514, 0.537316, 0.000000, 0.000000, 0.000000, -0.000000, 0.269032, -0.864517, -0.938016, -1.266153, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, -0.293484, 1.498941, -0.444025, 0.537662, -0.385227, 1.532501, -0.240901, -0.166661, 1.753861, -0.000000, 0.571667, -0.675960, 0.830575, 0.528118, 0.300679, -0.279620, -0.304934, 0.000000, 0.000000, 0.000000, 0.000000, 0.304800, -0.805438, 0.048439, -1.323702, 1.050594, -1.040584, -0.499668, -0.487523, 1.944431, -0.000000, 0.000000, 0.000000, 0.000000, -0.000000, 0.000000, 0.000000, -0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000]);
 let globalInputData: Float32Array = new Float32Array([]);
 let cachedSession: InferenceSession | null = null;
 let isLoadingModel = false;
@@ -32,7 +26,7 @@ const getSession = async (): Promise<InferenceSession | null> => {
   if (isLoadingModel) return null;
   isLoadingModel = true;
   try {
-    const asset = await Asset.loadAsync(require('../../assets/meditation_model.onnx'));
+    const asset = await Asset.loadAsync(require('../../assets/meditation_model_final.onnx'));
     const sourceUri = asset[0].localUri!;
     const destPath = `${FileSystem.Paths.cache.uri}meditation_model.onnx`;
     const base64 = await readAsStringAsync(sourceUri, { encoding: 'base64' });
@@ -997,11 +991,15 @@ const App = () => {
               console.log('ML Step 1: copying session');
               const session = await getSession();
               if (!session) return
-              console.log('ML Step 2: session copied; converting to tensor');
-              const tensor = new Tensor('float32', featureVector, [1, 1358]);
-              console.log('ML Step 3: converted to tensor; inputting data');
+              console.log('ML Step 2: session copied; converting features into ', session.inputNames);
+              console.log('ML Step 3: features converted; converting to tensor', feature0);
+              const tensor = new Tensor('float32', feature0, [1, feature0.length]);
+              console.log('ML Step 4: converted to tensor; inputting data');
+              console.log('Expected output: ', session.outputNames);
               const results = await session.run({ input: tensor });
-              console.log('ML Step 4: Inference result:', JSON.stringify(results));
+              console.log('ML Step 5: Inference result:', JSON.stringify(results));
+              const medAns = results.probabilities.data["0"];
+              console.log('Meditation%:', medAns, ' | meditating? ', (medAns>0.65));
             } catch (err) {
               console.warn("Meditation ML error:", err);
             }

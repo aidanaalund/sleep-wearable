@@ -1,0 +1,50 @@
+import onnx
+import onnxruntime as ort
+import numpy as np
+
+# Example FW_TEST_VECTORS (you would use the real data here)
+FW_TEST_VECTORS = [
+    {
+        'label': 'meditation',
+        'pMeditation': 0.9947,
+        'features': [-0.000000, 0.000000, -0.000000, -0.000000, 0.268293, 1.009342, -0.513426, -0.610884, -0.450934, 0.105735, 0.098442, -0.374693, 1.344193, 0.000000, -1.072327, 0.836155, 0.271439, -1.107389, -1.544308, 0.350379, 0.387613, 0.000000, -0.000000, -0.000000, -0.000000, -1.264191, -0.655057, -0.395945, 0.350382, 0.000000, 0.000000, -0.000000, -0.000000, -0.000000, -0.376902, 1.394608, 0.132936, -0.488181, -0.006909, -0.064611, -0.435982, 0.031217, 0.976959, -0.000000, -0.563263, 0.215492, 0.788426, -1.086738, -1.257279, 0.051815, 0.068541, 0.000000, 0.000000, 0.000000, -0.000000, -1.124774, -0.556678, -0.080035, 0.143367, 1.240536, 2.438614, -0.033927, -0.703012, 0.624846, -0.000000, -0.000000, -0.000000, 0.000000, 0.000000, -0.000000, 0.000000, -0.000000, 0.000000, -0.000000, 0.000000, -0.000000]
+    },
+    {
+        'label': 'mind_wandering',
+        'pMeditation': 0.1608,
+        'features': [0.000000, 0.000000, 0.000000, 0.000000, 0.040312, 1.496309, -0.901509, -0.163483, -1.278023, 1.452520, 0.474856, 0.348183, 2.034660, 0.000000, 0.136098, -0.502058, 0.768680, 1.156073, -0.304473, 0.582514, 0.537316, 0.000000, 0.000000, 0.000000, -0.000000, 0.269032, -0.864517, -0.938016, -1.266153, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, -0.293484, 1.498941, -0.444025, 0.537662, -0.385227, 1.532501, -0.240901, -0.166661, 1.753861, -0.000000, 0.571667, -0.675960, 0.830575, 0.528118, 0.300679, -0.279620, -0.304934, 0.000000, 0.000000, 0.000000, 0.000000, 0.304800, -0.805438, 0.048439, -1.323702, 1.050594, -1.040584, -0.499668, -0.487523, 1.944431, -0.000000, 0.000000, 0.000000, 0.000000, -0.000000, 0.000000, 0.000000, -0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000]
+    }
+]
+
+for i, vector in enumerate(FW_TEST_VECTORS):
+    print(i, len(vector['features']))
+
+# Load the ONNX model
+onnx_model = onnx.load('meditation_model_fw.onnx')
+
+# Create an InferenceSession
+session = ort.InferenceSession(onnx_model.SerializeToString())
+print(session.get_inputs()[0].shape)
+
+# Get the input name for the model
+input_name = session.get_inputs()[0].name
+
+EXPECTED_LEN = 79
+fixed_vectors = []
+for v in FW_TEST_VECTORS:
+    features = v['features']
+
+    if len(features) > EXPECTED_LEN:
+        features = features[:EXPECTED_LEN]  # trim extra
+    elif len(features) < EXPECTED_LEN:
+        features = features + [0.0] * (EXPECTED_LEN - len(features))  # pad
+
+    fixed_vectors.append(features)
+
+input_data = np.array(fixed_vectors, dtype=np.float32)
+
+# Run the model with the input data
+outputs = session.run(None, {input_name: input_data})
+
+# Print the output
+print("Model output:", outputs)
