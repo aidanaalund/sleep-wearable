@@ -1,11 +1,11 @@
-import Slider from '@react-native-community/slider';
+// import Slider from '@react-native-community/slider';
 import Base64 from 'base64-js';
 import { Asset } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
 import { readAsStringAsync, writeAsStringAsync } from 'expo-file-system/legacy';
 import { InferenceSession, Tensor } from 'onnxruntime-react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Animated, FlatList, Modal, PermissionsAndroid, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Animated, Modal, PermissionsAndroid, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import { BGColor1, BGColor2, bordersColor, buttonColor, textDarkColor, textInverseColor, textLightColor } from './_layout';
 
@@ -486,6 +486,7 @@ const App = () => {
       // Nordic UART Service (NUS) UUIDs
       const NUS_SERVICE_UUID = '6E400001-B5A3-F393-E0A9-E50E24DCCA9E';
       const NUS_TX_CHARACTERISTIC_UUID = '6E400003-B5A3-F393-E0A9-E50E24DCCA9E';
+      const NUS_RX_CHARACTERISTIC_UUID = '6E400002-B5A3-F393-E0A9-E50E24DCCA9E';
 
       console.log('Setting up NUS monitoring...');
 
@@ -526,6 +527,17 @@ const App = () => {
       setMonitorSubscription(subscription);
       setIsConnected(true);
       console.log('Successfully connected and monitoring');
+
+      // Send "start" to device over NUS RX characteristic
+      console.log('Sending "start" to device...');
+      const startMessage = Base64.fromByteArray(new TextEncoder().encode('start'));
+      await connected.writeCharacteristicWithResponseForService(  // writeCharacteristicWithoutResponseForService
+        NUS_SERVICE_UUID,
+        NUS_RX_CHARACTERISTIC_UUID,
+        startMessage,
+      );
+      console.log('Sent "start" to device');
+
     } catch (error) {
       console.error('Connection error:', error);
       Alert.alert('Error', `Failed to connect: ${error.message}`);
@@ -612,12 +624,24 @@ const App = () => {
         }
       } else {
         try {
-          const session = await loadModel();
-          console.log('Model loaded:', session);
-          const tensor = new Tensor('float32', globalInputData);
-          const results = await session.run({ float_input: tensor });
-          console.log('Inference result:', JSON.stringify(results));
-        } catch(error) { console.error('Meditation ML error'); }
+          //console.log('ML Step 1: copying session');
+          const mainFeature = new Float32Array(JSON.parse(data));
+          const session = await getSession();
+          if (!session) return
+          //console.log('ML Step 2: session copied; converting features into ', session.inputNames);
+          //console.log('ML Step 3: features converted; converting to tensor', mainFeature);
+          const tensor = new Tensor('float32', mainFeature, [1, mainFeature.length]);
+          //console.log('ML Step 4: converted to tensor; inputting data');
+          //console.log('Expected output: ', session.outputNames);
+          const results = await session.run({ input: tensor });
+          //console.log('ML Step 5: Inference result:', JSON.stringify(results));
+          const medAns = results.probabilities.data["0"];
+          if(medAns>0.65) { decreaseSize; }
+          else            { increaseSize; }
+          //console.log('Meditation%:', medAns, ' | meditating? ', (medAns>0.65));
+        } catch (err) {
+          console.warn("BL Meditation ML error:", err);
+        }
       }
     }
   };
@@ -736,7 +760,7 @@ const App = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scroll}>
-        <Text style={styles.title}>Bluetooth Data Logger</Text>
+        <Text style={[styles.title, { marginTop: 10, marginBottom: -15 }]}>Bluetooth</Text>
         
         {isWeb && (
           <View style={styles.webNotice}>
@@ -786,20 +810,18 @@ const App = () => {
         {!isWeb && devices.length > 0 && !connectedDevice && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Available Devices</Text>
-            <FlatList
-              data={devices}
-              keyExtractor={item => item.id}
-              renderItem={({ item }) => (
+            <ScrollView style={styles.deviceList} nestedScrollEnabled>
+              {devices.map(item => (
                 <TouchableOpacity
+                  key={item.id}
                   style={styles.deviceItem}
                   onPress={() => connectToDevice(item)}
                 >
                   <Text style={styles.deviceName}>{item.name}</Text>
                   <Text style={styles.deviceId}>{item.id}</Text>
                 </TouchableOpacity>
-              )}
-              style={styles.deviceList}
-            />
+              ))}
+            </ScrollView>
           </View>
         )}
 
@@ -946,7 +968,7 @@ const App = () => {
           />
         </View>
 
-        <View style={styles.sliderContainer}>
+        {/* <View style={styles.sliderContainer}>
           <Text style={[styles.label, {
             marginTop: 5
           }]}>Size: {Math.round(size)}px</Text>
@@ -960,7 +982,7 @@ const App = () => {
             maximumTrackTintColor={BGColor2}
             thumbTintColor={isSleepMode ? buttonColor : meditationColor}
           />
-        </View>
+        </View> */}
 
         {/* <TouchableOpacity
           style={[
@@ -982,27 +1004,27 @@ const App = () => {
             {
               backgroundColor: isSleepMode ? buttonColor : meditationColor,
               justifyContent: 'center',
-              marginTop: 5,
+              marginTop: 20,
             },
           ]}
           onPress={async () => {
             setIsSleepMode(prev => !prev);
-            try {
-              console.log('ML Step 1: copying session');
-              const session = await getSession();
-              if (!session) return
-              console.log('ML Step 2: session copied; converting features into ', session.inputNames);
-              console.log('ML Step 3: features converted; converting to tensor', feature0);
-              const tensor = new Tensor('float32', feature0, [1, feature0.length]);
-              console.log('ML Step 4: converted to tensor; inputting data');
-              console.log('Expected output: ', session.outputNames);
-              const results = await session.run({ input: tensor });
-              console.log('ML Step 5: Inference result:', JSON.stringify(results));
-              const medAns = results.probabilities.data["0"];
-              console.log('Meditation%:', medAns, ' | meditating? ', (medAns>0.65));
-            } catch (err) {
-              console.warn("Meditation ML error:", err);
-            }
+            // try {
+            //   console.log('ML Step 1: copying session');
+            //   const session = await getSession();
+            //   if (!session) return
+            //   console.log('ML Step 2: session copied; converting features into ', session.inputNames);
+            //   console.log('ML Step 3: features converted; converting to tensor', feature0);
+            //   const tensor = new Tensor('float32', feature0, [1, feature0.length]);
+            //   console.log('ML Step 4: converted to tensor; inputting data');
+            //   console.log('Expected output: ', session.outputNames);
+            //   const results = await session.run({ input: tensor });
+            //   console.log('ML Step 5: Inference result:', JSON.stringify(results));
+            //   const medAns = results.probabilities.data["0"];
+            //   console.log('Meditation%:', medAns, ' | meditating? ', (medAns>0.65));
+            // } catch (err) {
+            //   console.warn("Meditation ML error:", err);
+            // }
           }}
         >
           <Text style={styles.buttonText}>
@@ -1012,10 +1034,24 @@ const App = () => {
 
         <View style={[styles.section, { paddingTop: 20 }]}>
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.button} onPress={decreaseSize}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor: isSleepMode ? buttonColor : meditationColor,
+                },
+              ]}
+              onPress={decreaseSize}>
               <Text style={styles.buttonText}>-50</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={increaseSize}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor: isSleepMode ? buttonColor : meditationColor,
+                },
+              ]}
+              onPress={increaseSize}>
               <Text style={styles.buttonText}>+10</Text>
             </TouchableOpacity>
           </View>
@@ -1090,7 +1126,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   deviceList: {
-    maxHeight: 200,
+    maxHeight: 460,
   },
   deviceItem: {
     backgroundColor: 'white',

@@ -493,7 +493,7 @@ const TimeTable = () => {
                   lastHour: h + 1
                 };
               } else {
-                console.warn(`SKIPPING ${uniqueDays[d]}(${h})`);
+                //console.warn(`SKIPPING ${uniqueDays[d]}(${h})`);
               }
             } catch (fileError) {
               console.warn(`Unexpected error reading files`);
@@ -523,7 +523,7 @@ const TimeTable = () => {
                   lastHour: h + 1
                 };
               } else {
-                console.warn(`SKIPPING ${uniqueDays[d]}(${h})`);
+                //console.warn(`SKIPPING ${uniqueDays[d]}(${h})`);
               }
             } catch (fileError) {
               console.warn(`Unexpected error reading files`);

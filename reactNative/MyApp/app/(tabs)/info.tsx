@@ -468,7 +468,7 @@ export default function InfoScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scroll}>
-        <Text style={styles.heading}>Information</Text>
+        <Text style={styles.title}>Information</Text>
 
         {/* Ring chart */}
         <View style={styles.ringWrapper}>
@@ -647,5 +647,13 @@ const styles = StyleSheet.create({
     lineHeight: 23,
     color: textLightColor,
     fontWeight: '400',
+  },
+    title: {
+    color: textLightColor,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 40,
+    marginBottom: 20,
+    textAlign: 'center',
   },
 });
