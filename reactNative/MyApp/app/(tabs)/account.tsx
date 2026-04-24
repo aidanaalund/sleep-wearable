@@ -456,6 +456,7 @@ const App = () => {
 
   const connectToDevice = async (device) => {
     // Native mobile Bluetooth only
+    console.log('Mobile BL starting');
     try {
       manager.stopDeviceScan();
       setIsScanning(false);
@@ -486,7 +487,6 @@ const App = () => {
       // Nordic UART Service (NUS) UUIDs
       const NUS_SERVICE_UUID = '6E400001-B5A3-F393-E0A9-E50E24DCCA9E';
       const NUS_TX_CHARACTERISTIC_UUID = '6E400003-B5A3-F393-E0A9-E50E24DCCA9E';
-      const NUS_RX_CHARACTERISTIC_UUID = '6E400002-B5A3-F393-E0A9-E50E24DCCA9E';
 
       console.log('Setting up NUS monitoring...');
 
@@ -529,6 +529,7 @@ const App = () => {
       console.log('Successfully connected and monitoring');
 
       // Send "start" to device over NUS RX characteristic
+      const NUS_RX_CHARACTERISTIC_UUID = '6E400002-B5A3-F393-E0A9-E50E24DCCA9E';
       console.log('Sending "start" to device...');
       const startMessage = Base64.fromByteArray(new TextEncoder().encode('start'));
       await connected.writeCharacteristicWithResponseForService(  // writeCharacteristicWithoutResponseForService
@@ -557,6 +558,8 @@ const App = () => {
     if (isDisconnectingRef.current) return;
     setReceivedData(prev => prev + data);
     setReceivedData(prev => prev + data);
+
+    console.log('Recieved data: ',data);
 
     const now = new Date();
     const year = now.getFullYear();
@@ -604,9 +607,9 @@ const App = () => {
 
           const fileExists = await RNFS.exists(filePath);
           if (!fileExists) {
-            await RNFS.writeFile(filePath, dataWithTimestamp, 'utf8');
+            await RNFS.writeFile(filePath, dataWithTimestamp + '\n', 'utf8');
           } else {
-            await RNFS.appendFile(filePath, dataWithTimestamp, 'utf8');
+            await RNFS.appendFile(filePath, dataWithTimestamp + '\n', 'utf8');
           }
 
           // Update live chart
@@ -618,7 +621,7 @@ const App = () => {
             return updated.length > 100 ? updated.slice(-100) : updated;
           });
 
-          console.log('Data appended to:', filePath);
+          console.log('Android-Data appended to:', filePath);
         } catch (error) {
           console.error('Error writing to file:', error);
         }
