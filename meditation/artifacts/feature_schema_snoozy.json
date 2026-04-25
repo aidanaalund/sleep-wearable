@@ -8,7 +8,7 @@
     "AF7-AF8"
   ],
   "hardware_referencing": "Two bipolar EEG derivations: (Fp1\u2212Fp2)\u2212Fpz and (AF7\u2212AF8)\u2212Fpz. ADS1299-4 Ch1: A(Fp1) \u2212 B(Fp2), Ch2: A(AF7) \u2212 B(AF8), BIAS/REF: Fpz. Subtract the Fpz sample from each bipolar output before feature extraction.",
-  "n_features": 82,
+  "n_features": 81,
   "feature_names": [
     "Fp1-Fp2_delta_abs",
     "Fp1-Fp2_theta_abs",
@@ -40,6 +40,7 @@
     "Fp1-Fp2_alpha_peak_hz",
     "Fp1-Fp2_sef95",
     "Fp1-Fp2_perm_entropy",
+    "Fp1-Fp2_hfd",
     "AF7-AF8_delta_abs",
     "AF7-AF8_theta_abs",
     "AF7-AF8_alpha_abs",
@@ -70,9 +71,7 @@
     "AF7-AF8_alpha_peak_hz",
     "AF7-AF8_sef95",
     "AF7-AF8_perm_entropy",
-    "coh_theta_Fp1-Fp2_AF7-AF8",
-    "coh_alpha_Fp1-Fp2_AF7-AF8",
-    "coh_beta_Fp1-Fp2_AF7-AF8",
+    "AF7-AF8_hfd",
     "corr_Fp1-Fp2_AF7-AF8",
     "asym_alpha_Fp1-Fp2_AF7-AF8",
     "asym_theta_Fp1-Fp2_AF7-AF8",
@@ -137,17 +136,17 @@
     0.5,
     40.0
   ],
-  "classification_threshold": 0.51,
+  "classification_threshold": 0.53,
   "outputs": [
     "meditation",
     "mind_wandering"
   ],
   "lopo_cv": {
-    "mean_accuracy": 0.5011686064660567,
-    "std_accuracy": 0.07674194654449416,
-    "mean_balanced_acc": 0.5068600147191122,
-    "mean_f1_macro": 0.4460158816575845,
-    "mean_recall_mw": 0.48132427459217203,
+    "mean_accuracy": 0.4741857201243817,
+    "std_accuracy": 0.17629932844253848,
+    "mean_balanced_acc": 0.50054308069395,
+    "mean_f1_macro": 0.387221107983144,
+    "mean_recall_mw": 0.5548640029670566,
     "n_subjects": 23
   },
   "notes": "Binary meditation vs. mind_wandering classifier for Snoozy (nRF54L15 + ADS1299-4). Input to ONNX is the engineered feature vector, not raw EEG. Features extracted from 2-channel 5s EEG window. Trained on OpenNeuro ds001787 with LOPO CV. Use classification_threshold instead of 0.5 \u2014 tuned to maximise F1 macro."

@@ -7,7 +7,7 @@
     "Fp1-Fp2",
     "AF7-AF8"
   ],
-  "n_features": 79,
+  "n_features": 81,
   "feature_names": [
     "Fp1-Fp2_delta_abs",
     "Fp1-Fp2_theta_abs",
@@ -39,6 +39,7 @@
     "Fp1-Fp2_alpha_peak_hz",
     "Fp1-Fp2_sef95",
     "Fp1-Fp2_perm_entropy",
+    "Fp1-Fp2_hfd",
     "AF7-AF8_delta_abs",
     "AF7-AF8_theta_abs",
     "AF7-AF8_alpha_abs",
@@ -69,6 +70,7 @@
     "AF7-AF8_alpha_peak_hz",
     "AF7-AF8_sef95",
     "AF7-AF8_perm_entropy",
+    "AF7-AF8_hfd",
     "corr_Fp1-Fp2_AF7-AF8",
     "asym_alpha_Fp1-Fp2_AF7-AF8",
     "asym_theta_Fp1-Fp2_AF7-AF8",
@@ -89,13 +91,8 @@
     "AF7-AF8_theta_slope_sw",
     "AF7-AF8_alpha_slope_sw"
   ],
-  "excluded_vs_full": [
-    "coh_alpha_Fp1-Fp2_AF7-AF8",
-    "coh_beta_Fp1-Fp2_AF7-AF8",
-    "coh_theta_Fp1-Fp2_AF7-AF8"
-  ],
-  "classification_threshold": 0.51,
-  "zephyr_note": "All features computable with CONFIG_CMSIS_DSP=y. Use arm_rfft_fast_f32(256) for Welch PSD segments, then scalar band summation. Coherence dropped \u2014 lateralization captured by log-asymmetry features instead.",
+  "classification_threshold": 0.53,
+  "zephyr_note": "All features computable with CONFIG_CMSIS_DSP=y. Use arm_rfft_fast_f32(256) for Welch PSD segments, then scalar band summation. Coherence not in feature set -- lateralization captured by log-asymmetry instead.",
   "outputs": [
     "meditation",
     "mind_wandering"

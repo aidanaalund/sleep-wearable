@@ -1,0 +1,40 @@
+{
+  "input_name": "eeg",
+  "output_name": "logits",
+  "dtype": "float32",
+  "input_shape": [
+    null,
+    2,
+    1280
+  ],
+  "window_sec": 5.0,
+  "sampling_rate_hz": 256.0,
+  "n_channels": 2,
+  "channel_derivations": [
+    "(A1 - B2) - Fpz  [Fp1 - Fp2 - Fpz]",
+    "(A2 - B3) - Fpz  [AF7 - AF8 - Fpz]"
+  ],
+  "normalization": "z-score per channel before inference: x = (x - mean(x)) / std(x)",
+  "label_map": {
+    "0": "meditation",
+    "1": "mind_wandering"
+  },
+  "architecture": "ShallowFBCSPNet",
+  "braindecode_version": "1.4.0",
+  "lopo_cv": {
+    "mean_balanced_acc": 0.5157840826164208,
+    "mean_f1_macro": 0.46037974646760776,
+    "mean_recall_med": 0.5108490289717241,
+    "mean_recall_mw": 0.5207191362611175,
+    "mean_epochs": 21.043478260869566,
+    "n_folds": 23
+  },
+  "inference_steps": [
+    "1. Bipolar derivation: ch0 = (Fp1-Fp2)-Fpz,  ch1 = (AF7-AF8)-Fpz",
+    "2. Bandpass filter 0.5-40 Hz",
+    "3. Z-score each channel: x = (x - mean(x)) / std(x)",
+    "4. Reshape to float32 (1, 2, {n_times}) and feed to ONNX",
+    "5. Apply softmax to logits:  p_med = exp(l0) / (exp(l0) + exp(l1))",
+    "6. Threshold or argmax for final label (0=meditation, 1=mind_wandering)"
+  ]
+}
