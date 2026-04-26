@@ -3,7 +3,7 @@
   "output_name": "logits",
   "dtype": "float32",
   "input_shape": [
-    null,
+    1,
     2,
     1280
   ],
@@ -19,22 +19,23 @@
     "0": "meditation",
     "1": "mind_wandering"
   },
-  "architecture": "ShallowFBCSPNet",
+  "architecture": "shallow",
   "braindecode_version": "1.4.0",
+  "probe_aggregation": "At inference, run the model on each of the 11 sliding windows from a probe's 10.0s context (step=0.5s), apply softmax to the logits, average the probabilities, then argmax for the probe-level prediction.",
   "lopo_cv": {
-    "mean_balanced_acc": 0.5157840826164208,
-    "mean_f1_macro": 0.46037974646760776,
-    "mean_recall_med": 0.5108490289717241,
-    "mean_recall_mw": 0.5207191362611175,
-    "mean_epochs": 21.043478260869566,
+    "mean_balanced_acc": 0.5129024358378219,
+    "mean_f1_macro": 0.38504278090352523,
+    "mean_recall_med": 0.4784546001054001,
+    "mean_recall_mw": 0.5473502715702436,
+    "mean_epochs": 52.08695652173913,
     "n_folds": 23
   },
   "inference_steps": [
     "1. Bipolar derivation: ch0 = (Fp1-Fp2)-Fpz,  ch1 = (AF7-AF8)-Fpz",
-    "2. Bandpass filter 0.5-40 Hz",
-    "3. Z-score each channel: x = (x - mean(x)) / std(x)",
-    "4. Reshape to float32 (1, 2, {n_times}) and feed to ONNX",
-    "5. Apply softmax to logits:  p_med = exp(l0) / (exp(l0) + exp(l1))",
-    "6. Threshold or argmax for final label (0=meditation, 1=mind_wandering)"
+    "2. Bandpass filter 0.5-40 Hz on the 10s context buffer",
+    "3. Slide 5s windows across the context with step=0.5s -> 11 windows",
+    "4. Z-score each channel within each window: x = (x - mean(x)) / std(x)",
+    "5. For each window: float32 (1, 2, n_times) -> ONNX -> softmax(logits)",
+    "6. Average the 11 softmax outputs; argmax = probe-level label"
   ]
 }
