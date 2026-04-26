@@ -1,4 +1,4 @@
-// import Slider from '@react-native-community/slider';
+import Slider from '@react-native-community/slider';
 import Base64 from 'base64-js';
 import { Asset } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
@@ -28,10 +28,15 @@ const getSession = async (): Promise<InferenceSession | null> => {
   try {
     const asset = await Asset.loadAsync(require('../../assets/meditation_model_final.onnx'));
     const sourceUri = asset[0].localUri!;
-    const destPath = `${FileSystem.Paths.cache.uri}meditation_model.onnx`;
+    const destPath = `${FileSystem.Paths.cache.uri}meditation_model_final.onnx`;
     const base64 = await readAsStringAsync(sourceUri, { encoding: 'base64' });
     await writeAsStringAsync(destPath, base64, { encoding: 'base64' });
-    cachedSession = await InferenceSession.create(destPath);
+    cachedSession = await InferenceSession.create(
+      destPath,
+      {
+        executionProviders: ['nnapi', 'cpu'],  // Enable NNAPI acceleration
+      }
+    );
     console.log('Model loaded successfully');
     return cachedSession;
   } catch (err) {
@@ -70,10 +75,11 @@ const App = () => {
   const [modalDims, setModalDims] = useState({ width: 0, height: 0 });
   const [monitorSubscription, setMonitorSubscription] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
-  const [size, setSize] = useState(120);
+  const [size, setSize] = useState(100);
   const [isSleepMode, setIsSleepMode] = useState(true);
   const isDisconnectingRef = useRef(false);
-  const sizeAnim = useRef(new Animated.Value(120)).current;
+  const sizeAnim = useRef(new Animated.Value(100)).current;
+  const [MLthreshhold, setMLthreshhold] = useState(0.5);
 
   const isAndroid = Platform.OS === 'android';
   const isElectron = typeof window !== 'undefined' && window.electronAPI;
@@ -639,8 +645,8 @@ const App = () => {
           const results = await session.run({ input: tensor });
           //console.log('ML Step 5: Inference result:', JSON.stringify(results));
           const medAns = results.probabilities.data["0"];
-          if(medAns>0.65) { decreaseSize; }
-          else            { increaseSize; }
+          if(medAns>MLthreshhold) { decreaseSize; }
+          else                    { increaseSize; }
           //console.log('Meditation%:', medAns, ' | meditating? ', (medAns>0.65));
         } catch (err) {
           console.warn("BL Meditation ML error:", err);
@@ -971,36 +977,6 @@ const App = () => {
           />
         </View>
 
-        {/* <View style={styles.sliderContainer}>
-          <Text style={[styles.label, {
-            marginTop: 5
-          }]}>Size: {Math.round(size)}px</Text>
-          <Slider
-            style={styles.slider}
-            minimumValue={16}
-            maximumValue={200}
-            value={size}
-            onValueChange={setSize}
-            minimumTrackTintColor={isSleepMode ? buttonColor : meditationColor}
-            maximumTrackTintColor={BGColor2}
-            thumbTintColor={isSleepMode ? buttonColor : meditationColor}
-          />
-        </View> */}
-
-        {/* <TouchableOpacity
-          style={[
-            styles.button,
-            { backgroundColor: isSleepMode ? buttonColor : meditationColor,
-              justifyContent: 'center',
-              marginTop: 10,
-            },
-          ]}
-          onPress={() => setIsSleepMode(prev => !prev)}
-        >
-          <Text style={styles.buttonText}>
-            {isSleepMode ? 'Sleep Mode' : 'Meditation Mode'}
-          </Text>
-        </TouchableOpacity> */}
         <TouchableOpacity
           style={[
             styles.button,
@@ -1012,22 +988,6 @@ const App = () => {
           ]}
           onPress={async () => {
             setIsSleepMode(prev => !prev);
-            // try {
-            //   console.log('ML Step 1: copying session');
-            //   const session = await getSession();
-            //   if (!session) return
-            //   console.log('ML Step 2: session copied; converting features into ', session.inputNames);
-            //   console.log('ML Step 3: features converted; converting to tensor', feature0);
-            //   const tensor = new Tensor('float32', feature0, [1, feature0.length]);
-            //   console.log('ML Step 4: converted to tensor; inputting data');
-            //   console.log('Expected output: ', session.outputNames);
-            //   const results = await session.run({ input: tensor });
-            //   console.log('ML Step 5: Inference result:', JSON.stringify(results));
-            //   const medAns = results.probabilities.data["0"];
-            //   console.log('Meditation%:', medAns, ' | meditating? ', (medAns>0.65));
-            // } catch (err) {
-            //   console.warn("Meditation ML error:", err);
-            // }
           }}
         >
           <Text style={styles.buttonText}>
@@ -1044,7 +1004,28 @@ const App = () => {
                   backgroundColor: isSleepMode ? buttonColor : meditationColor,
                 },
               ]}
-              onPress={decreaseSize}>
+              //</View>onPress={decreaseSize}>
+              onPress={() => {
+                decreaseSize();
+                (async () => {
+                  try {
+                    console.log('ML Step 1: copying session');
+                    const session = await getSession();
+                    if (!session) return
+                    console.log('ML Step 2: session copied; converting features into ', session.inputNames);
+                    console.log('ML Step 3: features converted; converting to tensor', feature1);
+                    const tensor = new Tensor('float32', feature1, [1, feature1.length]);
+                    console.log('ML Step 4: converted to tensor; inputting data');
+                    console.log('Expected output: ', session.outputNames);
+                    const results = await session.run({ input: tensor });
+                    console.log('ML Step 5: Inference result:', JSON.stringify(results));
+                    const medAns = results.probabilities.data["0"];
+                    console.log('Meditation%:', medAns, ' | meditating? ', (medAns>MLthreshhold));
+                  } catch (err) {
+                    console.warn("Meditation ML error:", err);
+                  }
+                })();
+              }}>
               <Text style={styles.buttonText}>-50</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -1054,10 +1035,47 @@ const App = () => {
                   backgroundColor: isSleepMode ? buttonColor : meditationColor,
                 },
               ]}
-              onPress={increaseSize}>
+              //onPress={increaseSize}>
+              onPress={() => {
+                increaseSize();
+                (async () => {
+                  try {
+                    console.log('ML Step 1: copying session');
+                    const session = await getSession();
+                    if (!session) return
+                    console.log('ML Step 2: session copied; converting features into ', session.inputNames);
+                    console.log('ML Step 3: features converted; converting to tensor', feature0);
+                    const tensor = new Tensor('float32', feature0, [1, feature0.length]);
+                    console.log('ML Step 4: converted to tensor; inputting data');
+                    console.log('Expected output: ', session.outputNames);
+                    const results = await session.run({ input: tensor });
+                    console.log('ML Step 5: Inference result:', JSON.stringify(results));
+                    const medAns = results.probabilities.data["0"];
+                    console.log('Meditation%:', medAns, ' | meditating? ', (medAns>MLthreshhold));
+                  } catch (err) {
+                    console.warn("Meditation ML error:", err);
+                  }
+                })();
+              }}>
               <Text style={styles.buttonText}>+10</Text>
             </TouchableOpacity>
           </View>
+        </View>
+
+        <View style={styles.sliderContainer}>
+          <Text style={[styles.label, {
+            marginTop: -20
+          }]}>Threshhold: {MLthreshhold.toFixed(3)}</Text>
+          <Slider
+            style={styles.slider}
+            minimumValue={0.001}
+            maximumValue={1.000}
+            value={MLthreshhold}
+            onValueChange={setMLthreshhold}
+            minimumTrackTintColor={isSleepMode ? buttonColor : meditationColor}
+            maximumTrackTintColor={BGColor2}
+            thumbTintColor={isSleepMode ? buttonColor : meditationColor}
+          />
         </View>
 
       </ScrollView>
