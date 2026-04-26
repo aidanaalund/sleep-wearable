@@ -32,8 +32,8 @@ SNIPPET_SEC = 30
 SNIPPET_N = SNIPPET_SEC * FS                    # 7680
 CONTEXT_SEC = 10
 CONTEXT_N = CONTEXT_SEC * FS                    # 2560
-STEP_SEC = 0.5
-STEP_N = int(STEP_SEC * FS)                     # 128
+STEP_SEC = 1.0                                  # matches notebook STEP_SEC -> 6 windows/probe
+STEP_N = int(STEP_SEC * FS)                     # 256
 
 PRIMARY = ["A1", "B2", "A2", "B3"]
 REF = "B1"
