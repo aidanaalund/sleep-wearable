@@ -13,14 +13,12 @@ npm run start:electron
 .\android\gradlew.bat --stop
 taskkill /F /IM java.exe
 npx expo prebuild --clean
-npm run android               (error)
 
 npx expo start --clear
-npx expo run:android (debugger)
+npx expo run:android (quick-debugger)
 npx expo run:android --variant release (actual release)
-a
 
-adb reverse tcp:8081 tcp:8081 (wired)
+adb reverse tcp:8081 tcp:8081 (slow-debugger)
 npx react-native run-android
 
 cd android && gradlew assembleRelease (APK)
