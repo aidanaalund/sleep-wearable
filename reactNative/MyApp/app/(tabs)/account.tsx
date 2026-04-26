@@ -16,13 +16,16 @@ if (Platform.OS === 'android') {
   SLEEP_DATA_DIR = `${RNFS.ExternalDirectoryPath}/sleepData`;
 }
 
+const featureString0 = "[-0.000000, 0.000000, -0.000000, -0.000000, -0.000000, 0.268293, 1.009342, -0.513426, -0.610884, -0.450934, 0.105735, 0.098442, -0.374693, 1.344193, 0.000000, -1.072327, 0.836155, 0.271439, -1.107389, -1.544308, 0.350379, 0.387613, 0.000000, -0.000000, -0.000000, -0.000000, -1.264191, -0.655057, -0.395945, 0.350382, -0.000000, 0.000000, -0.000000, -0.000000, -0.000000, -0.376902, 1.394608, 0.132936, -0.488181, -0.006909, -0.064611, -0.435982, 0.031217, 0.976959, -0.000000, -0.563263, 0.215492, 0.788426, -1.086738, -1.257279, 0.051815, 0.068541, 0.000000, 0.000000, 0.000000, -0.000000, -1.124774, -0.556678, -0.080035, 0.143367, 1.240536, 2.438614, -0.033927, -0.703012, 0.624846, -0.000000, -0.000000, -0.000000, 0.000000, 0.000000, -0.000000, 0.000000, -0.000000, 0.000000, -0.000000, 0.000000, -0.000000, -0.000000, 0.000000]";
+const stringToFloat0 = new Float32Array(JSON.parse(featureString0));
+const paddedStringToFloat0 = new Float32Array(2 * 1280);
+paddedStringToFloat0.set(stringToFloat0.slice(0, 1280), 0);
 const feature0 = new Float32Array([-0.000000, 0.000000, -0.000000, -0.000000, -0.000000, 0.268293, 1.009342, -0.513426, -0.610884, -0.450934, 0.105735, 0.098442, -0.374693, 1.344193, 0.000000, -1.072327, 0.836155, 0.271439, -1.107389, -1.544308, 0.350379, 0.387613, 0.000000, -0.000000, -0.000000, -0.000000, -1.264191, -0.655057, -0.395945, 0.350382, -0.000000, 0.000000, -0.000000, -0.000000, -0.000000, -0.376902, 1.394608, 0.132936, -0.488181, -0.006909, -0.064611, -0.435982, 0.031217, 0.976959, -0.000000, -0.563263, 0.215492, 0.788426, -1.086738, -1.257279, 0.051815, 0.068541, 0.000000, 0.000000, 0.000000, -0.000000, -1.124774, -0.556678, -0.080035, 0.143367, 1.240536, 2.438614, -0.033927, -0.703012, 0.624846, -0.000000, -0.000000, -0.000000, 0.000000, 0.000000, -0.000000, 0.000000, -0.000000, 0.000000, -0.000000, 0.000000, -0.000000, -0.000000, 0.000000]);
 const feature1 = new Float32Array([0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.040312, 1.496309, -0.901509, -0.163483, -1.278023, 1.452520, 0.474856, 0.348183, 2.034660, 0.000000, 0.136098, -0.502058, 0.768680, 1.156073, -0.304473, 0.582514, 0.537316, 0.000000, 0.000000, 0.000000, -0.000000, 0.269032, -0.864517, -0.938016, -1.266153, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, -0.293484, 1.498941, -0.444025, 0.537662, -0.385227, 1.532501, -0.240901, -0.166661, 1.753861, -0.000000, 0.571667, -0.675960, 0.830575, 0.528118, 0.300679, -0.279620, -0.304934, 0.000000, 0.000000, 0.000000, 0.000000, 0.304800, -0.805438, 0.048439, -1.323702, 1.050594, -1.040584, -0.499668, -0.487523, 1.944431, -0.000000, 0.000000, 0.000000, 0.000000, -0.000000, 0.000000, 0.000000, -0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000]);
 const paddedData0 = new Float32Array(2 * 1280);
 paddedData0.set(feature0.slice(0, 1280), 0);
 const paddedData1 = new Float32Array(2 * 1280);
 paddedData1.set(feature1.slice(0, 1280), 0);
-let globalInputData: Float32Array = new Float32Array([]);
 let cachedSession: InferenceSession | null = null;
 let isLoadingModel = false;
 const getSession = async (): Promise<InferenceSession | null> => {
@@ -83,7 +86,9 @@ const App = () => {
   const [isSleepMode, setIsSleepMode] = useState(true);
   const isDisconnectingRef = useRef(false);
   const sizeAnim = useRef(new Animated.Value(100)).current;
-  const [MLthreshhold, setMLthreshhold] = useState(0.5);
+  const [MLthreshold, setMLthreshold] = useState(0.5);
+  const MLthreholdDif = 0.2;
+  const [medOrWander, setMedOrWander] = useState(false);
 
   const isAndroid = Platform.OS === 'android';
   const isElectron = typeof window !== 'undefined' && window.electronAPI;
@@ -643,14 +648,19 @@ const App = () => {
           if (!session) return
           //console.log('ML Step 2: session copied; converting features into ', session.inputNames);
           //console.log('ML Step 3: features converted; converting to tensor', mainFeature);
-          const tensor = new Tensor('float32', mainFeature, [1, mainFeature.length]);
+          const tensor = new Tensor('float32', mainFeature, [1, 2, 1280]);
           //console.log('ML Step 4: converted to tensor; inputting data');
           //console.log('Expected output: ', session.outputNames);
-          const results = await session.run({ input: tensor });
+          const results = await session.run({ eeg: tensor });
           //console.log('ML Step 5: Inference result:', JSON.stringify(results));
-          const medAns = results.probabilities.data["0"];
-          if(medAns>MLthreshhold) { decreaseSize; }
-          else                    { increaseSize; }
+          const medAns = results.logits.data["0"];
+          if( (medOrWander&&(medAns>MLthreshold+MLthreholdDif)) || (!medOrWander&&(medAns>MLthreshold-MLthreholdDif)) ) {
+            increaseSize;
+            setMedOrWander(true);
+          } else if(medAns<MLthreshold-MLthreholdDif) {
+            decreaseSize;
+            setMedOrWander(false);
+          }
           //console.log('Meditation%:', medAns, ' | meditating? ', (medAns>0.65));
         } catch (err) {
           console.warn("BL Meditation ML error:", err);
@@ -1025,7 +1035,7 @@ const App = () => {
                     const results = await session.run({ eeg: tensor }); // input eeg
                     console.log('ML Step 5: Inference result:', JSON.stringify(results));
                     const medAns = results.logits.data["0"];     // probabilities logits
-                    console.log('Meditation%:', medAns, ' | meditating? ', (medAns>MLthreshhold));
+                    console.log('Meditation%:', medAns, ' | meditating? ', (medAns>MLthreshold));
                   } catch (err) {
                     console.warn("Meditation ML error:", err);
                   }
@@ -1051,13 +1061,13 @@ const App = () => {
                     console.log('ML Step 2: session copied; converting features into ', session.inputNames);
                     console.log('ML Step 3: features converted; converting to tensor', feature0);
                     // const tensor = new Tensor('float32', feature0, [1, feature0.length]);
-                    const tensor = new Tensor('float32', paddedData0, [1, 2, 1280]);
+                    const tensor = new Tensor('float32', paddedData0, [1, 2, 1280]);  // paddedData0 paddedStringToFloat0
                     console.log('ML Step 4: converted to tensor; inputting data');
                     console.log('Expected output: ', session.outputNames);
                     const results = await session.run({ eeg: tensor }); // input eeg
                     console.log('ML Step 5: Inference result:', JSON.stringify(results));
                     const medAns = results.logits.data["0"];     // probabilities logits
-                    console.log('Meditation%:', medAns, ' | meditating? ', (medAns>MLthreshhold));
+                    console.log('Meditation%:', medAns, ' | meditating? ', (medAns>MLthreshold));
                   } catch (err) {
                     console.warn("Meditation ML error:", err);
                   }
@@ -1071,13 +1081,13 @@ const App = () => {
         <View style={styles.sliderContainer}>
           <Text style={[styles.label, {
             marginTop: -20
-          }]}>Threshhold: {MLthreshhold.toFixed(3)}</Text>
+          }]}>Mind wandering threshold: {(MLthreshold-MLthreholdDif).toFixed(3)} {'\n'} Meditation threshold: {(MLthreshold+MLthreholdDif).toFixed(3)}</Text>
           <Slider
             style={styles.slider}
-            minimumValue={0.001}
-            maximumValue={1.000}
-            value={MLthreshhold}
-            onValueChange={setMLthreshhold}
+            minimumValue={MLthreholdDif}
+            maximumValue={1-MLthreholdDif}
+            value={MLthreshold}
+            onValueChange={setMLthreshold}
             minimumTrackTintColor={isSleepMode ? buttonColor : meditationColor}
             maximumTrackTintColor={BGColor2}
             thumbTintColor={isSleepMode ? buttonColor : meditationColor}
