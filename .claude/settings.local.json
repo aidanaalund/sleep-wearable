@@ -3,7 +3,8 @@
     "allow": [
       "Bash(cat)",
       "Bash(C:/Users/aidan/anaconda3/python.exe /tmp/check_ch2.py)",
-      "Bash(python *)"
+      "Bash(python *)",
+      "Bash(python3 *)"
     ]
   }
 }

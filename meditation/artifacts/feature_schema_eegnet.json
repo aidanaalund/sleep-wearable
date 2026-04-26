@@ -21,13 +21,13 @@
   },
   "architecture": "shallow",
   "braindecode_version": "1.4.0",
-  "probe_aggregation": "At inference, run the model on each of the 11 sliding windows from a probe's 10.0s context (step=0.5s), apply softmax to the logits, average the probabilities, then argmax for the probe-level prediction.",
+  "probe_aggregation": "At inference, run the model on each of the 6 sliding windows from a probe's 10.0s context (step=1.0s), apply softmax to the logits, average the probabilities, then argmax for the probe-level prediction.",
   "lopo_cv": {
-    "mean_balanced_acc": 0.5129024358378219,
-    "mean_f1_macro": 0.38504278090352523,
-    "mean_recall_med": 0.4784546001054001,
-    "mean_recall_mw": 0.5473502715702436,
-    "mean_epochs": 52.08695652173913,
+    "mean_balanced_acc": 0.524761339342014,
+    "mean_f1_macro": 0.4340576663490904,
+    "mean_recall_med": 0.5077357451326207,
+    "mean_recall_mw": 0.5417869335514073,
+    "mean_epochs": 33.130434782608695,
     "n_folds": 23
   },
   "inference_steps": [
