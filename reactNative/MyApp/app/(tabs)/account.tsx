@@ -33,9 +33,9 @@ const getSession = async (): Promise<InferenceSession | null> => {
   if (isLoadingModel) return null;
   isLoadingModel = true;
   try {
-    const asset = await Asset.loadAsync(require('../../assets/meditation_model_eegnet.ort')); //  final.onnx  eegnet.ort
+    const asset = await Asset.loadAsync(require('../../assets/meditation_model_eegnetFINAL.ort')); //  final.onnx  eegnet.ort
     const sourceUri = asset[0].localUri!;
-    const destPath = `${FileSystem.Paths.cache.uri}meditation_model_eegnet.ort`;
+    const destPath = `${FileSystem.Paths.cache.uri}meditation_model_eegnetFINAL.ort`;
     const base64 = await readAsStringAsync(sourceUri, { encoding: 'base64' });
     await writeAsStringAsync(destPath, base64, { encoding: 'base64' });
     cachedSession = await InferenceSession.create(
@@ -67,11 +67,20 @@ if (Platform.OS === 'web') {
   VictoryAxis = VictoryNative.VictoryAxis;
 }
 
+function softmax2(logits: [number, number]): number {
+  const [z0, z1] = logits;
+  const e0 = Math.exp(z0);
+  const e1 = Math.exp(z1 );
+  const sum = e0 + e1;
+  return e0/sum;
+}
+
 const App = () => {
   const [manager] = useState(Platform.OS !== 'web' ? new BleManager() : null);
   const [devices, setDevices] = useState([]);
   const [connectedDevice, setConnectedDevice] = useState(null);
   const [receivedData, setReceivedData] = useState('');
+  const receivedDataRef = useRef('');
   const [fileContent, setFileContent] = useState('');
   const [isScanning, setIsScanning] = useState(false);
   const [webBluetoothDevice, setWebBluetoothDevice] = useState(null);
@@ -83,19 +92,39 @@ const App = () => {
   const [monitorSubscription, setMonitorSubscription] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
   const [size, setSize] = useState(100);
-  const [isSleepMode, setIsSleepMode] = useState(true);
+  const [isSleepMode, setIsSleepMode] = useState(false);
   const isDisconnectingRef = useRef(false);
   const sizeAnim = useRef(new Animated.Value(100)).current;
   const [MLthreshold, setMLthreshold] = useState(0.5);
-  const MLthreholdDif = 0.2;
-  const [medOrWander, setMedOrWander] = useState(false);
-
+  const MLthreholdDif = 0.1;
+  const medOrWander = useRef(false);
+  const MLpercentage = useRef(0);
+  const MLcounter = useRef(0);
+  const fullyReceivedArray = useRef(false);
+  
   const isAndroid = Platform.OS === 'android';
   const isElectron = typeof window !== 'undefined' && window.electronAPI;
   const isWeb = Platform.OS === 'web';
   const sleepDataDir = isWeb ? null : `${FileSystem.documentDirectory}sleepData`;
   const filePath = isWeb ? null : `${sleepDataDir}/data.txt`;
   const meditationColor = (size == 200) ? '#30a06a' : '#7b41b1';
+
+  const sizeAction = useRef<'increase' | 'decrease' | null>(null);
+  const [mlTick, setMlTick] = useState(0);
+  useEffect(() => {
+    if (sizeAction.current === 'increase') {
+      increaseSize();
+      sizeAction.current = null;
+    } else if (sizeAction.current === 'decrease') {
+      decreaseSize();
+      sizeAction.current = null;
+    }
+  }, [mlTick]);
+
+  const MLthresholdRef = useRef(MLthreshold);
+  useEffect(() => {
+    MLthresholdRef.current = MLthreshold;
+  }, [MLthreshold]);
 
   useEffect(() => {
     if (!isWeb) {
@@ -546,7 +575,7 @@ const App = () => {
       // Send "start" to device over NUS RX characteristic
       const NUS_RX_CHARACTERISTIC_UUID = '6E400002-B5A3-F393-E0A9-E50E24DCCA9E';
       console.log('Sending "start" to device...');
-      const startMessage = Base64.fromByteArray(new TextEncoder().encode('start'));
+      const startMessage = Base64.fromByteArray(new TextEncoder().encode('start_meditation'));
       await connected.writeCharacteristicWithResponseForService(  // writeCharacteristicWithoutResponseForService
         NUS_SERVICE_UUID,
         NUS_RX_CHARACTERISTIC_UUID,
@@ -571,10 +600,14 @@ const App = () => {
     
     // Check again before each state update
     if (isDisconnectingRef.current) return;
-    setReceivedData(prev => prev + data);
-    setReceivedData(prev => prev + data);
+    // setReceivedData(prev => prev + data);
+    // setReceivedData(prev => prev + data);
 
-    console.log('Recieved data: ',data);
+    //console.log('RECEIVED DATA: ', data);
+    receivedDataRef.current = receivedDataRef.current + data;
+    //console.log('UPDATED ARRAY: ', receivedDataRef.current);
+    if (data.includes(']')) fullyReceivedArray.current = true;
+    if(fullyReceivedArray.current) console.log('Full Array: ', receivedDataRef.current);
 
     const now = new Date();
     const year = now.getFullYear();
@@ -615,56 +648,83 @@ const App = () => {
       saveWebData(dataWithTimestamp);
 
     } else {
-      // Android path using react-native-fs
-      if(isSleepMode) {
-        try {
-          const filePath = `${SLEEP_DATA_DIR}/${dateString}(${hours}).csv`;
+      if(fullyReceivedArray.current) {
+        // Android path using react-native-fs
+        if(isSleepMode) {
+          try {
+            const filePath = `${SLEEP_DATA_DIR}/${dateString}(${hours}).csv`;
 
-          const fileExists = await RNFS.exists(filePath);
-          if (!fileExists) {
-            await RNFS.writeFile(filePath, dataWithTimestamp + '\n', 'utf8');
-          } else {
-            await RNFS.appendFile(filePath, dataWithTimestamp + '\n', 'utf8');
+            const fileExists = await RNFS.exists(filePath);
+            if (!fileExists) {
+              await RNFS.writeFile(filePath, dataWithTimestamp + '\n', 'utf8');
+            } else {
+              await RNFS.appendFile(filePath, dataWithTimestamp + '\n', 'utf8');
+            }
+
+            // Update live chart
+            const values = dataWithTimestamp.split(',');
+            const timeWithoutZ = values[0].replace('Z', '');
+            const timestampMs = new Date(dateString + 'T' + timeWithoutZ).getTime();
+            setLiveChartData(prev => {
+              const updated = [...prev, { x: timestampMs, y: parseFloat(data) }];
+              return updated.length > 100 ? updated.slice(-100) : updated;
+            });
+
+            console.log('Android-Data appended to:', filePath);
+          } catch (error) {
+            console.error('Error writing to file:', error);
           }
-
-          // Update live chart
-          const values = dataWithTimestamp.split(',');
-          const timeWithoutZ = values[0].replace('Z', '');
-          const timestampMs = new Date(dateString + 'T' + timeWithoutZ).getTime();
-          setLiveChartData(prev => {
-            const updated = [...prev, { x: timestampMs, y: parseFloat(data) }];
-            return updated.length > 100 ? updated.slice(-100) : updated;
-          });
-
-          console.log('Android-Data appended to:', filePath);
-        } catch (error) {
-          console.error('Error writing to file:', error);
-        }
-      } else {
-        try {
-          //console.log('ML Step 1: copying session');
-          const mainFeature = new Float32Array(JSON.parse(data));
-          const session = await getSession();
-          if (!session) return
-          //console.log('ML Step 2: session copied; converting features into ', session.inputNames);
-          //console.log('ML Step 3: features converted; converting to tensor', mainFeature);
-          const tensor = new Tensor('float32', mainFeature, [1, 2, 1280]);
-          //console.log('ML Step 4: converted to tensor; inputting data');
-          //console.log('Expected output: ', session.outputNames);
-          const results = await session.run({ eeg: tensor });
-          //console.log('ML Step 5: Inference result:', JSON.stringify(results));
-          const medAns = results.logits.data["0"];
-          if( (medOrWander&&(medAns>MLthreshold+MLthreholdDif)) || (!medOrWander&&(medAns>MLthreshold-MLthreholdDif)) ) {
-            increaseSize;
-            setMedOrWander(true);
-          } else if(medAns<MLthreshold-MLthreholdDif) {
-            decreaseSize;
-            setMedOrWander(false);
+        } else {
+          try {
+            console.log('ML Step 1: copying session');
+            const mainFeature = new Float32Array(JSON.parse(receivedDataRef.current));
+            const session = await getSession();
+            if (!session) return
+            console.log('ML Step 2: session copied; converting features into ', session.inputNames);
+            console.log('ML Step 3: features converted; converting to tensor', mainFeature);
+            const tensor = new Tensor('float32', mainFeature, [1, 2, 1280]);
+            console.log('ML Step 4: converted to tensor; inputting data');
+            console.log('Expected output: ', session.outputNames);
+            const results = await session.run({ eeg: tensor });
+            console.log('ML Step 5: Inference result:', JSON.stringify(results));
+            const logitsData = results.logits.data as Float32Array;
+            const medAns = softmax2([logitsData[0], logitsData[1]]);
+            console.log('ML answer: ', medAns);
+            MLpercentage.current = MLpercentage.current + Number(medAns);
+            MLcounter.current = MLcounter.current + 1;
+            if(MLcounter.current == 1) {  //     5
+              const MLresult = medAns; //     (MLpercentage + Number(medAns)) / 6
+              console.log('comparing ', MLresult, ' with ', MLthresholdRef.current);
+              // if( (medOrWander.current&&(MLresult>MLthreshold+MLthreholdDif)) || (!medOrWander.current&&(MLresult>MLthreshold-MLthreholdDif)) ) {
+              //   console.log('INCREASING');
+              //   sizeAction.current = 'increase';
+              //   medOrWander.current = true;
+              // } else if(MLresult<MLthreshold-MLthreholdDif) {
+              //   console.log('DECREASING');
+              //   sizeAction.current = 'decrease';
+              //   medOrWander.current = false;
+              // } else {
+              //   console.log('NOTHING');
+              // }
+              if(MLresult>MLthresholdRef.current) {
+                console.log('INCREASING');
+                sizeAction.current = 'increase';
+                medOrWander.current = true;
+              } else {
+                console.log('DECREASING');
+                sizeAction.current = 'decrease';
+                medOrWander.current = false;
+              }
+              setMlTick(prev => prev + 1);
+              MLpercentage.current = 0;
+              MLcounter.current = 0;
+            }
+          } catch (err) {
+            console.warn("BL Meditation ML error:", err);
           }
-          //console.log('Meditation%:', medAns, ' | meditating? ', (medAns>0.65));
-        } catch (err) {
-          console.warn("BL Meditation ML error:", err);
         }
+        fullyReceivedArray.current = false;
+        receivedDataRef.current = '';
       }
     }
   };
@@ -761,7 +821,7 @@ const App = () => {
     : (connectedDevice ? connectedDevice.name : '');
 
   const decreaseSize = () => {
-    const newSize = Math.max(16, size - 50);
+    const newSize = Math.max(16, size - 25);
     Animated.timing(sizeAnim, {
       toValue: newSize,
       duration: 1000,
@@ -771,7 +831,7 @@ const App = () => {
   };
 
   const increaseSize = () => {
-    const newSize = Math.min(200, size + 10);
+    const newSize = Math.min(200, size + 25);
     Animated.timing(sizeAnim, {
       toValue: newSize,
       duration: 500,
@@ -850,7 +910,11 @@ const App = () => {
 
         <View style={styles.section}>
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.button} onPress={() => setShowChart(true)}>
+            <TouchableOpacity 
+              style={[styles.button, !isSleepMode && styles.buttonDisabled]} 
+              onPress={() => setShowChart(true)}
+              disabled={!isSleepMode}
+            >
               <Text style={styles.buttonText}>Live Data</Text>
             </TouchableOpacity>
             {isWeb && (
@@ -1018,30 +1082,31 @@ const App = () => {
                   backgroundColor: isSleepMode ? buttonColor : meditationColor,
                 },
               ]}
-              //</View>onPress={decreaseSize}>
+              //onPress={increaseSize}>
               onPress={() => {
-                decreaseSize();
-                (async () => {
-                  try {
-                    console.log('ML Step 1: copying session');
-                    const session = await getSession();
-                    if (!session) return
-                    console.log('ML Step 2: session copied; converting features into ', session.inputNames);
-                    console.log('ML Step 3: features converted; converting to tensor', feature1);
-                    // const tensor = new Tensor('float32', feature1, [1, 1, feature1.length]);
-                    const tensor = new Tensor('float32', paddedData1, [1, 2, 1280]);
-                    console.log('ML Step 4: converted to tensor; inputting data');
-                    console.log('Expected output: ', session.outputNames);
-                    const results = await session.run({ eeg: tensor }); // input eeg
-                    console.log('ML Step 5: Inference result:', JSON.stringify(results));
-                    const medAns = results.logits.data["0"];     // probabilities logits
-                    console.log('Meditation%:', medAns, ' | meditating? ', (medAns>MLthreshold));
-                  } catch (err) {
-                    console.warn("Meditation ML error:", err);
-                  }
-                })();
-              }}>
-              <Text style={styles.buttonText}>-50</Text>
+                //increaseSize();
+                // (async () => {
+                //   try {
+                //     console.log('ML Step 1: copying session');
+                //     const session = await getSession();
+                //     if (!session) return
+                //     console.log('ML Step 2: session copied; converting features into ', session.inputNames);
+                //     console.log('ML Step 3: features converted; converting to tensor', feature0);
+                //     // const tensor = new Tensor('float32', feature0, [1, feature0.length]);
+                //     const tensor = new Tensor('float32', paddedData0, [1, 2, 1280]);  // paddedData0 paddedStringToFloat0
+                //     console.log('ML Step 4: converted to tensor; inputting data');
+                //     console.log('Expected output: ', session.outputNames);
+                //     const results = await session.run({ eeg: tensor }); // input eeg
+                //     console.log('ML Step 5: Inference result:', JSON.stringify(results));
+                //     const medAns = results.logits.data["0"];     // probabilities logits
+                //     console.log('Meditation%:', medAns, ' | meditating? ', (medAns>MLthreshold));
+                //   } catch (err) {
+                //     console.warn("Meditation ML error:", err);
+                //   }
+                // })();
+              }}
+              >
+              <Text style={styles.buttonText}>run sleep</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -1050,30 +1115,44 @@ const App = () => {
                   backgroundColor: isSleepMode ? buttonColor : meditationColor,
                 },
               ]}
-              //onPress={increaseSize}>
-              onPress={() => {
-                increaseSize();
-                (async () => {
-                  try {
-                    console.log('ML Step 1: copying session');
-                    const session = await getSession();
-                    if (!session) return
-                    console.log('ML Step 2: session copied; converting features into ', session.inputNames);
-                    console.log('ML Step 3: features converted; converting to tensor', feature0);
-                    // const tensor = new Tensor('float32', feature0, [1, feature0.length]);
-                    const tensor = new Tensor('float32', paddedData0, [1, 2, 1280]);  // paddedData0 paddedStringToFloat0
-                    console.log('ML Step 4: converted to tensor; inputting data');
-                    console.log('Expected output: ', session.outputNames);
-                    const results = await session.run({ eeg: tensor }); // input eeg
-                    console.log('ML Step 5: Inference result:', JSON.stringify(results));
-                    const medAns = results.logits.data["0"];     // probabilities logits
-                    console.log('Meditation%:', medAns, ' | meditating? ', (medAns>MLthreshold));
-                  } catch (err) {
-                    console.warn("Meditation ML error:", err);
-                  }
-                })();
-              }}>
-              <Text style={styles.buttonText}>+10</Text>
+              //</View>onPress={decreaseSize}>
+              // onPress={() => {
+              //   decreaseSize();
+              //   (async () => {
+              //     try {
+              //       console.log('ML Step 1: copying session');
+              //       const session = await getSession();
+              //       if (!session) return
+              //       console.log('ML Step 2: session copied; converting features into ', session.inputNames);
+              //       console.log('ML Step 3: features converted; converting to tensor', feature1);
+              //       // const tensor = new Tensor('float32', feature1, [1, 1, feature1.length]);
+              //       const tensor = new Tensor('float32', paddedData1, [1, 2, 1280]);
+              //       console.log('ML Step 4: converted to tensor; inputting data');
+              //       console.log('Expected output: ', session.outputNames);
+              //       const results = await session.run({ eeg: tensor }); // input eeg
+              //       console.log('ML Step 5: Inference result:', JSON.stringify(results));
+              //       const medAns = results.logits.data["0"];     // probabilities logits
+              //       console.log('Meditation%:', medAns, ' | meditating? ', (medAns>MLthreshold));
+              //     } catch (err) {
+              //       console.warn("Meditation ML error:", err);
+              //     }
+              //   })();
+              // }}
+              onPress={() => { (async () => {
+                try {
+                  const NUS_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+                  const NUS_RX_CHARACTERISTIC_UUID = '6E400002-B5A3-F393-E0A9-E50E24DCCA9E';
+                  console.log('Sending "start" to device...');
+                  const startMessage = Base64.fromByteArray(new TextEncoder().encode('start_meditation'));
+                  await connectedDevice.writeCharacteristicWithResponseForService(
+                    NUS_SERVICE_UUID,
+                    NUS_RX_CHARACTERISTIC_UUID,
+                    startMessage,
+                  );
+                } catch {}
+              })(); }}
+              >
+              <Text style={styles.buttonText}>run meditation</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -1081,11 +1160,11 @@ const App = () => {
         <View style={styles.sliderContainer}>
           <Text style={[styles.label, {
             marginTop: -20
-          }]}>Mind wandering threshold: {(MLthreshold-MLthreholdDif).toFixed(3)} {'\n'} Meditation threshold: {(MLthreshold+MLthreholdDif).toFixed(3)}</Text>
+          }]}>threshold: {(MLthreshold).toFixed(3)}</Text>
           <Slider
             style={styles.slider}
-            minimumValue={MLthreholdDif}
-            maximumValue={1-MLthreholdDif}
+            minimumValue={0.010}
+            maximumValue={0.990}
             value={MLthreshold}
             onValueChange={setMLthreshold}
             minimumTrackTintColor={isSleepMode ? buttonColor : meditationColor}
