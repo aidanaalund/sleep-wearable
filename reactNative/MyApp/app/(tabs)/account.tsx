@@ -1106,7 +1106,7 @@ const App = () => {
                 // })();
               }}
               >
-              <Text style={styles.buttonText}>run sleep</Text>
+              <Text style={styles.buttonText}>Run Sleep</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -1152,7 +1152,7 @@ const App = () => {
                 } catch {}
               })(); }}
               >
-              <Text style={styles.buttonText}>run meditation</Text>
+              <Text style={styles.buttonText}>Run Meditation</Text>
             </TouchableOpacity>
           </View>
         </View>
