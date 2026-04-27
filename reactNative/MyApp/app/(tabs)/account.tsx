@@ -102,6 +102,8 @@ const App = () => {
   const MLcounter = useRef(0);
   const fullyReceivedArray = useRef(false);
   
+  const [medAnsDisplay, setMedAnsDisplay] = useState<number | null>(null);
+
   const isAndroid = Platform.OS === 'android';
   const isElectron = typeof window !== 'undefined' && window.electronAPI;
   const isWeb = Platform.OS === 'web';
@@ -690,6 +692,7 @@ const App = () => {
             const logitsData = results.logits.data as Float32Array;
             const medAns = softmax2([logitsData[0], logitsData[1]]);
             console.log('ML answer: ', medAns);
+            setMedAnsDisplay(medAns);
             MLpercentage.current = MLpercentage.current + Number(medAns);
             MLcounter.current = MLcounter.current + 1;
             if(MLcounter.current == 1) {  //     5
@@ -1053,6 +1056,16 @@ const App = () => {
               },
             ]}
           />
+          {medAnsDisplay !== null && (
+            <Text style={{
+              position: 'absolute',
+              color: textLightColor,
+              fontSize: 18,
+              fontWeight: 'bold',
+            }}>
+              {medAnsDisplay.toFixed(3)}
+            </Text>
+          )}
         </View>
 
         <TouchableOpacity
