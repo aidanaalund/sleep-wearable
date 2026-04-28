@@ -85,3 +85,6 @@ meditation/dataset
 *.synctex.gz(busy)
 *.pdfsync
 *.rubbercache
+
+# CAD Ignores
+*.gcode
