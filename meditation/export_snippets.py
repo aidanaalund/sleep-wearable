@@ -2,12 +2,13 @@
 ds001787, run the exported ONNX model on the last 10s (the deploy probe
 context) to confirm ground truth, and emit a C header for embedded use.
 
-Pre-processing matches the notebook's raw loader:
-  - pick channels A1, B2, A2, B3, B1 (Fp1, Fp2, AF7, AF8, Fpz)
-  - notch at 50/60 Hz
-  - bandpass 0.5-40 Hz
-  - bipolar derivation (Fp1-Fp2)-Fpz, (AF7-AF8)-Fpz
-  - per-window z-score before inference (matches feature_schema_eegnet.json)
+Pre-processing matches the notebook's raw loader (load_raw_dataset, ~line
+1665): pick channels A1, B2, A2, B3, B1 (Fp1, Fp2, AF7, AF8, Fpz), notch
+50/60 Hz, bandpass 0.5-40 Hz, bipolar derivation (Fp1-Fp2)-Fpz and
+(AF7-AF8)-Fpz, then per-channel z-score within each 5 s window.
+
+The z-score is required: the trained model was fitted on z-scored windows
+and predicts everything as meditation if fed raw microvolts.
 """
 
 from pathlib import Path
@@ -28,11 +29,12 @@ SCHEMA = json.loads((ROOT / "artifacts" / "feature_schema_eegnet.json").read_tex
 
 FS = int(SCHEMA["sampling_rate_hz"])           # 256
 WIN = int(SCHEMA["window_sec"] * FS)            # 1280
-SNIPPET_SEC = 30
-SNIPPET_N = SNIPPET_SEC * FS                    # 7680
 CONTEXT_SEC = 10
 CONTEXT_N = CONTEXT_SEC * FS                    # 2560
-STEP_SEC = 1.0                                  # matches notebook STEP_SEC -> 6 windows/probe
+N_CONTEXTS = 3                                  # 3 back-to-back contexts per snippet
+SNIPPET_SEC = CONTEXT_SEC * N_CONTEXTS          # 30
+SNIPPET_N = SNIPPET_SEC * FS                    # 7680
+STEP_SEC = 1.0                                  # matches notebook STEP_SEC -> 6 windows/context
 STEP_N = int(STEP_SEC * FS)                     # 256
 
 PRIMARY = ["A1", "B2", "A2", "B3"]
@@ -82,40 +84,69 @@ def bipolar(seg, idx):
     ]).astype(np.float32)
 
 
-def probe_predict(sess, ctx10s):
-    """Slide 11 5s windows over the 10s context, z-score, run model, average softmax.
-
-    Returns:
-      pred:           argmax of mean softmax (probe-level prediction)
-      mean_prob:      (n_classes,) softmax averaged across windows
-      windows_z:      (n_channels, n_windows, n_samples) -- exact tensors fed to ONNX
-      window_logits:  (n_windows, n_classes)
-      window_probs:   (n_windows, n_classes)
-    """
-    input_name = sess.get_inputs()[0].name
-    n_ch = ctx10s.shape[0]
+def _context_windows(ctx_uv, sess, input_name):
+    """Slide 6 5s windows over one 10s context. Returns raw, z-scored, logits, probs."""
+    n_ch = ctx_uv.shape[0]
     offsets = list(range(0, CONTEXT_N - WIN + 1, STEP_N))
     n_win = len(offsets)
-    windows_z = np.zeros((n_ch, n_win, WIN), dtype=np.float32)
-    window_logits = []
-    window_probs = []
+    win_uv = np.zeros((n_ch, n_win, WIN), dtype=np.float32)
+    win_z = np.zeros((n_ch, n_win, WIN), dtype=np.float32)
+    logits_l = []
+    probs_l = []
     for w, off in enumerate(offsets):
-        win = ctx10s[:, off: off + WIN].copy()
+        raw = ctx_uv[:, off: off + WIN].astype(np.float32)
+        win_uv[:, w, :] = raw
+        z = raw.copy()
         for ch in range(n_ch):
-            s = win[ch].std()
+            s = z[ch].std()
             if s > 1e-12:
-                win[ch] = (win[ch] - win[ch].mean()) / s
-            windows_z[ch, w, :] = win[ch]
-        x = win[None, :, :].astype(np.float32)
-        logits = sess.run(None, {input_name: x})[0][0]
+                z[ch] = (z[ch] - z[ch].mean()) / s
+        win_z[:, w, :] = z
+        logits = sess.run(None, {input_name: z[None, :, :]})[0][0]
         e = np.exp(logits - logits.max())
         prob = e / e.sum()
-        window_logits.append(logits)
-        window_probs.append(prob)
-    window_logits = np.asarray(window_logits, dtype=np.float32)
-    window_probs = np.asarray(window_probs, dtype=np.float32)
-    mean_prob = window_probs.mean(axis=0)
-    return int(np.argmax(mean_prob)), mean_prob, windows_z, window_logits, window_probs
+        logits_l.append(logits)
+        probs_l.append(prob)
+    return (win_uv, win_z,
+            np.asarray(logits_l, dtype=np.float32),
+            np.asarray(probs_l, dtype=np.float32))
+
+
+def snippet_predict(sess, snippet_uv):
+    """Run all 3 contexts of a 30s snippet through ONNX.
+
+    Args:
+      snippet_uv: (n_channels, SNIPPET_N) bipolar microvolts.
+
+    Returns:
+      probe_pred:     argmax of mean softmax of the LAST context (matches ground truth)
+      probe_prob:     (n_classes,) mean softmax of the LAST context
+      windows_uv:     (n_contexts, n_channels, n_windows, n_samples) raw uV slices
+      windows_z:      (n_contexts, n_channels, n_windows, n_samples) z-scored ONNX inputs
+      window_logits:  (n_contexts, n_windows, n_classes)
+      window_probs:   (n_contexts, n_windows, n_classes)
+      context_mean_prob: (n_contexts, n_classes) per-context mean softmax
+    """
+    input_name = sess.get_inputs()[0].name
+    n_ch = snippet_uv.shape[0]
+    n_win_per_ctx = (CONTEXT_N - WIN) // STEP_N + 1
+    windows_uv = np.zeros((N_CONTEXTS, n_ch, n_win_per_ctx, WIN), dtype=np.float32)
+    windows_z = np.zeros_like(windows_uv)
+    window_logits = np.zeros((N_CONTEXTS, n_win_per_ctx, 2), dtype=np.float32)
+    window_probs = np.zeros((N_CONTEXTS, n_win_per_ctx, 2), dtype=np.float32)
+    context_mean_prob = np.zeros((N_CONTEXTS, 2), dtype=np.float32)
+    for c in range(N_CONTEXTS):
+        ctx = snippet_uv[:, c * CONTEXT_N: (c + 1) * CONTEXT_N]
+        wu, wz, lg, pr = _context_windows(ctx, sess, input_name)
+        windows_uv[c] = wu
+        windows_z[c] = wz
+        window_logits[c] = lg
+        window_probs[c] = pr
+        context_mean_prob[c] = pr.mean(axis=0)
+    probe_prob = context_mean_prob[-1]
+    probe_pred = int(np.argmax(probe_prob))
+    return (probe_pred, probe_prob, windows_uv, windows_z,
+            window_logits, window_probs, context_mean_prob)
 
 
 def find_snippets():
@@ -166,12 +197,20 @@ def find_snippets():
                     if (ptp_uv > 250).any():
                         continue
 
-                    pred, prob, win_z, win_logits, win_probs = probe_predict(
-                        sess, snip2[:, -CONTEXT_N:])
+                    snip_uv = (snip2 * 1e6).astype(np.float32)         # (2, 7680) uV
+                    (pred, prob, win_uv, win_z,
+                     win_logits, win_probs, ctx_mean) = snippet_predict(sess, snip_uv)
                     pred_label = LABEL_NAMES[pred]
+                    ctx_labels = [LABEL_NAMES[int(np.argmax(p))] for p in ctx_mean]
                     print(f"  candidate {sub_dir.name} probe@{row['onset']:.1f}s "
-                          f"truth={label} pred={pred_label} probs={prob.round(3)}")
+                          f"truth={label} probe_pred={pred_label} "
+                          f"ctx_pred={ctx_labels} "
+                          f"probe_probs={prob.round(3)}")
                     if pred_label != label:
+                        continue
+                    # Require every context's prediction to match ground truth so
+                    # the entire 30 s snippet is internally consistent.
+                    if not all(cl == label for cl in ctx_labels):
                         continue
 
                     found[label] = {
@@ -179,11 +218,13 @@ def find_snippets():
                         "session": ses_dir.name,
                         "onset_sec": float(row["onset"]),
                         "snippet_start_sec": snippet_start / FS,
-                        "data_uv": (snip2 * 1e6).astype(np.float32),  # (2, 7680) uV
-                        "windows_z": win_z,                            # (2, 11, 1280)
-                        "window_logits": win_logits,                   # (11, 2)
-                        "window_probs": win_probs,                     # (11, 2)
-                        "model_probs": prob.tolist(),
+                        "data_uv": snip_uv,                              # (2, 7680) uV
+                        "windows_uv": win_uv,                            # (3, 2, 6, 1280) uV
+                        "windows_z":  win_z,                             # (3, 2, 6, 1280) z-scored
+                        "window_logits": win_logits,                     # (3, 6, 2)
+                        "window_probs": win_probs,                       # (3, 6, 2)
+                        "context_mean_prob": ctx_mean,                   # (3, 2)
+                        "model_probs": prob.tolist(),                    # last context (probe)
                         "model_pred": pred_label,
                         "ground_truth": label,
                     }
@@ -203,33 +244,40 @@ def _flat_array(name, flat_values, per_line=8):
 
 
 def emit_c_header(snippets, out_path: Path):
-    n_win = next(iter(snippets.values()))["windows_z"].shape[1]
-    n_classes = next(iter(snippets.values()))["window_probs"].shape[1]
+    sample_info = next(iter(snippets.values()))
+    n_ctx = sample_info["windows_uv"].shape[0]
+    n_win = sample_info["windows_uv"].shape[2]
+    n_classes = sample_info["window_probs"].shape[2]
 
     lines = []
     lines.append("// Auto-generated by export_snippets.py.  Do not edit by hand.")
     lines.append("// Two 30-second EEG snippets from ds001787, model-confirmed.")
+    lines.append("// Each 30 s snippet is split into 3 back-to-back 10 s contexts; each")
+    lines.append("// context produces 6 sliding 5 s windows at 1 s step (the model probe).")
     lines.append("//")
-    lines.append("// Per snippet you get:")
-    lines.append("//   eeg_<label>_channels[ch][sample]      raw bipolar uV, full 30 s")
-    lines.append("//   eeg_<label>_windows[ch][win][sample]  z-scored 5 s windows fed to ONNX")
-    lines.append("//   eeg_<label>_window_probs[win][class]  softmax per window (expected)")
-    lines.append("//   eeg_<label>_window_logits[win][class] raw logits per window (expected)")
-    lines.append("//   eeg_<label>_mean_prob[class]          mean softmax = probe prediction")
+    lines.append("// Per snippet:")
+    lines.append("//   eeg_<label>_channels[ch][sample]                       raw bipolar uV, full 30 s")
+    lines.append("//   eeg_<label>_windows_uv[ctx][ch][win][sample]           raw bipolar uV per window")
+    lines.append("//   eeg_<label>_windows[ctx][ch][win][sample]              z-scored windows fed to ONNX")
+    lines.append("//   eeg_<label>_window_probs[ctx][win][class]              softmax per window (expected)")
+    lines.append("//   eeg_<label>_window_logits[ctx][win][class]             raw logits per window (expected)")
+    lines.append("//   eeg_<label>_context_mean_prob[ctx][class]              mean softmax per context")
+    lines.append("//   eeg_<label>_probe_prob[class]                          last context (= ground truth probe)")
     lines.append("//")
     lines.append("// Channels: ch0 = (Fp1-Fp2)-Fpz, ch1 = (AF7-AF8)-Fpz")
     lines.append("// Classes: 0 = meditation, 1 = mind_wandering")
-    lines.append("// Window slide: 11 windows of 5 s, step 0.5 s, over the last 10 s of the snippet.")
+    lines.append("// Per-window per-channel z-score is applied before ONNX (model needs it).")
     lines.append("#pragma once")
     lines.append("#include <stddef.h>")
     lines.append("")
     lines.append(f"#define EEG_SNIPPET_FS_HZ            {FS}")
     lines.append(f"#define EEG_SNIPPET_N_CHANNELS       2")
     lines.append(f"#define EEG_SNIPPET_N_SAMPLES        {SNIPPET_N}")
-    lines.append(f"#define EEG_SNIPPET_N_WINDOWS        {n_win}")
+    lines.append(f"#define EEG_SNIPPET_N_CONTEXTS       {n_ctx}")
+    lines.append(f"#define EEG_SNIPPET_CONTEXT_SAMPLES  {CONTEXT_N}")
+    lines.append(f"#define EEG_SNIPPET_N_WINDOWS        {n_win}   // per context")
     lines.append(f"#define EEG_SNIPPET_WINDOW_SAMPLES   {WIN}")
     lines.append(f"#define EEG_SNIPPET_WINDOW_STEP      {STEP_N}")
-    lines.append(f"#define EEG_SNIPPET_CONTEXT_SAMPLES  {CONTEXT_N}")
     lines.append(f"#define EEG_SNIPPET_N_CLASSES        {n_classes}")
     lines.append("")
 
@@ -260,44 +308,73 @@ def emit_c_header(snippets, out_path: Path):
         lines.append("};")
         lines.append("")
 
-        # 2. Z-scored sliding windows fed to the model: [ch][win][sample] -
-        win_z = info["windows_z"]  # (n_ch, n_win, win_samples)
-        lines.append(f"// Indexing: {var}_windows[channel][window][sample]")
+        # 2. 4D windows: raw uV slices and z-scored ONNX inputs ----------
+        for arr_key, var_suffix, units_comment in (
+            ("windows_uv", "_windows_uv", "raw bipolar microvolts (pre-normalization)"),
+            ("windows_z",  "_windows",    "z-scored, exactly what ONNX sees"),
+        ):
+            arr = info[arr_key]  # (n_ctx, n_ch, n_win, win_samples)
+            lines.append(f"// Indexing: {var}{var_suffix}[context][channel][window][sample]   ({units_comment})")
+            lines.append(f"static const float "
+                         f"{var}{var_suffix}[EEG_SNIPPET_N_CONTEXTS][EEG_SNIPPET_N_CHANNELS]"
+                         f"[EEG_SNIPPET_N_WINDOWS][EEG_SNIPPET_WINDOW_SAMPLES] = {{")
+            for c in range(arr.shape[0]):
+                ctx_t0 = c * CONTEXT_SEC
+                lines.append(f"    // context {c}  (t = {ctx_t0:.0f}..{ctx_t0 + CONTEXT_SEC:.0f} s into the 30 s snippet)")
+                lines.append("    {")
+                for ch in range(arr.shape[1]):
+                    lines.append(f"        // channel {ch}")
+                    lines.append("        {")
+                    for w in range(arr.shape[2]):
+                        lines.append(f"            // window {w}  (t_start = {w * STEP_SEC:.1f} s into this context)")
+                        lines.append("            {")
+                        row = arr[c, ch, w].tolist()
+                        for i in range(0, len(row), 8):
+                            chunk = row[i:i + 8]
+                            lines.append("                " + ", ".join(f"{v: .6f}f" for v in chunk) + ",")
+                        lines.append("            },")
+                    lines.append("        },")
+                lines.append("    },")
+            lines.append("};")
+            lines.append("")
+
+        # 3. Per-context per-window expected outputs ---------------------
+        wp = info["window_probs"]   # (n_ctx, n_win, n_classes)
+        wl = info["window_logits"]  # (n_ctx, n_win, n_classes)
+        cm = info["context_mean_prob"]  # (n_ctx, n_classes)
+        lines.append(f"// Indexing: {var}_window_probs[context][window][class]")
         lines.append(f"static const float "
-                     f"{var}_windows[EEG_SNIPPET_N_CHANNELS]"
-                     f"[EEG_SNIPPET_N_WINDOWS][EEG_SNIPPET_WINDOW_SAMPLES] = {{")
-        for ch in range(win_z.shape[0]):
-            lines.append(f"    // channel {ch}")
+                     f"{var}_window_probs[EEG_SNIPPET_N_CONTEXTS]"
+                     f"[EEG_SNIPPET_N_WINDOWS][EEG_SNIPPET_N_CLASSES] = {{")
+        for c in range(wp.shape[0]):
+            lines.append(f"    // context {c}")
             lines.append("    {")
-            for w in range(win_z.shape[1]):
-                lines.append(f"        // window {w}  (t_start = {w * STEP_SEC:.1f} s into context)")
-                lines.append("        {")
-                row = win_z[ch, w].tolist()
-                for i in range(0, len(row), 8):
-                    chunk = row[i:i + 8]
-                    lines.append("            " + ", ".join(f"{v: .6f}f" for v in chunk) + ",")
-                lines.append("        },")
+            for w in range(wp.shape[1]):
+                lines.append("        { " + ", ".join(f"{v: .6f}f" for v in wp[c, w])
+                             + f" }},   // window {w}")
             lines.append("    },")
         lines.append("};")
         lines.append("")
-
-        # 3. Per-window expected outputs ---------------------------------
-        wp = info["window_probs"]   # (n_win, n_classes)
-        wl = info["window_logits"]  # (n_win, n_classes)
-        lines.append(f"// Indexing: {var}_window_probs[window][class]")
         lines.append(f"static const float "
-                     f"{var}_window_probs[EEG_SNIPPET_N_WINDOWS][EEG_SNIPPET_N_CLASSES] = {{")
-        for w in range(wp.shape[0]):
-            lines.append("    { " + ", ".join(f"{v: .6f}f" for v in wp[w]) + f" }},   // window {w}")
+                     f"{var}_window_logits[EEG_SNIPPET_N_CONTEXTS]"
+                     f"[EEG_SNIPPET_N_WINDOWS][EEG_SNIPPET_N_CLASSES] = {{")
+        for c in range(wl.shape[0]):
+            lines.append(f"    // context {c}")
+            lines.append("    {")
+            for w in range(wl.shape[1]):
+                lines.append("        { " + ", ".join(f"{v: .6f}f" for v in wl[c, w])
+                             + f" }},   // window {w}")
+            lines.append("    },")
         lines.append("};")
         lines.append("")
         lines.append(f"static const float "
-                     f"{var}_window_logits[EEG_SNIPPET_N_WINDOWS][EEG_SNIPPET_N_CLASSES] = {{")
-        for w in range(wl.shape[0]):
-            lines.append("    { " + ", ".join(f"{v: .6f}f" for v in wl[w]) + f" }},   // window {w}")
+                     f"{var}_context_mean_prob[EEG_SNIPPET_N_CONTEXTS][EEG_SNIPPET_N_CLASSES] = {{")
+        for c in range(cm.shape[0]):
+            lines.append("    { " + ", ".join(f"{v: .6f}f" for v in cm[c])
+                         + f" }},   // context {c}")
         lines.append("};")
         lines.append("")
-        lines.append(f"static const float {var}_mean_prob[EEG_SNIPPET_N_CLASSES] = {{ "
+        lines.append(f"static const float {var}_probe_prob[EEG_SNIPPET_N_CLASSES] = {{ "
                      + ", ".join(f"{v: .6f}f" for v in info["model_probs"]) + " };")
         lines.append("")
 
@@ -309,10 +386,12 @@ def emit_npz(snippets, out_path: Path):
     payload = {"fs": np.int32(FS)}
     for label, info in snippets.items():
         payload[f"{label}_uv"] = info["data_uv"]
+        payload[f"{label}_windows_uv"] = info["windows_uv"]
         payload[f"{label}_windows_z"] = info["windows_z"]
         payload[f"{label}_window_probs"] = info["window_probs"]
         payload[f"{label}_window_logits"] = info["window_logits"]
-        payload[f"{label}_mean_prob"] = np.asarray(info["model_probs"], dtype=np.float32)
+        payload[f"{label}_context_mean_prob"] = info["context_mean_prob"]
+        payload[f"{label}_probe_prob"] = np.asarray(info["model_probs"], dtype=np.float32)
     np.savez(out_path, **payload)
     print(f"wrote {out_path}")
 
