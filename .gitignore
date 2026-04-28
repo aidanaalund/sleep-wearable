@@ -1,3 +1,6 @@
+# Python / Data Science files
+*.npz
+
 # west workspace files
 nrf/
 zephyr/

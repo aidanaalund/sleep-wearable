@@ -1,0 +1,15 @@
+{
+  "rule": "hysteresis",
+  "macro_f1_lopo": 0.5693449908348829,
+  "alpha": 1.0,
+  "t_exit": 0.42,
+  "t_enter": 0.65,
+  "initial_state": 0,
+  "state_labels": {
+    "0": "meditation",
+    "1": "mind_wandering"
+  },
+  "probability": "P(mind_wandering) from softmax",
+  "probe_aggregation": "average softmax over the 11 sliding windows, take prob of class 1 (mind_wandering); window=5.0s, step=1.0s, context=10.0s",
+  "notes": "Tuned on out-of-fold LOPO probabilities; small upward bias possible. Hysteresis state runs per session and resets at session start to the majority class (meditation)."
+}

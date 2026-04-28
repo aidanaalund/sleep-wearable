@@ -1,9 +1,8 @@
 {
+    "python-envs.defaultEnvManager": "ms-python.python:conda",
+    "python-envs.defaultPackageManager": "ms-python.python:conda",
+    "python-envs.pythonProjects": []
     "nrf-connect.applications": [
         "${workspaceFolder}\\wearable\\sw\\snoozy_final"
     ],
-    "python-envs.defaultEnvManager": "ms-python.python:conda",
-    "python-envs.defaultPackageManager": "ms-python.python:conda",
-    "python-envs.pythonProjects": [],
-    "cmake.sourceDirectory": "D:/Documents/ECE/sleep-wearable/wearable/sw/m1_demo"
 }
