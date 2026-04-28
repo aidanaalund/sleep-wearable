@@ -1,3 +1,7 @@
+# west workspace files
+nrf/
+zephyr/
+
 # Prerequisites
 *.d
 
@@ -40,5 +44,44 @@
 # debug information files
 *.dwo
 
-# Datasets
+# datasets
+datasets
 tests/ds005555
+meditation/dataset
+
+# build/board files
+**/build/
+*.ninja*
+*.hex
+*.elf
+*.bin
+
+# editors
+*.swp
+*~
+
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+
+## Latex Build tool auxiliary files:
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+*.rubbercache
+
+# CAD Ignores
+*.gcode
