@@ -48,9 +48,8 @@ zephyr/
 *.dwo
 
 # datasets
-datasets
-tests/ds005555
-meditation/dataset
+ml/sleep/dataset
+ml/meditation/dataset
 
 # build/board files
 **/build/
